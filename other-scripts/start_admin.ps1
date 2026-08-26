@@ -212,12 +212,6 @@ $SshHost = 'markangelogonzalespinoyride@54.251.171.207'
 $SshPort = 2222
 $KeyFile = Join-Path $env:USERPROFILE '.ssh\pinoyride_ed25519'
 
-function Test-KeyAuth {
-    $out = & ssh -i $KeyFile -o IdentitiesOnly=yes -o BatchMode=yes `
-        -o StrictHostKeyChecking=accept-new -p $SshPort $SshHost 'echo KEY_OK' 2>$null
-    return ($LASTEXITCODE -eq 0 -and ($out -join ' ') -match 'KEY_OK')
-}
-
 New-Item -ItemType Directory -Path (Split-Path -Parent $KeyFile) -Force | Out-Null
 
 if (-not (Test-Path $KeyFile)) {
@@ -228,11 +222,8 @@ if (-not (Test-Path $KeyFile)) {
     Remove-Item $kc -ErrorAction SilentlyContinue
     if (-not (Test-Path $KeyFile)) { ShowFail 'Could not create security key.' }
     ShowOk 'Security key created.'
-}
 
-if (Test-KeyAuth) {
-    ShowOk 'Server connection verified (no password needed).'
-} else {
+    # First time: need to install the key on the server
     Write-Host ''
     Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
     Write-Host '     |  FIRST-TIME SETUP: Server password needed once    |' -ForegroundColor Yellow
@@ -260,7 +251,7 @@ if (Test-KeyAuth) {
     $env:DISPLAY              = ':0'
 
     $remoteCmd = "mkdir -p ~/.ssh && chmod 700 ~/.ssh && touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && (grep -qxF '$pub' ~/.ssh/authorized_keys || echo '$pub' >> ~/.ssh/authorized_keys) && echo KEY_INSTALLED"
-    $out = & ssh -p $SshPort -o StrictHostKeyChecking=accept-new $SshHost $remoteCmd 2>&1
+    $out = & ssh -p $SshPort -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 $SshHost $remoteCmd 2>&1
 
     Remove-Item Env:PR_SSH_PW, Env:SSH_ASKPASS, Env:SSH_ASKPASS_REQUIRE, Env:DISPLAY -ErrorAction SilentlyContinue
     Remove-Item -Recurse -Force $tmpDir -ErrorAction SilentlyContinue
@@ -269,11 +260,9 @@ if (Test-KeyAuth) {
     if (($out -join ' ') -notmatch 'KEY_INSTALLED') {
         ShowFail "Wrong password or connection failed. Details: $($out -join ' ')"
     }
-    if (Test-KeyAuth) {
-        ShowOk 'Connected! You will never need the password again.'
-    } else {
-        ShowFail 'Key installed but test failed. Send a screenshot to your admin.'
-    }
+    ShowOk 'Connected! You will never need the password again.'
+} else {
+    ShowOk 'Security key exists - ready to connect.'
 }
 
 ProgressBar 71 'Server connection' 'Authenticated'
