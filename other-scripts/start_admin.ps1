@@ -1,69 +1,60 @@
 # Pinoy Ride Admin - one-click environment preparation + launcher.
 #
 # Called by the root-level START-ADMIN.bat so non-technical staff only ever
-# see that one file. Safe to re-run any time (every step is idempotent):
-#   1. find PHP (XAMPP or PATH)
-#   2. enable pdo_pgsql in php.ini if needed (backup taken first)
-#   3. create .env with DB credentials if missing
-#   4. generate + install the SSH key if needed (asks for the server password
-#      ONCE, the very first time; afterwards tunnels connect automatically)
-#   5. start tunnel + PHP server + open the browser
+# see that one file. Safe to re-run any time (every step is idempotent).
 
 $ErrorActionPreference = 'Continue'
 $Root = Split-Path -Parent $PSScriptRoot   # project root (parent of other-scripts)
 
-function Step($msg)  { Write-Host ('==> ' + $msg) }
-function Ok($msg)    { Write-Host ('    [ok] '    + $msg) -ForegroundColor Green }
-function Warn($msg)  { Write-Host ('    [!] '     + $msg) -ForegroundColor Yellow }
-function FailStop($msg) {
-    Write-Host ('    [x] ' + $msg) -ForegroundColor Red
+# ========================== DISPLAY HELPERS ==========================
+
+function Banner {
+    Clear-Host
     Write-Host ''
-    Read-Host 'Press Enter to close this window'
+    Write-Host '  ╔══════════════════════════════════════════════════╗' -ForegroundColor Cyan
+    Write-Host '  ║         PINOY RIDE ADMIN - STARTING UP          ║' -ForegroundColor Cyan
+    Write-Host '  ╚══════════════════════════════════════════════════╝' -ForegroundColor Cyan
+    Write-Host ''
+}
+
+function ProgressBar([int]$percent, [string]$label, [string]$status) {
+    $barWidth = 30
+    $filled   = [math]::Floor($barWidth * $percent / 100)
+    $empty    = $barWidth - $filled
+    $bar      = ('█' * $filled) + ('░' * $empty)
+    $color    = if ($percent -ge 100) { 'Green' } elseif ($percent -ge 50) { 'Yellow' } else { 'White' }
+    Write-Host ("  [{0}] {1,3}%  {2}" -f $bar, $percent, $label) -ForegroundColor $color
+    if ($status) { Write-Host "             $status" -ForegroundColor DarkGray }
+}
+
+function StepHeader([int]$stepNum, [int]$totalSteps, [string]$title) {
+    $pct = [math]::Floor(($stepNum - 1) / $totalSteps * 100)
+    Write-Host ''
+    Write-Host ("  ── Step {0}/{1}: {2} " -f $stepNum, $totalSteps, $title) -ForegroundColor White
+    Write-Host ("     Overall progress: {0}%" -f $pct) -ForegroundColor DarkGray
+    Write-Host ''
+}
+
+function ShowOk([string]$msg)   { Write-Host "     ✓ $msg" -ForegroundColor Green }
+function ShowWarn([string]$msg) { Write-Host "     ! $msg" -ForegroundColor Yellow }
+function ShowFail([string]$msg) {
+    Write-Host "     ✗ $msg" -ForegroundColor Red
+    Write-Host ''
+    Read-Host '  Press Enter to close'
     exit 1
 }
 
-Write-Host ''
-Write-Host '==============================================' -ForegroundColor Cyan
-Write-Host '   Pinoy Ride Admin - starting things up...'   -ForegroundColor Cyan
-Write-Host '==============================================' -ForegroundColor Cyan
-Write-Host ''
+$TotalSteps = 7
 
-# --------------------------------------------------------- 0. auto-update ---
-Step 'Checking for updates...'
-$GitExe = Get-Command git.exe -ErrorAction SilentlyContinue
-$UpdateLog = Join-Path $Root 'update-log.txt'
-if ($GitExe -and (Test-Path (Join-Path $Root '.git'))) {
-    try {
-        $pullOut = & git -C $Root pull --ff-only 2>&1
-        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
-        if ($LASTEXITCODE -eq 0) {
-            if ($pullOut -match 'Already up to date') {
-                Ok 'Already on the latest version.'
-                Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest version." -Encoding UTF8
-            } else {
-                $shortLog = & git -C $Root log --oneline -5 2>&1
-                Ok 'Updated to the latest version.'
-                Add-Content -Path $UpdateLog -Value "[$timestamp] UPDATED - pulled new changes:" -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value ($pullOut -join "`n") -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value "  Recent commits:" -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value ($shortLog -join "`n") -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value "---" -Encoding UTF8
-            }
-        } else {
-            Warn "Could not update automatically (network issue?). Continuing with current version."
-            Add-Content -Path $UpdateLog -Value "[$timestamp] FAILED - could not pull: $($pullOut -join ' ')" -Encoding UTF8
-        }
-    } catch {
-        Warn "Update check failed ($($_.Exception.Message)). Continuing with current version."
-        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
-        Add-Content -Path $UpdateLog -Value "[$timestamp] ERROR - $($_.Exception.Message)" -Encoding UTF8
-    }
-} else {
-    Warn 'Git not found or not a git repo - skipping auto-update.'
-}
+# ========================== START ==========================
 
-# ------------------------------------------------------------------ 1. PHP --
-Step 'Looking for PHP (XAMPP)...'
+Banner
+
+# ──────────────────────────────── Step 1: Prerequisites check ────────────────
+StepHeader 1 $TotalSteps 'Checking prerequisites'
+
+# -- PHP (XAMPP) --
+Write-Host '     Checking PHP (XAMPP)...' -ForegroundColor DarkGray
 $Php = $null
 $candidates = @(
     'C:\xampp\php\php.exe',
@@ -77,49 +68,119 @@ foreach ($c in $candidates) {
     if ($c -and (Test-Path $c)) { $Php = $c; break }
 }
 if (-not $Php) {
-    FailStop ('PHP was not found. Install XAMPP with PHP 8.2 or newer first: https://www.apachefriends.org/  Then run START-ADMIN again.')
+    ShowFail 'PHP/XAMPP not found. Please install XAMPP first:'
+    Write-Host ''
+    Write-Host '     Download: https://www.apachefriends.org/download.html' -ForegroundColor Cyan
+    Write-Host '     Install with default settings (C:\xampp)' -ForegroundColor DarkGray
+    Write-Host '     Then run START-ADMIN again.' -ForegroundColor DarkGray
+    Write-Host ''
+    Read-Host '  Press Enter to close'
+    exit 1
 }
-Ok ("PHP found: $Php")
+ShowOk "PHP found: $Php"
 
-# ---------------------------------------------------- 2. enable pdo_pgsql ---
-Step 'Checking Postgres driver (pdo_pgsql)...'
+# -- Git --
+Write-Host '     Checking Git...' -ForegroundColor DarkGray
+$GitExe = Get-Command git.exe -ErrorAction SilentlyContinue
+if (-not $GitExe) {
+    ShowFail 'Git not found. Please install Git for Windows first:'
+    Write-Host ''
+    Write-Host '     Download: https://git-scm.com/download/win' -ForegroundColor Cyan
+    Write-Host '     Install with default settings (click Next through everything)' -ForegroundColor DarkGray
+    Write-Host '     Then run START-ADMIN again.' -ForegroundColor DarkGray
+    Write-Host ''
+    Read-Host '  Press Enter to close'
+    exit 1
+}
+ShowOk "Git found: $($GitExe.Source)"
+
+# -- SSH --
+Write-Host '     Checking SSH...' -ForegroundColor DarkGray
+$SshExe = Get-Command ssh.exe -ErrorAction SilentlyContinue
+if (-not $SshExe) {
+    ShowFail 'SSH not found. It should come with Git or Windows 10+.'
+    Write-Host '     If on Windows 10: Settings > Apps > Optional Features > OpenSSH Client' -ForegroundColor DarkGray
+    Write-Host ''
+    Read-Host '  Press Enter to close'
+    exit 1
+}
+ShowOk "SSH found: $($SshExe.Source)"
+
+ProgressBar 14 'Prerequisites' 'All tools installed'
+
+# ──────────────────────────────── Step 2: PHP pdo_pgsql ────────────────────
+StepHeader 2 $TotalSteps 'Enabling Postgres driver'
+
 $IniPath = Join-Path (Split-Path -Parent $Php) 'php.ini'
 if (-not (Test-Path $IniPath)) {
-    Warn "php.ini not found next to php.exe ($IniPath) - skipping auto-fix."
+    ShowWarn "php.ini not found next to php.exe - skipping."
 } else {
     $iniText    = Get-Content $IniPath -Raw
     $hasEnabled = $iniText -match '(?m)^\s*extension\s*=\s*pdo_pgsql'
     if ($hasEnabled) {
-        Ok 'pdo_pgsql already enabled.'
+        ShowOk 'pdo_pgsql already enabled.'
     } elseif ($iniText -match '(?m)^\s*;\s*extension\s*=\s*pdo_pgsql') {
         $bak = "$IniPath.bak-pinoyride"
         if (-not (Test-Path $bak)) { Copy-Item $IniPath $bak }
-        try {
-            $fixed = $iniText -replace '(?m)^(\s*);\s*(extension\s*=\s*pdo_pgsql)', '$1$2'
-            Set-Content -Path $IniPath -Value $fixed -Encoding ASCII -NoNewline
-            Ok 'Enabled pdo_pgsql in php.ini (backup saved as php.ini.bak-pinoyride).'
-        } catch {
-            Warn "Could not edit php.ini automatically ($($_.Exception.Message))."
-        }
+        $fixed = $iniText -replace '(?m)^(\s*);\s*(extension\s*=\s*pdo_pgsql)', '$1$2'
+        Set-Content -Path $IniPath -Value $fixed -Encoding ASCII -NoNewline
+        ShowOk 'Enabled pdo_pgsql in php.ini (backup saved).'
     } else {
         $bak = "$IniPath.bak-pinoyride"
         if (-not (Test-Path $bak)) { Copy-Item $IniPath $bak }
-        try {
-            Add-Content -Path $IniPath -Value "`nextension=pdo_pgsql" -Encoding ASCII
-            Ok 'Appended pdo_pgsql to php.ini (backup saved).'
-        } catch {
-            Warn "Could not edit php.ini automatically ($($_.Exception.Message))."
-        }
+        Add-Content -Path $IniPath -Value "`nextension=pdo_pgsql" -Encoding ASCII
+        ShowOk 'Appended pdo_pgsql to php.ini.'
     }
     $loaded = (& $Php -m) -contains 'pdo_pgsql'
-    if ($loaded) { Ok 'PHP loads pdo_pgsql.' }
-    else { FailStop "pdo_pgsql still not loading after the php.ini change. Send a screenshot of this window to your admin." }
+    if (-not $loaded) {
+        ShowFail 'pdo_pgsql still not loading. Send a screenshot to your admin.'
+    }
 }
-# ------------------------------------------------------- 3. create .env -----
-Step 'Checking database settings (.env)...'
+
+ProgressBar 28 'Postgres driver' 'Ready'
+
+# ──────────────────────────────── Step 3: Auto-update from GitHub ──────────
+StepHeader 3 $TotalSteps 'Fetching latest updates'
+
+$UpdateLog = Join-Path $Root 'update-log.txt'
+if (Test-Path (Join-Path $Root '.git')) {
+    Write-Host '     Connecting to GitHub...' -ForegroundColor DarkGray
+    try {
+        $pullOut = & git -C $Root pull --ff-only 2>&1
+        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
+        if ($LASTEXITCODE -eq 0) {
+            if ($pullOut -match 'Already up to date') {
+                ShowOk 'Already on the latest version.'
+                Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest." -Encoding UTF8
+            } else {
+                $shortLog = & git -C $Root log --oneline -5 2>&1
+                ShowOk 'Updated to the latest version!'
+                Write-Host "     Changes:" -ForegroundColor DarkGray
+                ($pullOut | Select-Object -First 5) | ForEach-Object { Write-Host "       $_" -ForegroundColor DarkGray }
+                Add-Content -Path $UpdateLog -Value "[$timestamp] UPDATED:" -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value ($pullOut -join "`n") -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value "  Recent: $($shortLog -join ' | ')" -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value "---" -Encoding UTF8
+            }
+        } else {
+            ShowWarn 'Could not update (network issue?). Using current version.'
+            Add-Content -Path $UpdateLog -Value "[$timestamp] FAILED: $($pullOut -join ' ')" -Encoding UTF8
+        }
+    } catch {
+        ShowWarn "Update check failed. Using current version."
+    }
+} else {
+    ShowWarn 'Not a git repo - skipping update. Consider running: git clone https://github.com/jangdannug/PinoyRidePh.git'
+}
+
+ProgressBar 42 'Updates' 'Done'
+
+# ──────────────────────────────── Step 4: .env file ────────────────────────
+StepHeader 4 $TotalSteps 'Checking database settings'
+
 $EnvFile = Join-Path $Root '.env'
 if (Test-Path $EnvFile) {
-    Ok 'Database settings found.'
+    ShowOk 'Database settings found (.env exists).'
 } else {
     @'
 DB_HOST=127.0.0.1
@@ -127,11 +188,17 @@ DB_PORT=5433
 DB_NAME=riderapp
 DB_USER=markangelogonzales
 DB_PASS=l3JvueqsjUPBMhwqTsjsNy6DRe3wBFaNmJcjiVUX2k726QeNen235Bz4FYbPwDMb
+ADMIN_USER=admin
+ADMIN_PASS=pinoyride2026
 '@ | Set-Content -Path $EnvFile -Encoding ASCII
-    Ok 'Created .env with the standard database settings.'
+    ShowOk 'Created .env with database settings.'
 }
 
-# ------------------------------------------- 4. SSH key (one-time setup) ----
+ProgressBar 57 'Database config' 'Ready'
+
+# ──────────────────────────────── Step 5: SSH Key ──────────────────────────
+StepHeader 5 $TotalSteps 'Setting up server connection'
+
 $SshHost = 'markangelogonzalespinoyride@54.251.171.207'
 $SshPort = 2222
 $KeyFile = Join-Path $env:USERPROFILE '.ssh\pinoyride_ed25519'
@@ -142,38 +209,37 @@ function Test-KeyAuth {
     return ($LASTEXITCODE -eq 0 -and ($out -join ' ') -match 'KEY_OK')
 }
 
-Step 'Checking server connection key...'
 New-Item -ItemType Directory -Path (Split-Path -Parent $KeyFile) -Force | Out-Null
 
 if (-not (Test-Path $KeyFile)) {
-    # ssh-keygen drops empty-string arguments under PowerShell 5.1, so run it
-    # through a tiny temp .cmd where the quoting is predictable.
+    Write-Host '     Generating security key...' -ForegroundColor DarkGray
     $kc = Join-Path $env:TEMP ('pr_keygen_' + [guid]::NewGuid().ToString('N') + '.cmd')
     Set-Content -Path $kc -Value "@echo off`r`nssh-keygen -q -t ed25519 -f `"$KeyFile`" -N `"`" -C pinoyride-admin" -Encoding Ascii
     & $kc | Out-Null
     Remove-Item $kc -ErrorAction SilentlyContinue
-    if (-not (Test-Path $KeyFile)) { FailStop 'Could not create the security key on this computer.' }
-    Ok 'Security key created.'
+    if (-not (Test-Path $KeyFile)) { ShowFail 'Could not create security key.' }
+    ShowOk 'Security key created.'
 }
 
 if (Test-KeyAuth) {
-    Ok 'Server connection verified (no password needed).'
+    ShowOk 'Server connection verified (no password needed).'
 } else {
-    Step 'First-time setup: connecting your computer to the server...'
-    Write-Host '    You will be asked for the server password ONCE.'
-    Write-Host "    It is the SSH password from the Pinoy Ride instructions document."
+    Write-Host ''
+    Write-Host '     ┌─────────────────────────────────────────────────┐' -ForegroundColor Yellow
+    Write-Host '     │  FIRST-TIME SETUP: Server password needed once  │' -ForegroundColor Yellow
+    Write-Host '     └─────────────────────────────────────────────────┘' -ForegroundColor Yellow
+    Write-Host '     Get the password from the Pinoy Ride instructions document.' -ForegroundColor DarkGray
     Write-Host ''
 
-    $plain = $env:PR_SSH_PW   # pre-seeded only for automated testing
+    $plain = $env:PR_SSH_PW
     if (-not $plain) {
-        $sec = Read-Host '    Paste the server password here' 
+        $sec = Read-Host '     Paste the server password here'
         $sec = $sec.Trim()
-        if (-not $sec) { FailStop 'No password entered. Run START-ADMIN again to retry.' }
+        if (-not $sec) { ShowFail 'No password entered. Run START-ADMIN again.' }
         $plain = $sec
     }
 
-    $pub     = Get-Content "$KeyFile.pub" -Raw
-    $pub     = $pub.Trim()
+    $pub     = (Get-Content "$KeyFile.pub" -Raw).Trim()
     $tmpDir  = Join-Path $env:TEMP ('pr_setup_' + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $tmpDir | Out-Null
     $askpass = Join-Path $tmpDir 'askpass.cmd'
@@ -192,77 +258,90 @@ if (Test-KeyAuth) {
     $plain = $null
 
     if (($out -join ' ') -notmatch 'KEY_INSTALLED') {
-        FailStop "Could not connect with that password. Check it against the instructions document and run START-ADMIN again. Details: $($out -join ' ')"
+        ShowFail "Wrong password or connection failed. Details: $($out -join ' ')"
     }
     if (Test-KeyAuth) {
-        Ok 'Computer connected to the server. You will never need the password again.'
+        ShowOk 'Connected! You will never need the password again.'
     } else {
-        FailStop 'The key was installed but the test connection still failed. Send a screenshot of this window to your admin.'
+        ShowFail 'Key installed but test failed. Send a screenshot to your admin.'
     }
 }
-# Track everything we start so STOP-ADMIN can close exactly these later.
-$TunnelPid   = 0
-$PhpPid      = 0
-$BrowserProc = $null
 
-# ------------------------------------------------------- 5. start tunnel ----
-Step 'Starting the secure database tunnel...'
+ProgressBar 71 'Server connection' 'Authenticated'
+
+# ──────────────────────────────── Step 6: SSH Tunnel ───────────────────────
+StepHeader 6 $TotalSteps 'Starting database tunnel'
+
+$TunnelPid = 0
 if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyContinue) {
-    Ok 'Tunnel already running.'
+    ShowOk 'Tunnel already running.'
     $TunnelPid = [int](Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyContinue |
                        Select-Object -First 1).OwningProcess
 } else {
+    Write-Host '     Connecting to database server...' -ForegroundColor DarkGray
     $TunnelHost = Start-Process powershell -WindowStyle Minimized -PassThru `
         -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\tunnel.ps1`""
     $TunnelPid = $TunnelHost.Id
     $up = $false
     foreach ($i in 1..30) {
         Start-Sleep -Seconds 1
+        $pct = [math]::Min(99, [math]::Floor($i / 30 * 100))
+        Write-Host ("`r     Waiting for tunnel... {0}%" -f $pct) -NoNewline -ForegroundColor DarkGray
         if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyContinue) { $up = $true; break }
     }
-    if ($up) { Ok 'Tunnel is up.' }
-    else { FailStop "The tunnel did not start within 30 seconds. Check the minimized 'pinoyride-tunnel' window, then run START-ADMIN again." }
+    Write-Host ''
+    if ($up) { ShowOk 'Database tunnel is up!' }
+    else { ShowFail 'Tunnel did not start in 30 seconds. Check the minimized tunnel window.' }
 }
 
-# ------------------------------------------- 6. start admin panel server ----
-Step 'Starting the admin panel...'
+ProgressBar 85 'Database tunnel' 'Connected'
+
+# ──────────────────────────────── Step 7: PHP Server ───────────────────────
+StepHeader 7 $TotalSteps 'Starting admin panel'
+
+$PhpPid = 0
 if (Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue) {
-    Ok 'Admin panel already running.'
+    ShowOk 'Admin panel already running.'
     $PhpPid = [int](Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue |
                     Select-Object -First 1).OwningProcess
 } else {
+    Write-Host '     Starting PHP server...' -ForegroundColor DarkGray
     $PhpProc = Start-Process -FilePath $Php -ArgumentList '-S', '127.0.0.1:8000' -WorkingDirectory $Root -WindowStyle Minimized -PassThru
     $PhpPid  = $PhpProc.Id
     $up = $false
     foreach ($i in 1..15) {
         Start-Sleep -Milliseconds 700
+        $pct = [math]::Min(99, [math]::Floor($i / 15 * 100))
+        Write-Host ("`r     Starting... {0}%" -f $pct) -NoNewline -ForegroundColor DarkGray
         if (Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue) { $up = $true; break }
     }
-    if (-not $up) { FailStop 'The admin panel did not start. Send a screenshot of this window to your admin.' }
-    Ok 'Admin panel is running.'
+    Write-Host ''
+    if (-not $up) { ShowFail 'Admin panel did not start. Send a screenshot to your admin.' }
+    ShowOk 'Admin panel running on http://localhost:8000'
 }
 
-# ------------------------------------------------------------ 7. browser ----
-Step 'Opening your browser...'
-$BrowserProc = Start-Process 'http://localhost:8000/index.php' -PassThru
+# Open browser
+Start-Process 'http://localhost:8000/index.php' | Out-Null
 
-# -------------------------------------------------- 8. remember for STOP ----
-# Save what we opened so STOP-ADMIN can close exactly these again.
+# Save session for STOP-ADMIN
+$BrowserProc = $null
 @{
     startedAt  = (Get-Date).ToString('o')
     tunnelPid  = $TunnelPid
     phpPid     = $PhpPid
-    browserPid = if ($BrowserProc) { $BrowserProc.Id } else { 0 }
+    browserPid = 0
 } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $Root '.pinoyride-session.json') -Encoding ASCII
-Ok 'Saved run details for STOP-ADMIN.'
 
+ProgressBar 100 'Complete' 'All systems running'
+
+# ========================== DONE ==========================
 Write-Host ''
-Write-Host '==============================================' -ForegroundColor Green
-Write-Host '   The Pinoy Ride admin panel is open!'        -ForegroundColor Green
-Write-Host ''                                                 -ForegroundColor Green
-Write-Host '   Keep the two small black windows open,'        -ForegroundColor Green
-Write-Host '   you can just minimize them.'                   -ForegroundColor Green
-Write-Host '   To close everything later, double-click:'      -ForegroundColor Green
-Write-Host '   STOP-ADMIN'                                    -ForegroundColor Green
-Write-Host '==============================================' -ForegroundColor Green
+Write-Host '  ╔══════════════════════════════════════════════════╗' -ForegroundColor Green
+Write-Host '  ║       ✓ PINOY RIDE ADMIN IS READY!              ║' -ForegroundColor Green
+Write-Host '  ║                                                  ║' -ForegroundColor Green
+Write-Host '  ║   Browser opened to http://localhost:8000        ║' -ForegroundColor Green
+Write-Host '  ║                                                  ║' -ForegroundColor Green
+Write-Host '  ║   Keep this window open (minimize is fine).      ║' -ForegroundColor Green
+Write-Host '  ║   To stop: double-click STOP-ADMIN              ║' -ForegroundColor Green
+Write-Host '  ╚══════════════════════════════════════════════════╝' -ForegroundColor Green
 Write-Host ''
