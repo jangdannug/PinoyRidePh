@@ -1,3 +1,5 @@
 timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-26 15:27:17","John Roe",logout,,,"Staff logged out / shutdown"
 "2026-08-26 15:32:24","John Roe",logout,,,"Staff logged out / shutdown"
+"2026-08-26 15:33:23","John Roe",login,,,"Staff logged in"
+"2026-08-26 15:38:23","John Roe",logout,,,"Staff logged out / shutdown"
