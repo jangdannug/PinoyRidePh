@@ -23,6 +23,7 @@ define('STAFF_LIST', [
     'John Roe',
     'Norman Paul',
     'Galo Rowe',
+    'Normelyn',
 ]);
 
 define('LOGS_DIR', __DIR__ . '/../logs');
