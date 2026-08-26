@@ -28,6 +28,28 @@ Write-Host '   Pinoy Ride Admin - starting things up...'   -ForegroundColor Cyan
 Write-Host '==============================================' -ForegroundColor Cyan
 Write-Host ''
 
+# --------------------------------------------------------- 0. auto-update ---
+Step 'Checking for updates...'
+$GitExe = Get-Command git.exe -ErrorAction SilentlyContinue
+if ($GitExe -and (Test-Path (Join-Path $Root '.git'))) {
+    try {
+        $pullOut = & git -C $Root pull --ff-only 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            if ($pullOut -match 'Already up to date') {
+                Ok 'Already on the latest version.'
+            } else {
+                Ok 'Updated to the latest version.'
+            }
+        } else {
+            Warn "Could not update automatically (network issue?). Continuing with current version."
+        }
+    } catch {
+        Warn "Update check failed ($($_.Exception.Message)). Continuing with current version."
+    }
+} else {
+    Warn 'Git not found or not a git repo - skipping auto-update.'
+}
+
 # ------------------------------------------------------------------ 1. PHP --
 Step 'Looking for PHP (XAMPP)...'
 $Php = $null
