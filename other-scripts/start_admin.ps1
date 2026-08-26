@@ -188,7 +188,14 @@ StepHeader 4 $TotalSteps 'Checking database settings'
 
 $EnvFile = Join-Path $Root '.env'
 if (Test-Path $EnvFile) {
-    ShowOk 'Database settings found (.env exists).'
+    # Check if GOOGLE_MAPS_API_KEY is missing and add it
+    $envText = Get-Content $EnvFile -Raw
+    if ($envText -notmatch 'GOOGLE_MAPS_API_KEY') {
+        Add-Content -Path $EnvFile -Value "`nGOOGLE_MAPS_API_KEY=AIzaSyBAmVIdu6gq3005jPrljn_UcI035vjCCr4" -Encoding ASCII
+        ShowOk 'Database settings found. Added missing Google Maps key.'
+    } else {
+        ShowOk 'Database settings found (.env exists).'
+    }
 } else {
     $envContent = @"
 DB_HOST=127.0.0.1
@@ -198,6 +205,7 @@ DB_USER=markangelogonzales
 DB_PASS=l3JvueqsjUPBMhwqTsjsNy6DRe3wBFaNmJcjiVUX2k726QeNen235Bz4FYbPwDMb
 ADMIN_USER=admin
 ADMIN_PASS=pinoyride2026
+GOOGLE_MAPS_API_KEY=AIzaSyBAmVIdu6gq3005jPrljn_UcI035vjCCr4
 "@
     Set-Content -Path $EnvFile -Value $envContent -Encoding ASCII
     ShowOk 'Created .env with database settings.'
