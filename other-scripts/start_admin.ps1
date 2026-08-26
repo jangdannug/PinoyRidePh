@@ -11,9 +11,9 @@ $Root = Split-Path -Parent $PSScriptRoot   # project root (parent of other-scrip
 function Banner {
     Clear-Host
     Write-Host ''
-    Write-Host '  ╔══════════════════════════════════════════════════╗' -ForegroundColor Cyan
-    Write-Host '  ║         PINOY RIDE ADMIN - STARTING UP          ║' -ForegroundColor Cyan
-    Write-Host '  ╚══════════════════════════════════════════════════╝' -ForegroundColor Cyan
+    Write-Host '  +==================================================+' -ForegroundColor Cyan
+    Write-Host '  |         PINOY RIDE ADMIN - STARTING UP           |' -ForegroundColor Cyan
+    Write-Host '  +==================================================+' -ForegroundColor Cyan
     Write-Host ''
 }
 
@@ -21,8 +21,10 @@ function ProgressBar([int]$percent, [string]$label, [string]$status) {
     $barWidth = 30
     $filled   = [math]::Floor($barWidth * $percent / 100)
     $empty    = $barWidth - $filled
-    $bar      = ('█' * $filled) + ('░' * $empty)
-    $color    = if ($percent -ge 100) { 'Green' } elseif ($percent -ge 50) { 'Yellow' } else { 'White' }
+    $bar      = ('#' * $filled) + ('-' * $empty)
+    if ($percent -ge 100) { $color = 'Green' }
+    elseif ($percent -ge 50) { $color = 'Yellow' }
+    else { $color = 'White' }
     Write-Host ("  [{0}] {1,3}%  {2}" -f $bar, $percent, $label) -ForegroundColor $color
     if ($status) { Write-Host "             $status" -ForegroundColor DarkGray }
 }
@@ -30,15 +32,15 @@ function ProgressBar([int]$percent, [string]$label, [string]$status) {
 function StepHeader([int]$stepNum, [int]$totalSteps, [string]$title) {
     $pct = [math]::Floor(($stepNum - 1) / $totalSteps * 100)
     Write-Host ''
-    Write-Host ("  ── Step {0}/{1}: {2} " -f $stepNum, $totalSteps, $title) -ForegroundColor White
+    Write-Host ("  -- Step {0}/{1}: {2} " -f $stepNum, $totalSteps, $title) -ForegroundColor White
     Write-Host ("     Overall progress: {0}%" -f $pct) -ForegroundColor DarkGray
     Write-Host ''
 }
 
-function ShowOk([string]$msg)   { Write-Host "     ✓ $msg" -ForegroundColor Green }
-function ShowWarn([string]$msg) { Write-Host "     ! $msg" -ForegroundColor Yellow }
+function ShowOk([string]$msg)   { Write-Host "     [OK] $msg" -ForegroundColor Green }
+function ShowWarn([string]$msg) { Write-Host "     [!]  $msg" -ForegroundColor Yellow }
 function ShowFail([string]$msg) {
-    Write-Host "     ✗ $msg" -ForegroundColor Red
+    Write-Host "     [X]  $msg" -ForegroundColor Red
     Write-Host ''
     Read-Host '  Press Enter to close'
     exit 1
@@ -50,7 +52,7 @@ $TotalSteps = 7
 
 Banner
 
-# ──────────────────────────────── Step 1: Prerequisites check ────────────────
+# ---- Step 1: Prerequisites check ----
 StepHeader 1 $TotalSteps 'Checking prerequisites'
 
 # -- PHP (XAMPP) --
@@ -68,8 +70,9 @@ foreach ($c in $candidates) {
     if ($c -and (Test-Path $c)) { $Php = $c; break }
 }
 if (-not $Php) {
-    ShowFail 'PHP/XAMPP not found. Please install XAMPP first:'
+    Write-Host '     [X]  PHP/XAMPP not found!' -ForegroundColor Red
     Write-Host ''
+    Write-Host '     Please install XAMPP first:' -ForegroundColor Yellow
     Write-Host '     Download: https://www.apachefriends.org/download.html' -ForegroundColor Cyan
     Write-Host '     Install with default settings (C:\xampp)' -ForegroundColor DarkGray
     Write-Host '     Then run START-ADMIN again.' -ForegroundColor DarkGray
@@ -83,8 +86,9 @@ ShowOk "PHP found: $Php"
 Write-Host '     Checking Git...' -ForegroundColor DarkGray
 $GitExe = Get-Command git.exe -ErrorAction SilentlyContinue
 if (-not $GitExe) {
-    ShowFail 'Git not found. Please install Git for Windows first:'
+    Write-Host '     [X]  Git not found!' -ForegroundColor Red
     Write-Host ''
+    Write-Host '     Please install Git for Windows:' -ForegroundColor Yellow
     Write-Host '     Download: https://git-scm.com/download/win' -ForegroundColor Cyan
     Write-Host '     Install with default settings (click Next through everything)' -ForegroundColor DarkGray
     Write-Host '     Then run START-ADMIN again.' -ForegroundColor DarkGray
@@ -98,8 +102,10 @@ ShowOk "Git found: $($GitExe.Source)"
 Write-Host '     Checking SSH...' -ForegroundColor DarkGray
 $SshExe = Get-Command ssh.exe -ErrorAction SilentlyContinue
 if (-not $SshExe) {
-    ShowFail 'SSH not found. It should come with Git or Windows 10+.'
-    Write-Host '     If on Windows 10: Settings > Apps > Optional Features > OpenSSH Client' -ForegroundColor DarkGray
+    Write-Host '     [X]  SSH not found!' -ForegroundColor Red
+    Write-Host ''
+    Write-Host '     SSH should come with Git or Windows 10+.' -ForegroundColor Yellow
+    Write-Host '     Windows 10: Settings - Apps - Optional Features - OpenSSH Client' -ForegroundColor DarkGray
     Write-Host ''
     Read-Host '  Press Enter to close'
     exit 1
@@ -108,7 +114,7 @@ ShowOk "SSH found: $($SshExe.Source)"
 
 ProgressBar 14 'Prerequisites' 'All tools installed'
 
-# ──────────────────────────────── Step 2: PHP pdo_pgsql ────────────────────
+# ---- Step 2: PHP pdo_pgsql ----
 StepHeader 2 $TotalSteps 'Enabling Postgres driver'
 
 $IniPath = Join-Path (Split-Path -Parent $Php) 'php.ini'
@@ -139,7 +145,7 @@ if (-not (Test-Path $IniPath)) {
 
 ProgressBar 28 'Postgres driver' 'Ready'
 
-# ──────────────────────────────── Step 3: Auto-update from GitHub ──────────
+# ---- Step 3: Auto-update from GitHub ----
 StepHeader 3 $TotalSteps 'Fetching latest updates'
 
 $UpdateLog = Join-Path $Root 'update-log.txt'
@@ -149,40 +155,42 @@ if (Test-Path (Join-Path $Root '.git')) {
         $pullOut = & git -C $Root pull --ff-only 2>&1
         $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
         if ($LASTEXITCODE -eq 0) {
-            if ($pullOut -match 'Already up to date') {
+            $pullStr = ($pullOut -join ' ')
+            if ($pullStr -match 'Already up to date') {
                 ShowOk 'Already on the latest version.'
                 Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest." -Encoding UTF8
             } else {
                 $shortLog = & git -C $Root log --oneline -5 2>&1
                 ShowOk 'Updated to the latest version!'
                 Write-Host "     Changes:" -ForegroundColor DarkGray
-                ($pullOut | Select-Object -First 5) | ForEach-Object { Write-Host "       $_" -ForegroundColor DarkGray }
-                Add-Content -Path $UpdateLog -Value "[$timestamp] UPDATED:" -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value ($pullOut -join "`n") -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value "  Recent: $($shortLog -join ' | ')" -Encoding UTF8
-                Add-Content -Path $UpdateLog -Value "---" -Encoding UTF8
+                $pullOut | Select-Object -First 5 | ForEach-Object { Write-Host "       $_" -ForegroundColor DarkGray }
+                $logEntry = "[$timestamp] UPDATED:`n" + ($pullOut -join "`n") + "`n  Recent: " + ($shortLog -join " | ") + "`n---"
+                Add-Content -Path $UpdateLog -Value $logEntry -Encoding UTF8
             }
         } else {
             ShowWarn 'Could not update (network issue?). Using current version.'
-            Add-Content -Path $UpdateLog -Value "[$timestamp] FAILED: $($pullOut -join ' ')" -Encoding UTF8
+            $logEntry = "[$timestamp] FAILED: " + ($pullOut -join ' ')
+            Add-Content -Path $UpdateLog -Value $logEntry -Encoding UTF8
         }
     } catch {
-        ShowWarn "Update check failed. Using current version."
+        ShowWarn 'Update check failed. Using current version.'
     }
 } else {
-    ShowWarn 'Not a git repo - skipping update. Consider running: git clone https://github.com/jangdannug/PinoyRidePh.git'
+    ShowWarn 'Not a git repo - skipping update.'
+    Write-Host '     To enable auto-updates, run:' -ForegroundColor DarkGray
+    Write-Host '     git clone https://github.com/jangdannug/PinoyRidePh.git' -ForegroundColor Cyan
 }
 
 ProgressBar 42 'Updates' 'Done'
 
-# ──────────────────────────────── Step 4: .env file ────────────────────────
+# ---- Step 4: .env file ----
 StepHeader 4 $TotalSteps 'Checking database settings'
 
 $EnvFile = Join-Path $Root '.env'
 if (Test-Path $EnvFile) {
     ShowOk 'Database settings found (.env exists).'
 } else {
-    @'
+    $envContent = @"
 DB_HOST=127.0.0.1
 DB_PORT=5433
 DB_NAME=riderapp
@@ -190,13 +198,14 @@ DB_USER=markangelogonzales
 DB_PASS=l3JvueqsjUPBMhwqTsjsNy6DRe3wBFaNmJcjiVUX2k726QeNen235Bz4FYbPwDMb
 ADMIN_USER=admin
 ADMIN_PASS=pinoyride2026
-'@ | Set-Content -Path $EnvFile -Encoding ASCII
+"@
+    Set-Content -Path $EnvFile -Value $envContent -Encoding ASCII
     ShowOk 'Created .env with database settings.'
 }
 
 ProgressBar 57 'Database config' 'Ready'
 
-# ──────────────────────────────── Step 5: SSH Key ──────────────────────────
+# ---- Step 5: SSH Key ----
 StepHeader 5 $TotalSteps 'Setting up server connection'
 
 $SshHost = 'markangelogonzalespinoyride@54.251.171.207'
@@ -225,9 +234,9 @@ if (Test-KeyAuth) {
     ShowOk 'Server connection verified (no password needed).'
 } else {
     Write-Host ''
-    Write-Host '     ┌─────────────────────────────────────────────────┐' -ForegroundColor Yellow
-    Write-Host '     │  FIRST-TIME SETUP: Server password needed once  │' -ForegroundColor Yellow
-    Write-Host '     └─────────────────────────────────────────────────┘' -ForegroundColor Yellow
+    Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
+    Write-Host '     |  FIRST-TIME SETUP: Server password needed once    |' -ForegroundColor Yellow
+    Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
     Write-Host '     Get the password from the Pinoy Ride instructions document.' -ForegroundColor DarkGray
     Write-Host ''
 
@@ -269,7 +278,7 @@ if (Test-KeyAuth) {
 
 ProgressBar 71 'Server connection' 'Authenticated'
 
-# ──────────────────────────────── Step 6: SSH Tunnel ───────────────────────
+# ---- Step 6: SSH Tunnel ----
 StepHeader 6 $TotalSteps 'Starting database tunnel'
 
 $TunnelPid = 0
@@ -296,7 +305,7 @@ if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyCont
 
 ProgressBar 85 'Database tunnel' 'Connected'
 
-# ──────────────────────────────── Step 7: PHP Server ───────────────────────
+# ---- Step 7: PHP Server ----
 StepHeader 7 $TotalSteps 'Starting admin panel'
 
 $PhpPid = 0
@@ -324,7 +333,6 @@ if (Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyCont
 Start-Process 'http://localhost:8000/index.php' | Out-Null
 
 # Save session for STOP-ADMIN
-$BrowserProc = $null
 @{
     startedAt  = (Get-Date).ToString('o')
     tunnelPid  = $TunnelPid
@@ -336,12 +344,12 @@ ProgressBar 100 'Complete' 'All systems running'
 
 # ========================== DONE ==========================
 Write-Host ''
-Write-Host '  ╔══════════════════════════════════════════════════╗' -ForegroundColor Green
-Write-Host '  ║       ✓ PINOY RIDE ADMIN IS READY!              ║' -ForegroundColor Green
-Write-Host '  ║                                                  ║' -ForegroundColor Green
-Write-Host '  ║   Browser opened to http://localhost:8000        ║' -ForegroundColor Green
-Write-Host '  ║                                                  ║' -ForegroundColor Green
-Write-Host '  ║   Keep this window open (minimize is fine).      ║' -ForegroundColor Green
-Write-Host '  ║   To stop: double-click STOP-ADMIN              ║' -ForegroundColor Green
-Write-Host '  ╚══════════════════════════════════════════════════╝' -ForegroundColor Green
+Write-Host '  +==================================================+' -ForegroundColor Green
+Write-Host '  |       PINOY RIDE ADMIN IS READY!                  |' -ForegroundColor Green
+Write-Host '  |                                                    |' -ForegroundColor Green
+Write-Host '  |   Browser opened to http://localhost:8000          |' -ForegroundColor Green
+Write-Host '  |                                                    |' -ForegroundColor Green
+Write-Host '  |   Keep this window open (minimize is fine).        |' -ForegroundColor Green
+Write-Host '  |   To stop: double-click STOP-ADMIN                |' -ForegroundColor Green
+Write-Host '  +==================================================+' -ForegroundColor Green
 Write-Host ''
