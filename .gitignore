@@ -1,3 +1,4 @@
 .env
 .pinoyride-session.json
 update-log.txt
+logs/.boot-id

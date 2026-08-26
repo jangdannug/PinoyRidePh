@@ -329,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'], $_POST['pa
                         'permanent_address' => (string)($row['permanent_address'] ?? ''),
                     ], (string)($row['created_at'] ?? date('Y-m-d H:i:s')), $nextSeq);
                     $nextSeq++;
+                    log_activity('create_passenger', 'customer', (string)$inserted['customer_id'], $inserted['code'] . ' - ' . $label);
                     $results[] = ['row' => $i + 1, 'name' => $label, 'ok' => true,
                                   'customer_id' => $inserted['customer_id'], 'code' => $inserted['code']];
                 } catch (PDOException $e) {

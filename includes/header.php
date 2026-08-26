@@ -28,7 +28,10 @@
       <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-light' : 'btn-outline-light' ?>">Bookings</a>
       <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-light' : 'btn-outline-light' ?>">Nearby Drivers</a>
       <a href="commission.php" class="btn btn-sm <?= $activeNav === 'commission' ? 'btn-light' : 'btn-outline-light' ?>">Commission</a>
+      <a href="staff_reports.php" class="btn btn-sm <?= $activeNav === 'reports' ? 'btn-light' : 'btn-outline-light' ?>">Reports</a>
       <span class="text-secondary mx-1">|</span>
+      <span class="text-light small"><?= htmlspecialchars(current_staff()) ?></span>
+      <a href="staff_select.php" class="btn btn-sm btn-outline-light" title="Switch staff">Switch</a>
       <a href="shutdown.php" class="btn btn-sm btn-outline-danger">Shutdown</a>
     </div>
   </div>

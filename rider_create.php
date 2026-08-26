@@ -368,6 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'], $_POST['pa
                 ], (string)($row['created_at'] ?? date('Y-m-d H:i:s')), $nextSeq, $nextWalletSeq);
                 $nextSeq++;
                 $nextWalletSeq += 2;
+                log_activity('create_driver', 'rider', (string)$inserted['rider_id'], $inserted['code'] . ' - ' . $label);
                 $results[] = ['row' => $i + 1, 'name' => $label, 'ok' => true,
                               'rider_id' => $inserted['rider_id'], 'code' => $inserted['code']];
             } catch (PDOException $e) {

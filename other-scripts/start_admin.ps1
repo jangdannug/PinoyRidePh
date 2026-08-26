@@ -190,9 +190,21 @@ $EnvFile = Join-Path $Root '.env'
 if (Test-Path $EnvFile) {
     # Check if GOOGLE_MAPS_API_KEY is missing and add it
     $envText = Get-Content $EnvFile -Raw
+    $added = @()
     if ($envText -notmatch 'GOOGLE_MAPS_API_KEY') {
         Add-Content -Path $EnvFile -Value "`nGOOGLE_MAPS_API_KEY=AIzaSyBAmVIdu6gq3005jPrljn_UcI035vjCCr4" -Encoding ASCII
-        ShowOk 'Database settings found. Added missing Google Maps key.'
+        $added += 'Google Maps key'
+    }
+    if ($envText -notmatch 'SSH_PASS') {
+        Add-Content -Path $EnvFile -Value "`nSSH_PASS=CHANGE_ME" -Encoding ASCII
+        $added += 'SSH password (set in .env)'
+    }
+    if ($envText -notmatch 'GIT_TOKEN') {
+        Add-Content -Path $EnvFile -Value "`nGIT_TOKEN=CHANGE_ME" -Encoding ASCII
+        $added += 'Git token (set in .env)'
+    }
+    if ($added.Count -gt 0) {
+        ShowOk "Database settings found. Added missing: $($added -join ', ')."
     } else {
         ShowOk 'Database settings found (.env exists).'
     }
@@ -206,6 +218,8 @@ DB_PASS=l3JvueqsjUPBMhwqTsjsNy6DRe3wBFaNmJcjiVUX2k726QeNen235Bz4FYbPwDMb
 ADMIN_USER=admin
 ADMIN_PASS=pinoyride2026
 GOOGLE_MAPS_API_KEY=AIzaSyBAmVIdu6gq3005jPrljn_UcI035vjCCr4
+SSH_PASS=CHANGE_ME
+GIT_TOKEN=CHANGE_ME
 "@
     Set-Content -Path $EnvFile -Value $envContent -Encoding ASCII
     ShowOk 'Created .env with database settings.'
@@ -232,19 +246,37 @@ if (-not (Test-Path $KeyFile)) {
     ShowOk 'Security key created.'
 
     # First time: need to install the key on the server
-    Write-Host ''
-    Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
-    Write-Host '     |  FIRST-TIME SETUP: Server password needed once    |' -ForegroundColor Yellow
-    Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
-    Write-Host '     Get the password from the Pinoy Ride instructions document.' -ForegroundColor DarkGray
-    Write-Host ''
+    # Read password from .env or ask
+    $sshPass = ''
+    $envFile = Join-Path $Root '.env'
+    if (Test-Path $envFile) {
+        $envLines = Get-Content $envFile
+        foreach ($line in $envLines) {
+            if ($line -match '^\s*SSH_PASS\s*=\s*(.+)$') {
+                $sshPass = $Matches[1].Trim()
+                break
+            }
+        }
+    }
 
-    $plain = $env:PR_SSH_PW
-    if (-not $plain) {
-        $sec = Read-Host '     Paste the server password here'
-        $sec = $sec.Trim()
-        if (-not $sec) { ShowFail 'No password entered. Run START-ADMIN again.' }
-        $plain = $sec
+    if ($sshPass -ne '') {
+        Write-Host '     Using saved server password from .env' -ForegroundColor DarkGray
+        $plain = $sshPass
+    } else {
+        Write-Host ''
+        Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
+        Write-Host '     |  FIRST-TIME SETUP: Server password needed once    |' -ForegroundColor Yellow
+        Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
+        Write-Host '     Get the password from the Pinoy Ride instructions document.' -ForegroundColor DarkGray
+        Write-Host ''
+
+        $plain = $env:PR_SSH_PW
+        if (-not $plain) {
+            $sec = Read-Host '     Paste the server password here'
+            $sec = $sec.Trim()
+            if (-not $sec) { ShowFail 'No password entered. Run START-ADMIN again.' }
+            $plain = $sec
+        }
     }
 
     $pub     = (Get-Content "$KeyFile.pub" -Raw).Trim()
@@ -296,8 +328,106 @@ if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyCont
         if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyContinue) { $up = $true; break }
     }
     Write-Host ''
-    if ($up) { ShowOk 'Database tunnel is up!' }
-    else { ShowFail 'Tunnel did not start in 30 seconds. Check the minimized tunnel window.' }
+
+    if (-not $up) {
+        # Check if it's a permission denied issue
+        ShowWarn 'Tunnel failed. Checking if SSH key needs re-authorization...'
+
+        # Kill the failed tunnel process
+        Stop-Process -Id $TunnelPid -Force -ErrorAction SilentlyContinue
+
+        # Test SSH directly to see the error
+        $testOut = & ssh -i $KeyFile -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=5 -p $SshPort $SshHost 'echo KEY_OK' 2>&1
+        $testStr = ($testOut -join ' ')
+
+        if ($testStr -match 'Permission denied' -or $testStr -match 'publickey') {
+            ShowWarn 'SSH key not authorized on the server. Re-installing...'
+            Write-Host ''
+
+            # Delete the old key
+            Remove-Item -Path $KeyFile -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path "$KeyFile.pub" -Force -ErrorAction SilentlyContinue
+
+            # Generate new key
+            $kc = Join-Path $env:TEMP ('pr_keygen_' + [guid]::NewGuid().ToString('N') + '.cmd')
+            Set-Content -Path $kc -Value "@echo off`r`nssh-keygen -q -t ed25519 -f `"$KeyFile`" -N `"`" -C pinoyride-admin" -Encoding Ascii
+            & $kc | Out-Null
+            Remove-Item $kc -ErrorAction SilentlyContinue
+
+            if (-not (Test-Path $KeyFile)) { ShowFail 'Could not create new security key.' }
+
+            # Ask for password (or read from .env)
+            $sshPass = ''
+            $envFile = Join-Path $Root '.env'
+            if (Test-Path $envFile) {
+                $envLines = Get-Content $envFile
+                foreach ($line in $envLines) {
+                    if ($line -match '^\s*SSH_PASS\s*=\s*(.+)$') {
+                        $sshPass = $Matches[1].Trim()
+                        break
+                    }
+                }
+            }
+
+            if ($sshPass -ne '') {
+                Write-Host '     Using saved server password from .env' -ForegroundColor DarkGray
+                $plain = $sshPass
+            } else {
+                Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
+                Write-Host '     |  SSH key needs re-authorization on the server     |' -ForegroundColor Yellow
+                Write-Host '     +---------------------------------------------------+' -ForegroundColor Yellow
+                Write-Host '     Enter the server password (from Pinoy Ride instructions).' -ForegroundColor DarkGray
+                Write-Host ''
+
+                $plain = Read-Host '     Server password'
+                $plain = $plain.Trim()
+                if (-not $plain) { ShowFail 'No password entered. Run START-ADMIN again.' }
+            }
+
+            $pub     = (Get-Content "$KeyFile.pub" -Raw).Trim()
+            $tmpDir  = Join-Path $env:TEMP ('pr_setup_' + [guid]::NewGuid().ToString('N'))
+            New-Item -ItemType Directory -Path $tmpDir | Out-Null
+            $askpass = Join-Path $tmpDir 'askpass.cmd'
+            Set-Content -Path $askpass -Value '@echo %PR_SSH_PW%' -Encoding Ascii
+
+            $env:PR_SSH_PW            = $plain
+            $env:SSH_ASKPASS          = $askpass
+            $env:SSH_ASKPASS_REQUIRE  = 'force'
+            $env:DISPLAY              = ':0'
+
+            $remoteCmd = "mkdir -p ~/.ssh && chmod 700 ~/.ssh && touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && (grep -qxF '$pub' ~/.ssh/authorized_keys || echo '$pub' >> ~/.ssh/authorized_keys) && echo KEY_INSTALLED"
+            $out = & ssh -p $SshPort -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 $SshHost $remoteCmd 2>&1
+
+            Remove-Item Env:PR_SSH_PW, Env:SSH_ASKPASS, Env:SSH_ASKPASS_REQUIRE, Env:DISPLAY -ErrorAction SilentlyContinue
+            Remove-Item -Recurse -Force $tmpDir -ErrorAction SilentlyContinue
+            $plain = $null
+
+            if (($out -join ' ') -notmatch 'KEY_INSTALLED') {
+                ShowFail "Wrong password or connection failed. Details: $($out -join ' ')"
+            }
+
+            ShowOk 'Key re-authorized! Starting tunnel again...'
+
+            # Retry the tunnel
+            $TunnelHost = Start-Process powershell -WindowStyle Minimized -PassThru `
+                -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\tunnel.ps1`""
+            $TunnelPid = $TunnelHost.Id
+            $up = $false
+            foreach ($i in 1..20) {
+                Start-Sleep -Seconds 1
+                $pct = [math]::Min(99, [math]::Floor($i / 20 * 100))
+                Write-Host ("`r     Waiting for tunnel... {0}%" -f $pct) -NoNewline -ForegroundColor DarkGray
+                if (Get-NetTCPConnection -LocalPort 5433 -State Listen -ErrorAction SilentlyContinue) { $up = $true; break }
+            }
+            Write-Host ''
+            if (-not $up) { ShowFail 'Tunnel still failed after re-auth. Send a screenshot to your admin.' }
+            ShowOk 'Database tunnel is up!'
+        } else {
+            ShowFail "Tunnel did not start in 30 seconds. Error: $testStr"
+        }
+    } else {
+        ShowOk 'Database tunnel is up!'
+    }
 }
 
 ProgressBar 85 'Database tunnel' 'Connected'
@@ -328,6 +458,10 @@ if (Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyCont
 
 # Open browser
 Start-Process 'http://localhost:8000/index.php' | Out-Null
+
+# Write a boot ID so the app forces staff re-login on each fresh start
+$bootId = [guid]::NewGuid().ToString('N')
+Set-Content -Path (Join-Path $Root 'logs\.boot-id') -Value $bootId -Encoding ASCII
 
 # Save session for STOP-ADMIN
 @{

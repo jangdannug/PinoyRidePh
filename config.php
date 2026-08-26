@@ -5,7 +5,15 @@ declare(strict_types=1);
  * config.php
  * - Loads .env (simple parser, no Composer dependency)
  * - Opens a PDO connection to Postgres (via your SSH tunnel)
+ * - Requires staff selection for activity logging
  */
+
+// ---- Activity logging: require staff selection ----
+require_once __DIR__ . '/includes/activity_log.php';
+$_currentScript = basename($_SERVER['SCRIPT_FILENAME'] ?? '');
+if (!in_array($_currentScript, ['staff_select.php', 'shutdown.php'], true)) {
+    require_staff();
+}
 
 // ---- Tiny .env loader ----
 function load_env(string $path): void

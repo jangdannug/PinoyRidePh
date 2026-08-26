@@ -5,17 +5,44 @@ require_once __DIR__ . '/config.php';
 
 // Reads .pinoyride-session.json and kills the tunnel + PHP server processes,
 // same as STOP-ADMIN.bat but triggered from the browser.
+// Also logs the logout and pushes activity logs to git.
 
 $sessionFile = __DIR__ . '/.pinoyride-session.json';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_shutdown'])) {
+    // Log the logout
+    log_activity('logout', '', '', 'Staff logged out / shutdown');
+
+    // Push logs to git before shutting down (uses token from .env for auth on any device)
+    $root = __DIR__;
+    $gitExe = trim(shell_exec('where git 2>nul') ?: '');
+    if ($gitExe && is_dir($root . '/.git') && is_dir($root . '/logs')) {
+        // Read GIT_TOKEN from .env
+        $gitToken = getenv('GIT_TOKEN') ?: '';
+        $pushUrl = $gitToken !== ''
+            ? "https://jangdannug:{$gitToken}@github.com/jangdannug/PinoyRidePh.git"
+            : '';
+
+        // Ensure git user is configured (needed for commit on fresh machines)
+        exec("git -C \"$root\" config user.email \"pinoyride-admin@local\" 2>&1");
+        exec("git -C \"$root\" config user.name \"PinoyRide Admin\" 2>&1");
+        // Pull first to avoid conflicts
+        if ($pushUrl !== '') {
+            exec("git -C \"$root\" pull \"$pushUrl\" main --rebase 2>&1", $gitOut);
+        }
+        exec("git -C \"$root\" add logs/ 2>&1", $gitOut);
+        exec("git -C \"$root\" commit -m \"Activity log - " . date('Y-m-d H:i') . " - " . current_staff() . "\" 2>&1", $gitOut);
+        if ($pushUrl !== '') {
+            exec("git -C \"$root\" push \"$pushUrl\" main 2>&1", $gitOut);
+        }
+    }
+
     $killed = [];
 
     if (file_exists($sessionFile)) {
         $session = json_decode(file_get_contents($sessionFile), true);
         $tunnelPid = (int)($session['tunnelPid'] ?? 0);
-        $phpPid    = (int)($session['phpPid'] ?? 0);
 
         // Kill tunnel
         if ($tunnelPid > 0) {
@@ -48,7 +75,7 @@ require __DIR__ . '/includes/header.php';
         <?php if ($message): ?>
           <h5 class="text-success mb-3">Done!</h5>
           <p><?= htmlspecialchars($message) ?></p>
-          <p class="text-muted small">The admin panel will stop in a moment. You can close this browser tab now.</p>
+          <p class="text-muted small">Activity logs have been synced. You can close this browser tab now.</p>
         <?php else: ?>
           <h5 class="mb-3">Shutdown Admin Panel</h5>
           <p class="text-muted">This will stop the database tunnel and the PHP server — same as double-clicking STOP-ADMIN.</p>
