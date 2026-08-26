@@ -20,7 +20,7 @@
 <nav class="navbar navbar-dark bg-dark mb-4">
   <div class="container px-4">
     <span class="navbar-brand">RiderApp Admin</span>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 align-items-center">
       <a href="index.php" class="btn btn-sm <?= $activeNav === 'customers' ? 'btn-light' : 'btn-outline-light' ?>">Customers</a>
       <a href="customer_create.php" class="btn btn-sm <?= $activeNav === 'add_passenger' ? 'btn-light' : 'btn-outline-light' ?>">+ Add Passengers</a>
       <a href="rider_create.php" class="btn btn-sm <?= $activeNav === 'add_driver' ? 'btn-light' : 'btn-outline-light' ?>">+ Add Drivers</a>
@@ -28,6 +28,8 @@
       <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-light' : 'btn-outline-light' ?>">Bookings</a>
       <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-light' : 'btn-outline-light' ?>">Nearby Drivers</a>
       <a href="commission.php" class="btn btn-sm <?= $activeNav === 'commission' ? 'btn-light' : 'btn-outline-light' ?>">Commission</a>
+      <span class="text-secondary mx-1">|</span>
+      <a href="logout.php" class="btn btn-sm btn-outline-danger">Logout</a>
     </div>
   </div>
 </nav>

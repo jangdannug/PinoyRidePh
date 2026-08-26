@@ -5,7 +5,15 @@ declare(strict_types=1);
  * config.php
  * - Loads .env (simple parser, no Composer dependency)
  * - Opens a PDO connection to Postgres (via your SSH tunnel)
+ * - Enforces login on all pages (except login.php itself)
  */
+
+// ---- Auth gate (must come before any output) ----
+require_once __DIR__ . '/includes/auth.php';
+$_currentScript = basename($_SERVER['SCRIPT_FILENAME'] ?? '');
+if (!in_array($_currentScript, ['login.php', 'logout.php'], true)) {
+    require_login();
+}
 
 // ---- Tiny .env loader ----
 function load_env(string $path): void
