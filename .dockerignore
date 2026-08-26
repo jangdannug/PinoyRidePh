@@ -1,0 +1,6 @@
+.git
+.env
+.pinoyride-session.json
+other-scripts/
+sql/
+table/
