@@ -28,6 +28,8 @@
       <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-light' : 'btn-outline-light' ?>">Bookings</a>
       <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-light' : 'btn-outline-light' ?>">Nearby Drivers</a>
       <a href="commission.php" class="btn btn-sm <?= $activeNav === 'commission' ? 'btn-light' : 'btn-outline-light' ?>">Commission</a>
+      <span class="text-secondary mx-1">|</span>
+      <a href="shutdown.php" class="btn btn-sm btn-outline-danger">Shutdown</a>
     </div>
   </div>
 </nav>
