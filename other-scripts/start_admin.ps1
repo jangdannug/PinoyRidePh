@@ -31,20 +31,32 @@ Write-Host ''
 # --------------------------------------------------------- 0. auto-update ---
 Step 'Checking for updates...'
 $GitExe = Get-Command git.exe -ErrorAction SilentlyContinue
+$UpdateLog = Join-Path $Root 'update-log.txt'
 if ($GitExe -and (Test-Path (Join-Path $Root '.git'))) {
     try {
         $pullOut = & git -C $Root pull --ff-only 2>&1
+        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
         if ($LASTEXITCODE -eq 0) {
             if ($pullOut -match 'Already up to date') {
                 Ok 'Already on the latest version.'
+                Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest version." -Encoding UTF8
             } else {
+                $shortLog = & git -C $Root log --oneline -5 2>&1
                 Ok 'Updated to the latest version.'
+                Add-Content -Path $UpdateLog -Value "[$timestamp] UPDATED - pulled new changes:" -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value ($pullOut -join "`n") -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value "  Recent commits:" -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value ($shortLog -join "`n") -Encoding UTF8
+                Add-Content -Path $UpdateLog -Value "---" -Encoding UTF8
             }
         } else {
             Warn "Could not update automatically (network issue?). Continuing with current version."
+            Add-Content -Path $UpdateLog -Value "[$timestamp] FAILED - could not pull: $($pullOut -join ' ')" -Encoding UTF8
         }
     } catch {
         Warn "Update check failed ($($_.Exception.Message)). Continuing with current version."
+        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
+        Add-Content -Path $UpdateLog -Value "[$timestamp] ERROR - $($_.Exception.Message)" -Encoding UTF8
     }
 } else {
     Warn 'Git not found or not a git repo - skipping auto-update.'
