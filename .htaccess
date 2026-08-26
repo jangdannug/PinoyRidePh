@@ -1,0 +1,8 @@
+DirectoryIndex index.php login.php
+
+# Ensure PHP files are served correctly
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # If someone hits the root with no file, go to index.php (which will redirect to login if not authenticated)
+    RewriteRule ^$ index.php [L]
+</IfModule>
