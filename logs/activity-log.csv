@@ -11,3 +11,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-26 18:22:04",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-08-27 18:39:59","John Roe",login,,,"Staff logged in"
 "2026-08-27 18:43:30","John Roe",logout,,,"Staff logged out / shutdown"
+"2026-08-27 18:52:34","John Roe",login,,,"Staff logged in"
+"2026-08-27 18:53:15","John Roe",logout,,,"Staff logged out / shutdown"
