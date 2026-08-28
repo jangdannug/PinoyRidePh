@@ -152,11 +152,41 @@ $UpdateLog = Join-Path $Root 'update-log.txt'
 if (Test-Path (Join-Path $Root '.git')) {
     Write-Host '     Connecting to GitHub...' -ForegroundColor DarkGray
     try {
-        $pullOut = & git -C $Root pull --ff-only 2>&1
         $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
-        if ($LASTEXITCODE -eq 0) {
-            $pullStr = ($pullOut -join ' ')
-            if ($pullStr -match 'Already up to date') {
+
+        # Build authenticated URL from GIT_TOKEN in .env so pull works on any device
+        $gitToken = ''
+        $envFileForToken = Join-Path $Root '.env'
+        if (Test-Path $envFileForToken) {
+            foreach ($line in (Get-Content $envFileForToken)) {
+                if ($line -match '^\s*GIT_TOKEN\s*=\s*(.+)$') { $gitToken = $Matches[1].Trim(); break }
+            }
+        }
+        $pullTarget = ''
+        if ($gitToken -ne '' -and $gitToken -ne 'CHANGE_ME') {
+            $pullTarget = "https://jangdannug:$gitToken@github.com/jangdannug/PinoyRidePh.git main"
+        }
+
+        # Stash any local changes (e.g. activity-log.csv edits) so they do not block the pull.
+        $stashOut = & git -C $Root stash push --include-untracked -m "auto-stash-before-pull" 2>&1
+        $didStash = ($LASTEXITCODE -eq 0 -and ($stashOut -join ' ') -notmatch 'No local changes')
+
+        # Pull latest (rebase to keep a clean line). Use token URL if available.
+        if ($pullTarget -ne '') {
+            $pullOut = & cmd /c "git -C `"$Root`" pull --rebase $pullTarget 2>&1"
+        } else {
+            $pullOut = & git -C $Root pull --rebase 2>&1
+        }
+        $pullOk = ($LASTEXITCODE -eq 0)
+
+        # Reapply the stashed local changes
+        if ($didStash) {
+            & git -C $Root stash pop 2>&1 | Out-Null
+        }
+
+        $pullStr = ($pullOut -join ' ')
+        if ($pullOk) {
+            if ($pullStr -match 'Already up to date' -or $pullStr -match 'up to date') {
                 ShowOk 'Already on the latest version.'
                 Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest." -Encoding UTF8
             } else {
