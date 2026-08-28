@@ -50,3 +50,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 08:39:25","Mary Grace",login,,,"Staff logged in"
 >>>>>>> dd05198 (Activity log sync (fix-update))
 "2026-08-29 09:13:02","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-08-29 09:33:14","Mary Grace",login,,,"Staff logged in"
+"2026-08-29 09:34:03","Mary Grace",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
