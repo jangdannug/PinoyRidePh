@@ -15,3 +15,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-27 18:53:15","John Roe",logout,,,"Staff logged out / shutdown"
 "2026-08-28 11:21:55","John Roe",login,,,"Staff logged in"
 "2026-08-28 11:24:07","John Roe",logout,,,"Staff logged out / shutdown"
+"2026-08-28 17:11:17","John Roe",login,,,"Staff logged in"
+"2026-08-28 17:11:56","John Roe",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-08-28 17:14:19","John Roe",logout,,,"Staff logged out / shutdown"
