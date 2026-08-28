@@ -7,8 +7,8 @@ echo ==================================================
 echo    PINOY RIDE ADMIN - ONE-TIME UPDATE FIX
 echo ==================================================
 echo.
-echo This will force-sync your app with the latest version.
-echo Local activity logs are pushed first, then latest code pulled.
+echo This connects your app to GitHub for auto-updates
+echo and syncs to the latest version.
 echo.
 pause
 
@@ -24,29 +24,45 @@ if not "%GIT_TOKEN%"=="" if not "%GIT_TOKEN%"=="CHANGE_ME" (
 )
 
 echo.
-echo [1/5] Setting up git identity...
-git config user.email "pinoyride-admin@local"
-git config user.name "PinoyRide Admin"
+echo [1/6] Setting up git identity...
+git config --global user.email "pinoyride-admin@local" 2>nul
+git config --global user.name "PinoyRide Admin" 2>nul
+
+REM Check if this is a git repo. If not, initialize one.
+if not exist ".git" (
+    echo.
+    echo [2/6] First time - connecting this folder to GitHub...
+    git init
+    git remote add origin %REPO%
+    git fetch origin main
+    REM Reset working tree to match GitHub, keeping local files that aren't tracked
+    git checkout -f -b main origin/main
+    goto :done
+)
 
 echo.
-echo [2/5] Saving and pushing your local activity logs...
+echo [2/6] Git repo found. Syncing...
+
+echo.
+echo [3/6] Pushing your local activity logs...
 git add logs/
-git commit -m "Activity log sync (fix-update)"
+git commit -m "Activity log sync (fix-update)" 2>nul
+git pull --rebase %REPO% main 2>nul
+git push %REPO% main 2>nul
+
+echo.
+echo [4/6] Saving any remaining local changes...
+git stash --include-untracked 2>nul
+
+echo.
+echo [5/6] Pulling latest version...
 git pull --rebase %REPO% main
-git push %REPO% main
 
 echo.
-echo [3/5] Saving any remaining local changes...
-git stash --include-untracked
+echo [6/6] Restoring local changes...
+git stash pop 2>nul
 
-echo.
-echo [4/5] Pulling latest version from GitHub...
-git pull --rebase %REPO% main
-
-echo.
-echo [5/5] Restoring local changes...
-git stash pop
-
+:done
 echo.
 echo ==================================================
 echo    UPDATE COMPLETE
