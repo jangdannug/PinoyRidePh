@@ -162,16 +162,35 @@ if (Test-Path (Join-Path $Root '.git')) {
                 if ($line -match '^\s*GIT_TOKEN\s*=\s*(.+)$') { $gitToken = $Matches[1].Trim(); break }
             }
         }
+        $repoUrl = ''
         $pullTarget = ''
         if ($gitToken -ne '' -and $gitToken -ne 'CHANGE_ME') {
-            $pullTarget = "https://jangdannug:$gitToken@github.com/jangdannug/PinoyRidePh.git main"
+            $repoUrl    = "https://jangdannug:$gitToken@github.com/jangdannug/PinoyRidePh.git"
+            $pullTarget = "$repoUrl main"
         }
 
-        # Stash any local changes (e.g. activity-log.csv edits) so they do not block the pull.
+        # Ensure git identity is set (needed to commit on fresh machines)
+        & git -C $Root config user.email "pinoyride-admin@local" 2>&1 | Out-Null
+        & git -C $Root config user.name "PinoyRide Admin" 2>&1 | Out-Null
+
+        # STEP A: Commit + push any local log changes FIRST so this device's
+        # activity is synced up before we pull others' changes.
+        $status = & git -C $Root status --porcelain 2>&1
+        if (($status -join '') -ne '') {
+            & git -C $Root add logs/ 2>&1 | Out-Null
+            & git -C $Root commit -m "Activity log sync (startup) - $timestamp" 2>&1 | Out-Null
+            if ($pullTarget -ne '') {
+                # Pull-rebase then push so our commit lands on top of remote
+                & cmd /c "git -C `"$Root`" pull --rebase $pullTarget 2>&1" | Out-Null
+                & cmd /c "git -C `"$Root`" push $repoUrl main 2>&1" | Out-Null
+            }
+        }
+
+        # Stash anything still left (untracked/uncommitted) so it does not block the pull.
         $stashOut = & git -C $Root stash push --include-untracked -m "auto-stash-before-pull" 2>&1
         $didStash = ($LASTEXITCODE -eq 0 -and ($stashOut -join ' ') -notmatch 'No local changes')
 
-        # Pull latest (rebase to keep a clean line). Use token URL if available.
+        # STEP B: Pull latest code + other devices' logs.
         if ($pullTarget -ne '') {
             $pullOut = & cmd /c "git -C `"$Root`" pull --rebase $pullTarget 2>&1"
         } else {
