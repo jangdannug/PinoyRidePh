@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo $tabTitle  ?? 'Pinoy Ride'?></title>
+<title><?php echo isset($tabTitle) ? $tabTitle . ' - PinoyRide Admin Portal' : 'PinoyRide Admin Portal' ?></title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 <style>
@@ -19,7 +19,7 @@
 <body>
 <nav class="navbar navbar-dark bg-dark mb-4">
   <div class="container px-4">
-    <span class="navbar-brand">RiderApp Admin</span>
+    <span class="navbar-brand">PinoyRide Admin Portal</span>
     <div class="d-flex gap-2 align-items-center">
       <a href="index.php" class="btn btn-sm <?= $activeNav === 'customers' ? 'btn-light' : 'btn-outline-light' ?>">Customers</a>
       <a href="customer_create.php" class="btn btn-sm <?= $activeNav === 'add_passenger' ? 'btn-light' : 'btn-outline-light' ?>">+ Add Passengers</a>
