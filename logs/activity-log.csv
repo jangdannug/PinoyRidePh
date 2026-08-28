@@ -80,3 +80,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 14:54:04","Charen Charise",login,,,"Staff logged in"
 "2026-08-29 14:53:44","Mary Grace",login,,,"Staff logged in"
 "2026-08-29 15:15:24","Mary Grace",login,,,"Staff logged in"
+"2026-08-28 15:00:00",Normelyn,login,,,"Staff logged in"
