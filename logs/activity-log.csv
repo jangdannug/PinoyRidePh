@@ -66,3 +66,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 14:40:38","Mary Grace",login,,,"Staff logged in"
 "2026-08-29 14:53:16","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-08-29 14:46:51","Charen Charise",login,,,"Staff logged in"
+"2026-08-28 09:53:09",Normelyn,login,,,"Staff logged in"
+"2026-08-28 12:02:06",Normelyn,create_driver,rider,8637,"DRN-2608-8061 - Ramon Cachero"
+"2026-08-28 12:08:41",Normelyn,create_driver,rider,8638,"DRN-2608-8062 - Junel Jamago"
