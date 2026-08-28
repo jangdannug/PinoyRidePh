@@ -27,6 +27,7 @@
       <a href="riders.php" class="btn btn-sm <?= $activeNav === 'riders' ? 'btn-light' : 'btn-outline-light' ?>">Drivers</a>
       <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-light' : 'btn-outline-light' ?>">Bookings</a>
       <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-light' : 'btn-outline-light' ?>">Nearby Drivers</a>
+      <a href="bulk_search.php" class="btn btn-sm <?= $activeNav === 'bulk_search' ? 'btn-light' : 'btn-outline-light' ?>">Bulk Search</a>
       <a href="commission.php" class="btn btn-sm <?= $activeNav === 'commission' ? 'btn-light' : 'btn-outline-light' ?>">Commission</a>
       <a href="staff_reports.php" class="btn btn-sm <?= $activeNav === 'reports' ? 'btn-light' : 'btn-outline-light' ?>">Reports</a>
       <span class="text-secondary mx-1">|</span>
