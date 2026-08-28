@@ -91,6 +91,7 @@ $filterStaff     = trim($_GET['staff'] ?? '');
 $filterDate      = trim($_GET['date'] ?? '');
 $filterDateFrom  = trim($_GET['from'] ?? '');
 $filterDateTo    = trim($_GET['to'] ?? '');
+$filterAction    = trim($_GET['action'] ?? '');
 
 // Filter out login/logout for ingestion reports
 $ingestionActions = ['create_passenger', 'create_driver'];
@@ -169,6 +170,9 @@ if ($filterDateFrom !== '') {
 }
 if ($filterDateTo !== '') {
     $filteredEntries = array_filter($filteredEntries, fn($e) => substr($e['timestamp'], 0, 10) <= $filterDateTo);
+}
+if ($filterAction !== '') {
+    $filteredEntries = array_filter($filteredEntries, fn($e) => $e['action'] === $filterAction);
 }
 $filteredEntries = array_values(array_reverse($filteredEntries));
 
@@ -458,16 +462,37 @@ require __DIR__ . '/includes/header.php';
 
 <!-- Activity Log (filtered) -->
 <div class="card mb-4">
-  <div class="card-header bg-white d-flex justify-content-between align-items-center">
-    <span class="fw-semibold">
-      Activity Log
-      <?php if ($filterStaff): ?><span class="badge bg-primary"><?= htmlspecialchars($filterStaff) ?></span><?php endif; ?>
-      <?php if ($filterDate): ?><span class="badge bg-secondary"><?= htmlspecialchars($filterDate) ?></span><?php endif; ?>
-      <?php if ($filterDateFrom || $filterDateTo): ?><span class="badge bg-secondary"><?= htmlspecialchars($filterDateFrom ?: '...') ?> to <?= htmlspecialchars($filterDateTo ?: '...') ?></span><?php endif; ?>
-    </span>
-    <?php if ($filterStaff || $filterDate || $filterDateFrom || $filterDateTo): ?>
-      <a href="staff_reports.php" class="btn btn-sm btn-outline-secondary">Clear Filter</a>
-    <?php endif; ?>
+  <div class="card-header bg-white">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="fw-semibold">
+        Activity Log
+        <?php if ($filterStaff): ?><span class="badge bg-primary"><?= htmlspecialchars($filterStaff) ?></span><?php endif; ?>
+        <?php if ($filterDate): ?><span class="badge bg-secondary"><?= htmlspecialchars($filterDate) ?></span><?php endif; ?>
+        <?php if ($filterDateFrom || $filterDateTo): ?><span class="badge bg-secondary"><?= htmlspecialchars($filterDateFrom ?: '...') ?> to <?= htmlspecialchars($filterDateTo ?: '...') ?></span><?php endif; ?>
+        <?php if ($filterAction): ?><span class="badge bg-info"><?= htmlspecialchars($filterAction) ?></span><?php endif; ?>
+      </span>
+      <?php if ($filterStaff || $filterDate || $filterDateFrom || $filterDateTo || $filterAction): ?>
+        <a href="staff_reports.php" class="btn btn-sm btn-outline-secondary">Clear All</a>
+      <?php endif; ?>
+    </div>
+    <?php
+      // Build base query string without action param
+      $baseParams = array_filter([
+          'staff' => $filterStaff,
+          'from'  => $filterDateFrom,
+          'to'    => $filterDateTo,
+          'date'  => $filterDate,
+      ]);
+      $baseQuery = http_build_query($baseParams);
+      $baseUrl   = 'staff_reports.php' . ($baseQuery ? "?$baseQuery&" : '?');
+    ?>
+    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+      <li class="nav-item"><a class="nav-link <?= $filterAction === '' ? 'active' : '' ?>" href="<?= $baseQuery ? "staff_reports.php?$baseQuery" : 'staff_reports.php' ?>">All</a></li>
+      <li class="nav-item"><a class="nav-link <?= $filterAction === 'login' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=login">Login</a></li>
+      <li class="nav-item"><a class="nav-link <?= $filterAction === 'logout' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=logout">Logout</a></li>
+      <li class="nav-item"><a class="nav-link <?= $filterAction === 'create_passenger' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=create_passenger">Create Passenger</a></li>
+      <li class="nav-item"><a class="nav-link <?= $filterAction === 'create_driver' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=create_driver">Create Driver</a></li>
+    </ul>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
