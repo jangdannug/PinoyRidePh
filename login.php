@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login — PinoyRide Admin</title>
+<title>PinoyRide Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
 <style>

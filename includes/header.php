@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo isset($tabTitle) ? $tabTitle . ' - PinoyRide Admin Portal' : 'PinoyRide Admin Portal' ?></title>
+<title>PinoyRide Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
