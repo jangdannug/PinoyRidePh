@@ -70,3 +70,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-28 12:02:06",Normelyn,create_driver,rider,8637,"DRN-2608-8061 - Ramon Cachero"
 "2026-08-28 12:08:41",Normelyn,create_driver,rider,8638,"DRN-2608-8062 - Junel Jamago"
 "2026-08-29 14:51:04","John Roe",login,,,"Staff logged in"
+"2026-08-29 14:55:27","John Roe",login,,,"Staff logged in"
