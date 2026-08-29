@@ -40,7 +40,7 @@ $orderedStaff = array_merge($recentStaff, $remainingStaff);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Select Staff — PinoyRide Admin</title>
+<title>PinoyRide Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
 <style>
   body { background: #f4f6f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
