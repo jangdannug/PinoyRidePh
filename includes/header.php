@@ -10,9 +10,33 @@
 <style>
   body { background: #f4f6f9; }
   .navbar-brand { font-weight: 600; }
-  .header-yellow { background-color: #FFF9C4; }
+  .header-yellow { background-color: #FFF9C4; border-bottom: 1px solid #ece5ae; }
   .header-yellow .navbar-brand { color: #212529; }
   .brand-logo { height: 42px; width: auto; background: #fff; border-radius: .4rem; padding: 3px; }
+  .nav-tabsbar { gap: .1rem; }
+  .nav-tab-link {
+    color: #55523c;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1;
+    padding: .5rem .8rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-tab-link:hover { background: rgba(0, 0, 0, .07); color: #212529; }
+  .nav-tab-link.active { background: #212529; color: #fff; }
+  .nav-staff {
+    color: #6b684d;
+    font-size: .8125rem;
+    padding: .45rem .8rem;
+    background: rgba(0, 0, 0, .05);
+    border-radius: 2rem;
+    white-space: nowrap;
+  }
+  .nav-tab-quiet { color: #8a8768; }
+  .nav-tab-danger { color: #b02a37; font-weight: 600; }
+  .nav-tab-danger:hover { background: rgba(220, 53, 69, .12); color: #b02a37; }
   .filter-card { border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
   .table thead th { white-space: nowrap; background: #eef1f5; }
   .badge-status-1 { background-color: #198754; }
@@ -27,25 +51,24 @@
       <img src="assets/logo.jpg" alt="Pinoy Ride Transport Corporation" class="brand-logo">
       <span>PinoyRide Admin Portal</span>
     </span>
-    <div class="d-flex gap-2 align-items-center">
-      <a href="index.php" class="btn btn-sm <?= $activeNav === 'customers' ? 'btn-dark' : 'btn-outline-dark' ?>">Customers</a>
+    <div class="d-flex align-items-center flex-wrap nav-tabsbar">
+      <a href="index.php" class="nav-tab-link <?= $activeNav === 'customers' ? 'active' : '' ?>">Customers</a>
       <div class="dropdown">
-        <button class="btn btn-sm <?= $activeNav === 'add_passenger' || $activeNav === 'add_driver' ? 'btn-dark' : 'btn-outline-dark' ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">+ Add New</button>
+        <a class="nav-tab-link dropdown-toggle <?= $activeNav === 'add_passenger' || $activeNav === 'add_driver' ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">+ Add New</a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="customer_create.php">Passenger</a></li>
           <li><a class="dropdown-item" href="rider_create.php">Driver</a></li>
         </ul>
       </div>
-      <a href="riders.php" class="btn btn-sm <?= $activeNav === 'riders' ? 'btn-dark' : 'btn-outline-dark' ?>">Drivers</a>
-      <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-dark' : 'btn-outline-dark' ?>">Bookings</a>
-      <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-dark' : 'btn-outline-dark' ?>">Nearby Drivers</a>
-      <a href="bulk_search.php" class="btn btn-sm <?= $activeNav === 'bulk_search' ? 'btn-dark' : 'btn-outline-dark' ?>">Bulk Search</a>
-      <a href="commission.php" class="btn btn-sm <?= $activeNav === 'commission' ? 'btn-dark' : 'btn-outline-dark' ?>">Commission</a>
-      <a href="staff_reports.php" class="btn btn-sm <?= $activeNav === 'reports' ? 'btn-dark' : 'btn-outline-dark' ?>">Reports</a>
-      <span class="text-secondary mx-1">|</span>
-      <span class="text-dark small"><?= htmlspecialchars(current_staff()) ?></span>
-      <a href="staff_select.php" class="btn btn-sm btn-outline-dark" title="Switch staff">Switch</a>
-      <a href="shutdown.php" class="btn btn-sm btn-outline-danger">Shutdown</a>
+      <a href="riders.php" class="nav-tab-link <?= $activeNav === 'riders' ? 'active' : '' ?>">Drivers</a>
+      <a href="bookings.php" class="nav-tab-link <?= $activeNav === 'bookings' ? 'active' : '' ?>">Bookings</a>
+      <a href="nearby_drivers.php" class="nav-tab-link <?= $activeNav === 'nearby_drivers' ? 'active' : '' ?>">Nearby Drivers</a>
+      <a href="bulk_search.php" class="nav-tab-link <?= $activeNav === 'bulk_search' ? 'active' : '' ?>">Bulk Search</a>
+      <a href="commission.php" class="nav-tab-link <?= $activeNav === 'commission' ? 'active' : '' ?>">Commission</a>
+      <a href="staff_reports.php" class="nav-tab-link <?= $activeNav === 'reports' ? 'active' : '' ?>">Reports</a>
+      <span class="nav-staff" title="Signed in as"><?= htmlspecialchars(current_staff()) ?></span>
+      <a href="staff_select.php" class="nav-tab-link nav-tab-quiet" title="Switch staff">Switch</a>
+      <a href="shutdown.php" class="nav-tab-link nav-tab-danger">Shutdown</a>
     </div>
   </div>
 </nav>
