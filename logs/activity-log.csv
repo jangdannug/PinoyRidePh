@@ -73,3 +73,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 14:55:27","John Roe",login,,,"Staff logged in"
 "2026-08-29 15:12:46","John Roe",login,,,"Staff logged in"
 "2026-08-29 15:17:36","John Roe",login,,,"Staff logged in"
+"2026-08-29 15:23:10","John Roe",login,,,"Staff logged in"
