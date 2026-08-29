@@ -65,3 +65,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 14:41:36","John Roe",login,,,"Staff logged in"
 "2026-08-29 14:40:38","Mary Grace",login,,,"Staff logged in"
 "2026-08-29 14:53:16","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-08-29 14:46:51","Charen Charise",login,,,"Staff logged in"
