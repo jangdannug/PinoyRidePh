@@ -26,14 +26,8 @@
   }
   .nav-tab-link:hover { background: rgba(0, 0, 0, .07); color: #212529; }
   .nav-tab-link.active { background: #212529; color: #fff; }
-  .nav-staff {
-    color: #6b684d;
-    font-size: .8125rem;
-    padding: .45rem .8rem;
-    background: rgba(0, 0, 0, .05);
-    border-radius: 2rem;
-    white-space: nowrap;
-  }
+  .nav-user { display: inline-flex; align-items: center; }
+  .user-dot { width: 8px; height: 8px; border-radius: 50%; background: #198754; display: inline-block; margin-right: .45rem; }
   .nav-tab-quiet { color: #8a8768; }
   .nav-tab-danger { color: #b02a37; font-weight: 600; }
   .nav-tab-danger:hover { background: rgba(220, 53, 69, .12); color: #b02a37; }
@@ -66,9 +60,19 @@
       <a href="bulk_search.php" class="nav-tab-link <?= $activeNav === 'bulk_search' ? 'active' : '' ?>">Bulk Search</a>
       <a href="commission.php" class="nav-tab-link <?= $activeNav === 'commission' ? 'active' : '' ?>">Commission</a>
       <a href="staff_reports.php" class="nav-tab-link <?= $activeNav === 'reports' ? 'active' : '' ?>">Reports</a>
-      <span class="nav-staff" title="Signed in as"><?= htmlspecialchars(current_staff()) ?></span>
-      <a href="staff_select.php" class="nav-tab-link nav-tab-quiet" title="Switch staff">Switch</a>
-      <a href="shutdown.php" class="nav-tab-link nav-tab-danger">Shutdown</a>
+      <div class="dropdown">
+        <a class="nav-tab-link nav-user dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Signed in as <?= htmlspecialchars(current_staff()) ?>">
+          <span class="user-dot"></span><?= htmlspecialchars(current_staff()) ?>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><h6 class="dropdown-header mb-1">Signed in as</h6></li>
+          <li><span class="dropdown-item-text fw-semibold"><?= htmlspecialchars(current_staff()) ?></span></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="staff_select.php">Switch staff&hellip;</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="shutdown.php">Shut down panel&hellip;</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
