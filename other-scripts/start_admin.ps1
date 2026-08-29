@@ -148,86 +148,14 @@ ProgressBar 28 'Postgres driver' 'Ready'
 # ---- Step 3: Auto-update from GitHub ----
 StepHeader 3 $TotalSteps 'Fetching latest updates'
 
-$UpdateLog = Join-Path $Root 'update-log.txt'
-if (Test-Path (Join-Path $Root '.git')) {
-    Write-Host '     Connecting to GitHub...' -ForegroundColor DarkGray
-    try {
-        $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
-
-        # Build authenticated URL from GIT_TOKEN in .env so pull works on any device
-        $gitToken = ''
-        $envFileForToken = Join-Path $Root '.env'
-        if (Test-Path $envFileForToken) {
-            foreach ($line in (Get-Content $envFileForToken)) {
-                if ($line -match '^\s*GIT_TOKEN\s*=\s*(.+)$') { $gitToken = $Matches[1].Trim(); break }
-            }
-        }
-        $repoUrl = ''
-        $pullTarget = ''
-        if ($gitToken -ne '' -and $gitToken -ne 'CHANGE_ME') {
-            $repoUrl    = "https://jangdannug:$gitToken@github.com/jangdannug/PinoyRidePh.git"
-            $pullTarget = "$repoUrl main"
-        }
-
-        # Ensure git identity is set (needed to commit on fresh machines)
-        & git -C $Root config user.email "pinoyride-admin@local" 2>&1 | Out-Null
-        & git -C $Root config user.name "PinoyRide Admin" 2>&1 | Out-Null
-
-        # STEP A: Commit + push any local log changes FIRST so this device's
-        # activity is synced up before we pull others' changes.
-        $status = & git -C $Root status --porcelain 2>&1
-        if (($status -join '') -ne '') {
-            & git -C $Root add logs/ 2>&1 | Out-Null
-            & git -C $Root commit -m "Activity log sync (startup) - $timestamp" 2>&1 | Out-Null
-            if ($pullTarget -ne '') {
-                # Pull-rebase then push so our commit lands on top of remote
-                & cmd /c "git -C `"$Root`" pull --rebase $pullTarget 2>&1" | Out-Null
-                & cmd /c "git -C `"$Root`" push $repoUrl main 2>&1" | Out-Null
-            }
-        }
-
-        # Stash anything still left (untracked/uncommitted) so it does not block the pull.
-        $stashOut = & git -C $Root stash push --include-untracked -m "auto-stash-before-pull" 2>&1
-        $didStash = ($LASTEXITCODE -eq 0 -and ($stashOut -join ' ') -notmatch 'No local changes')
-
-        # STEP B: Pull latest code + other devices' logs.
-        if ($pullTarget -ne '') {
-            $pullOut = & cmd /c "git -C `"$Root`" pull --rebase $pullTarget 2>&1"
-        } else {
-            $pullOut = & git -C $Root pull --rebase 2>&1
-        }
-        $pullOk = ($LASTEXITCODE -eq 0)
-
-        # Reapply the stashed local changes
-        if ($didStash) {
-            & git -C $Root stash pop 2>&1 | Out-Null
-        }
-
-        $pullStr = ($pullOut -join ' ')
-        if ($pullOk) {
-            if ($pullStr -match 'Already up to date' -or $pullStr -match 'up to date') {
-                ShowOk 'Already on the latest version.'
-                Add-Content -Path $UpdateLog -Value "[$timestamp] No update needed - already on latest." -Encoding UTF8
-            } else {
-                $shortLog = & git -C $Root log --oneline -5 2>&1
-                ShowOk 'Updated to the latest version!'
-                Write-Host "     Changes:" -ForegroundColor DarkGray
-                $pullOut | Select-Object -First 5 | ForEach-Object { Write-Host "       $_" -ForegroundColor DarkGray }
-                $logEntry = "[$timestamp] UPDATED:`n" + ($pullOut -join "`n") + "`n  Recent: " + ($shortLog -join " | ") + "`n---"
-                Add-Content -Path $UpdateLog -Value $logEntry -Encoding UTF8
-            }
-        } else {
-            ShowWarn 'Could not update (network issue?). Using current version.'
-            $logEntry = "[$timestamp] FAILED: " + ($pullOut -join ' ')
-            Add-Content -Path $UpdateLog -Value $logEntry -Encoding UTF8
-        }
-    } catch {
-        ShowWarn 'Update check failed. Using current version.'
-    }
-} else {
-    ShowWarn 'Not a git repo - skipping update.'
-    Write-Host '     To enable auto-updates, run:' -ForegroundColor DarkGray
-    Write-Host '     git clone https://github.com/jangdannug/PinoyRidePh.git' -ForegroundColor Cyan
+# All git logic lives in sync_repo.ps1 so START-ADMIN, the browser Shutdown
+# page (shutdown.php) and PinoyRideAdmin-Fix-Update.bat behave identically:
+# commit this machine's activity log, hold back other local files, download
+# everyone else's changes, push ONLY if this machine has something new, and
+# put the held-back files back. See .gitattributes for the log merge rule.
+& (Join-Path $PSScriptRoot 'sync_repo.ps1') -Root $Root -Reason 'startup'
+if ($LASTEXITCODE -ne 0) {
+    ShowWarn 'Sync had a problem - keeping the current version. Details above.'
 }
 
 ProgressBar 42 'Updates' 'Done'

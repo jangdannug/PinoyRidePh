@@ -14,28 +14,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_shutdown'])) 
     // Log the logout
     log_activity('logout', '', '', 'Staff logged out / shutdown');
 
-    // Push logs to git before shutting down (uses token from .env for auth on any device)
+    // Push logs to git before shutting down - through the SAME sync engine
+    // used by START-ADMIN and PinoyRideAdmin-Fix-Update.bat, so every machine
+    // converges: commits logs/, holds back other local files, rebases onto
+    // everyone else's commits, pushes ONLY if this machine is ahead, then
+    // restores everything. (The old inline pull-before-commit here regularly
+    // failed with "cannot pull with rebase: You have unstaged changes".)
     $root = __DIR__;
-    $gitExe = trim(shell_exec('where git 2>nul') ?: '');
-    if ($gitExe && is_dir($root . '/.git') && is_dir($root . '/logs')) {
-        // Read GIT_TOKEN from .env
-        $gitToken = getenv('GIT_TOKEN') ?: '';
-        $pushUrl = $gitToken !== ''
-            ? "https://jangdannug:{$gitToken}@github.com/jangdannug/PinoyRidePh.git"
-            : '';
-
-        // Ensure git user is configured (needed for commit on fresh machines)
-        exec("git -C \"$root\" config user.email \"pinoyride-admin@local\" 2>&1");
-        exec("git -C \"$root\" config user.name \"PinoyRide Admin\" 2>&1");
-        // Pull first to avoid conflicts
-        if ($pushUrl !== '') {
-            exec("git -C \"$root\" pull \"$pushUrl\" main --rebase 2>&1", $gitOut);
-        }
-        exec("git -C \"$root\" add logs/ 2>&1", $gitOut);
-        exec("git -C \"$root\" commit -m \"Activity log - " . date('Y-m-d H:i') . " - " . current_staff() . "\" 2>&1", $gitOut);
-        if ($pushUrl !== '') {
-            exec("git -C \"$root\" push \"$pushUrl\" main 2>&1", $gitOut);
-        }
+    $syncScript = $root . DIRECTORY_SEPARATOR . 'other-scripts' . DIRECTORY_SEPARATOR . 'sync_repo.ps1';
+    $onWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+    if ($onWindows && is_dir($root . '/.git') && is_dir($root . '/logs') && file_exists($syncScript)) {
+        $cmsg = str_replace(['"', "\r", "\n"], '', 'Activity log - ' . date('Y-m-d H:i') . ' - ' . current_staff());
+        $cmd = 'powershell -NoProfile -ExecutionPolicy Bypass -File "'
+             . str_replace('"', '', $syncScript)
+             . '" -Root "' . str_replace('"', '', $root)
+             . '" -Reason "shutdown" -CommitMessage "' . $cmsg . '" 2>&1';
+        exec($cmd, $gitOut, $gitExit);
     }
 
     $killed = [];

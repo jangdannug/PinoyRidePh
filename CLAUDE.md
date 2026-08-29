@@ -36,6 +36,27 @@ Non-technical staff only ever touch two files in the project root:
   `.pinoyride-session.json` (written on every START run) with command-line
   pattern fallback for stale sessions.
 
+### Git sync between machines (`other-scripts/sync_repo.ps1`)
+
+All three sync paths — START-ADMIN step 3, the browser Shutdown page
+(`shutdown.php`), and `PinoyRideAdmin-Fix-Update.bat` — call the same engine,
+so machines converge no matter which one staff use:
+
+- Only `logs/` is ever auto-committed + pushed. Any other local change is
+  stashed for the sync and restored after; untracked junk (`.env`,
+  ` (3).env`, `.pinoyride-session.json`, `update-log.txt`) is never touched.
+- `logs/.boot-id` is per-machine and must stay untracked (it is in
+  `.gitignore`; `git add logs/` without `-f` honors that — never add `-f`).
+- `.gitattributes` sets `merge=union` for `logs/activity-log.csv` — two
+  machines appending rows simultaneously merge cleanly (both kept).
+  `sync_repo.ps1` has a `git merge-file --union` fallback for machines that
+  have not received the `.gitattributes` file yet.
+- Push happens only when local is ahead of `origin/main`; on a push race it
+  fetches + rebases + retries (3x). Conflicts outside `logs/` abort the
+  rebase with a clear "ask your admin" message instead of guessing.
+- First-run machines: folder without commits gets `git init` + fetch +
+  `checkout -f -B main origin/main` (untracked files like `.env` survive).
+
 `README-FIRST.txt` is the plain-language guide shipped in the zip.
 `tunnel.ps1` remains the auto-reconnect loop; `install_ssh_key.sh` (Git Bash
 variant) still exists but is optional — START-ADMIN supersedes it on Windows.

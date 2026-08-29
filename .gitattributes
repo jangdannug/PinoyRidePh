@@ -1,0 +1,4 @@
+# Multi-machine activity log: staff on different machines append rows to the
+# same CSV. The git "union" merge driver keeps BOTH machines' lines whenever
+# they sync at the same time (no conflict markers, no lost rows).
+logs/activity-log.csv merge=union
