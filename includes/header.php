@@ -29,8 +29,13 @@
     </span>
     <div class="d-flex gap-2 align-items-center">
       <a href="index.php" class="btn btn-sm <?= $activeNav === 'customers' ? 'btn-dark' : 'btn-outline-dark' ?>">Customers</a>
-      <a href="customer_create.php" class="btn btn-sm <?= $activeNav === 'add_passenger' ? 'btn-dark' : 'btn-outline-dark' ?>">+ Add Passengers</a>
-      <a href="rider_create.php" class="btn btn-sm <?= $activeNav === 'add_driver' ? 'btn-dark' : 'btn-outline-dark' ?>">+ Add Drivers</a>
+      <div class="dropdown">
+        <button class="btn btn-sm <?= $activeNav === 'add_passenger' || $activeNav === 'add_driver' ? 'btn-dark' : 'btn-outline-dark' ?> dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">+ Add New</button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="customer_create.php">Passenger</a></li>
+          <li><a class="dropdown-item" href="rider_create.php">Driver</a></li>
+        </ul>
+      </div>
       <a href="riders.php" class="btn btn-sm <?= $activeNav === 'riders' ? 'btn-dark' : 'btn-outline-dark' ?>">Drivers</a>
       <a href="bookings.php" class="btn btn-sm <?= $activeNav === 'bookings' ? 'btn-dark' : 'btn-outline-dark' ?>">Bookings</a>
       <a href="nearby_drivers.php" class="btn btn-sm <?= $activeNav === 'nearby_drivers' ? 'btn-dark' : 'btn-outline-dark' ?>">Nearby Drivers</a>
