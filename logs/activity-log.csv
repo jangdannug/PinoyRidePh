@@ -51,3 +51,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 09:34:03","Mary Grace",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
 "2026-08-28 18:23:21","John Roe",login,,,"Staff logged in"
 "2026-08-29 11:34:33","John Roe",logout,,,"Staff logged out / shutdown"
+"2026-08-29 12:52:01","John Roe",login,,,"Staff logged in"
