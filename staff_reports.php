@@ -48,33 +48,33 @@ if (isset($_GET['export'])) {
             fputcsv($fp, [$row['date'], $row['staff'], $row['passengers'], $row['drivers'], $row['total']]);
         }
     } elseif ($exportType === 'attendance') {
-        fputcsv($fp, ['Date', 'Staff', 'Time In', 'Time Out', 'Duration (minutes)']);
-        $openSessions = [];
-        $timeSessions = [];
+        fputcsv($fp, ['Date', 'Staff', 'First Login', 'Last Logout', 'Duration (minutes)']);
+        $att = [];
         foreach ($entries as $e) {
-            if ($e['action'] === 'login') {
-                if (isset($openSessions[$e['staff_name']])) {
-                    // Close previous unclosed session
-                    $timeSessions[] = [substr($openSessions[$e['staff_name']], 0, 10), $e['staff_name'], $openSessions[$e['staff_name']], '(no logout)', ''];
-                }
-                $openSessions[$e['staff_name']] = $e['timestamp'];
-            } elseif ($e['action'] === 'logout') {
-                if (isset($openSessions[$e['staff_name']])) {
-                    $diff = strtotime($e['timestamp']) - strtotime($openSessions[$e['staff_name']]);
-                    $timeSessions[] = [substr($openSessions[$e['staff_name']], 0, 10), $e['staff_name'], $openSessions[$e['staff_name']], $e['timestamp'], max(0, (int)round($diff / 60))];
-                    unset($openSessions[$e['staff_name']]);
-                } else {
-                    $timeSessions[] = [substr($e['timestamp'], 0, 10), $e['staff_name'], '(no login)', $e['timestamp'], ''];
-                }
+            if ($e['action'] !== 'login' && $e['action'] !== 'logout') continue;
+            $date = substr($e['timestamp'], 0, 10);
+            $key  = $date . '|' . $e['staff_name'];
+            if (!isset($att[$key])) {
+                $att[$key] = ['date' => $date, 'staff' => $e['staff_name'], 'first' => null, 'last' => null];
+            }
+            if ($e['action'] === 'login' && ($att[$key]['first'] === null || $e['timestamp'] < $att[$key]['first'])) {
+                $att[$key]['first'] = $e['timestamp'];
+            }
+            if ($e['action'] === 'logout' && ($att[$key]['last'] === null || $e['timestamp'] > $att[$key]['last'])) {
+                $att[$key]['last'] = $e['timestamp'];
             }
         }
-        // Still-open sessions
-        foreach ($openSessions as $name => $timeIn) {
-            $timeSessions[] = [substr($timeIn, 0, 10), $name, $timeIn, '(still active)', ''];
-        }
-        $timeSessions = array_reverse($timeSessions);
-        foreach ($timeSessions as $row) {
-            fputcsv($fp, $row);
+        usort($att, fn($a, $b) => [$b['date'], $a['staff']] <=> [$a['date'], $b['staff']]);
+        foreach ($att as $r) {
+            $lastOut = $r['last'];
+            if ($r['first'] !== null && $lastOut !== null && $lastOut <= $r['first']) {
+                $lastOut = null;   // logout belongs to a session started on a previous day
+            }
+            $mins = '';
+            if ($r['first'] !== null && $lastOut !== null) {
+                $mins = (int)round((strtotime($lastOut) - strtotime($r['first'])) / 60);
+            }
+            fputcsv($fp, [$r['date'], $r['staff'], $r['first'] ?? '', $lastOut ?? '', $mins]);
         }
     } elseif ($exportType === 'full') {
         fputcsv($fp, ['Timestamp', 'Staff', 'Action', 'Entity Type', 'Entity ID', 'Details']);
@@ -176,50 +176,42 @@ if ($filterAction !== '') {
 }
 $filteredEntries = array_values(array_reverse($filteredEntries));
 
-// ---- Time In/Out ----
-$timeSessions = [];
-$openSessions = [];
+// ---- Time In/Out: one row per date + staff (first login / last logout) ----
+$attendance = [];
 foreach ($entries as $e) {
-    if ($e['action'] === 'login') {
-        // If this staff already has an open session (login without logout), close it as "missed logout"
-        if (isset($openSessions[$e['staff_name']])) {
-            $timeSessions[] = [
-                'staff'    => $e['staff_name'],
-                'date'     => substr($openSessions[$e['staff_name']], 0, 10),
-                'time_in'  => $openSessions[$e['staff_name']],
-                'time_out' => '(no logout recorded)',
-            ];
-        }
-        $openSessions[$e['staff_name']] = $e['timestamp'];
-    } elseif ($e['action'] === 'logout') {
-        if (isset($openSessions[$e['staff_name']])) {
-            $timeSessions[] = [
-                'staff'    => $e['staff_name'],
-                'date'     => substr($openSessions[$e['staff_name']], 0, 10),
-                'time_in'  => $openSessions[$e['staff_name']],
-                'time_out' => $e['timestamp'],
-            ];
-            unset($openSessions[$e['staff_name']]);
-        } else {
-            // Orphaned logout (login was in a previous/deleted log)
-            $timeSessions[] = [
-                'staff'    => $e['staff_name'],
-                'date'     => substr($e['timestamp'], 0, 10),
-                'time_in'  => '(no login recorded)',
-                'time_out' => $e['timestamp'],
-            ];
-        }
+    if ($e['action'] !== 'login' && $e['action'] !== 'logout') continue;
+    $date = substr($e['timestamp'], 0, 10);
+    $key  = $date . '|' . $e['staff_name'];
+    if (!isset($attendance[$key])) {
+        $attendance[$key] = [
+            'staff'       => $e['staff_name'],
+            'date'        => $date,
+            'first_login' => null,
+            'last_logout' => null,
+            'last_event'  => null,
+            'last_action' => '',
+        ];
+    }
+    if ($e['action'] === 'login' && ($attendance[$key]['first_login'] === null || $e['timestamp'] < $attendance[$key]['first_login'])) {
+        $attendance[$key]['first_login'] = $e['timestamp'];
+    }
+    if ($e['action'] === 'logout' && ($attendance[$key]['last_logout'] === null || $e['timestamp'] > $attendance[$key]['last_logout'])) {
+        $attendance[$key]['last_logout'] = $e['timestamp'];
+    }
+    if ($attendance[$key]['last_event'] === null || $e['timestamp'] > $attendance[$key]['last_event']) {
+        $attendance[$key]['last_event']  = $e['timestamp'];
+        $attendance[$key]['last_action'] = $e['action'];
     }
 }
-// Add still-open sessions
-foreach ($openSessions as $name => $timeIn) {
-    $timeSessions[] = [
-        'staff'    => $name,
-        'date'     => substr($timeIn, 0, 10),
-        'time_in'  => $timeIn,
-        'time_out' => '(still active)',
-    ];
+$timeSessions = array_values($attendance);
+// Newest date first, staff A-Z within the same date
+usort($timeSessions, fn($a, $b) => [$b['date'], $a['staff']] <=> [$a['date'], $b['staff']]);
+// "Active now" only when the day's last event is a login AND that day is today
+$today = date('Y-m-d');
+foreach ($timeSessions as &$s) {
+    $s['is_active'] = ($s['last_action'] === 'login' && $s['date'] === $today);
 }
+unset($s);
 // First in first (chronological order - don't reverse)
 // Apply filters to time sessions
 if ($filterStaff !== '') {
@@ -332,28 +324,28 @@ require __DIR__ . '/includes/header.php';
         <?php if (empty($timeSessions)): ?>
           <tr><td colspan="5" class="text-muted text-center py-3">No sessions recorded yet.</td></tr>
         <?php else: ?>
-          <?php foreach (array_slice($timeSessions, 0, 50) as $s): ?>
+          <?php foreach (array_slice($timeSessions, 0, 100) as $s): ?>
             <?php
-              $duration = '';
-              $isActive  = ($s['time_out'] === '(still active)');
-              $noLogin   = ($s['time_in'] === '(no login recorded)');
-              $noLogout  = ($s['time_out'] === '(no logout recorded)');
+              // A logout that happened BEFORE the day's first login belongs to a
+              // session started on a previous day - ignore it for this row.
+              $lastOut = $s['last_logout'];
+              if ($s['first_login'] !== null && $lastOut !== null && $lastOut <= $s['first_login']) {
+                  $lastOut = null;
+              }
 
-              if (!$isActive && !$noLogin && !$noLogout) {
-                  $diff = strtotime($s['time_out']) - strtotime($s['time_in']);
-                  if ($diff > 0) {
-                      $hours = floor($diff / 3600);
-                      $mins  = floor(($diff % 3600) / 60);
-                      $duration = ($hours > 0 ? "{$hours}h " : '') . "{$mins}m";
-                  }
-              } elseif ($isActive) {
+              if ($s['first_login'] !== null && $lastOut !== null) {
+                  $diff = strtotime($lastOut) - strtotime($s['first_login']);
+                  $hours = floor($diff / 3600);
+                  $mins  = floor(($diff % 3600) / 60);
+                  $duration = ($hours > 0 ? "{$hours}h " : '') . "{$mins}m";
+              } elseif ($s['is_active']) {
                   $duration = '<span class="badge bg-success">Active now</span>';
               } else {
                   $duration = '<span class="text-muted">--</span>';
               }
 
-              $timeInDisplay  = $noLogin ? '<span class="text-muted">--</span>' : htmlspecialchars(substr($s['time_in'], 11));
-              $timeOutDisplay = ($isActive || $noLogout) ? '<span class="text-muted">--</span>' : htmlspecialchars(substr($s['time_out'], 11));
+              $timeInDisplay  = $s['first_login'] !== null ? htmlspecialchars(substr($s['first_login'], 11)) : '<span class="text-muted">--</span>';
+              $timeOutDisplay = $lastOut !== null ? htmlspecialchars(substr($lastOut, 11)) : '<span class="text-muted">--</span>';
             ?>
             <tr>
               <td><?= htmlspecialchars($s['date']) ?></td>
