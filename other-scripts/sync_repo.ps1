@@ -41,7 +41,7 @@ function Warn([string]$m) { Write-Host "     [!]  $m" -ForegroundColor Yellow }
 function Fail([string]$m) { Write-Host "     [X]  $m" -ForegroundColor Red; $script:HadFailure = $true }
 function Info([string]$m) { Write-Host "     $m" -ForegroundColor DarkGray }
 
-function Git { & git -C $Root @args 2>&1 }
+function Invoke-Git { & git -C $Root @args 2>&1 }
 
 $UpdateLog = Join-Path $Root 'update-log.txt'
 function LogEntry([string]$text) {
@@ -52,7 +52,7 @@ function LogEntry([string]$text) {
 function Restore-Stash {
     if (-not $script:DidStash) { return }
     $script:DidStash = $false
-    $null = Git stash pop
+    $null = Invoke-Git stash pop
     if ($LASTEXITCODE -eq 0) {
         Info 'Your other local files were put back exactly as they were.'
     } else {
@@ -92,7 +92,6 @@ if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
 # Never hang waiting for a password / credential dialog - auth comes from
 # GIT_TOKEN inside .env, or nothing happens at all.
 $env:GIT_TERMINAL_PROMPT = '0'
-$env:GIT_ASKPASS         = 'echo'
 $env:GCM_INTERACTIVE     = 'never'
 $env:GIT_EDITOR          = 'true'   # rebase --continue must never open an editor
 
@@ -117,28 +116,28 @@ if (Test-Path $envFile) {
 # Self-heal: a previous crashed sync can leave a half-done rebase behind.
 if ((Test-Path (Join-Path $Root '.git\rebase-merge')) -or (Test-Path (Join-Path $Root '.git\rebase-apply'))) {
     Warn 'Found a half-finished sync from before - cleaning it up safely...'
-    [void](Git rebase --abort)
+    [void](Invoke-Git rebase --abort)
 }
 
 & git -C $Root init 2>&1 | Out-Null                    # no-op if already a repo
 & git -C $Root remote set-url origin $repoUrl 2>$null
 if ($LASTEXITCODE -ne 0) { [void](& git -C $Root remote add origin $repoUrl 2>&1) }
 
-[void](Git config user.email 'pinoyride-admin@local')
-[void](Git config user.name 'PinoyRide Admin')
-[void](Git config pull.rebase 'true')                  # plain 'git pull' must rebase, never merge
+[void](Invoke-Git config user.email 'pinoyride-admin@local')
+[void](Invoke-Git config user.name 'PinoyRide Admin')
+[void](Invoke-Git config pull.rebase 'true')                  # plain 'git pull' must rebase, never merge
 
 # First time on this machine (folder has files but no commits yet)?
-$null = Git rev-parse --verify --quiet HEAD
+$null = Invoke-Git rev-parse --verify --quiet HEAD
 if ($LASTEXITCODE -ne 0) {
     Info 'First time setup - downloading the latest version from GitHub...'
-    $null = Git fetch origin main
+    $null = Invoke-Git fetch origin main
     if ($LASTEXITCODE -ne 0) {
         Fail 'Could not reach GitHub. Check the internet, then run this again.'
         LogEntry 'FAILED: first-time fetch (offline?)'
         exit 1
     }
-    $null = Git checkout -f -B main origin/main        # keeps untracked files (.env etc.)
+    $null = Invoke-Git checkout -f -B main origin/main        # keeps untracked files (.env etc.)
     if ($LASTEXITCODE -eq 0) {
         Ok 'Connected! This machine is now on the latest version.'
         LogEntry 'First-time setup complete.'
@@ -152,10 +151,10 @@ if ($LASTEXITCODE -ne 0) {
 # ---------------- 2. commit this machine's activity log -------------------
 # The ONLY thing that is ever committed + pushed automatically. No -f, so
 # gitignored per-machine files (logs/.boot-id) stay out.
-[void](Git add -- logs/)
-$staged = @(Git diff --cached --name-only)
+[void](Invoke-Git add -- logs/)
+$staged = @(Invoke-Git diff --cached --name-only)
 if ($staged.Count -gt 0) {
-    $null = Git commit -m $CommitMessage
+    $null = Invoke-Git commit -m $CommitMessage
     if ($LASTEXITCODE -eq 0) {
         Ok "Saved this machine's activity log ($($staged.Count) file(s))."
     } else {
@@ -164,7 +163,7 @@ if ($staged.Count -gt 0) {
 }
 
 # ---------------- 3. hold back all OTHER local changes --------------------
-$stashOut = @(Git stash push --include-untracked -m "pinoyride-sync ($Reason)")
+$stashOut = @(Invoke-Git stash push --include-untracked -m "pinoyride-sync ($Reason)")
 if ($LASTEXITCODE -eq 0 -and ($stashOut -join ' ') -notmatch 'No local changes') {
     $script:DidStash = $true
     Info 'Held back your other local files during the sync (put back after).'
@@ -172,7 +171,7 @@ if ($LASTEXITCODE -eq 0 -and ($stashOut -join ' ') -notmatch 'No local changes')
 
 # --------------------------- 4. fetch --------------------------------------
 Info 'Fetching the latest from GitHub...'
-$null = Git fetch origin main
+$null = Invoke-Git fetch origin main
 if ($LASTEXITCODE -ne 0) {
     Warn 'Could not reach GitHub (offline?). Keeping the current version.'
     Restore-Stash
@@ -182,41 +181,41 @@ if ($LASTEXITCODE -ne 0) {
 
 # How far behind are we BEFORE merging (for the report)?
 $behind = 0
-$behindRaw = @(Git rev-list --count HEAD..origin/main)
+$behindRaw = @(Invoke-Git rev-list --count HEAD..origin/main)
 [void][int]::TryParse("$($behindRaw | Select-Object -First 1)", [ref]$behind)
 
 # --------- 5+6. rebase, then push ONLY if this machine is ahead ------------
 $script:PushRetries = 0
 $script:Pushed      = 0
 while ($true) {
-    $rbOut = @(Git rebase origin/main)
+    $rbOut = @(Invoke-Git rebase origin/main)
 
     # Auto-resolve conflicts that are ONLY inside logs/ (belt-and-suspenders:
     # normally the .gitattributes union rule means there is no conflict at all).
     $rbTries = 0
     while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 5)) {
-        $conflicted = @(Git diff --name-only --diff-filter=U)
+        $conflicted = @(Invoke-Git diff --name-only --diff-filter=U)
         if ($conflicted.Count -eq 0) { break }                # failed, no conflict
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) { break }                    # real conflict
         foreach ($f in $conflicted) { Union-ResolveLogFile $f }
-        [void](Git add -- logs/)
-        $null = Git rebase --continue
+        [void](Invoke-Git add -- logs/)
+        $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
             # a replayed commit can become EMPTY after the union merge - drop it
-            if (@(Git diff --name-only --diff-filter=U).Count -eq 0) {
-                $null = Git rebase --continue
+            if (@(Invoke-Git diff --name-only --diff-filter=U).Count -eq 0) {
+                $null = Invoke-Git rebase --continue
             }
         }
         $rbTries++
     }
 
     # Classify the rebase outcome; never leave the repo half-rebased.
-    $conflicted = @(Git diff --name-only --diff-filter=U)
+    $conflicted = @(Invoke-Git diff --name-only --diff-filter=U)
     $inRebase = (Test-Path (Join-Path $Root '.git\rebase-merge')) -or
                 (Test-Path (Join-Path $Root '.git\rebase-apply'))
     if ($inRebase -or $conflicted.Count -gt 0) {
-        if ($inRebase) { [void](Git rebase --abort) }
+        if ($inRebase) { [void](Invoke-Git rebase --abort) }
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) {
             Fail "Two machines changed the same file: $($nonLog -join ', ')"
@@ -230,7 +229,7 @@ while ($true) {
     }
 
     $ahead = 0
-    $aheadRaw = @(Git rev-list --count origin/main..HEAD)
+    $aheadRaw = @(Invoke-Git rev-list --count origin/main..HEAD)
     [void][int]::TryParse("$($aheadRaw | Select-Object -First 1)", [ref]$ahead)
 
     if ($ahead -eq 0) {
@@ -238,7 +237,7 @@ while ($true) {
         break
     }
 
-    $pushOut = @(Git push origin main)
+    $pushOut = @(Invoke-Git push origin main)
     if ($LASTEXITCODE -eq 0) {
         $script:Pushed = $ahead
         Ok "Uploaded $ahead local commit(s) to GitHub."
@@ -252,7 +251,7 @@ while ($true) {
             break
         }
         Info 'Another machine just uploaded first - merging theirs and retrying...'
-        $null = Git fetch origin main
+        $null = Invoke-Git fetch origin main
     } else {
         Fail "Upload failed: $pushStr"
         break
@@ -263,7 +262,7 @@ while ($true) {
 Restore-Stash
 
 # ---------------------- 8. verify + report ---------------------------------
-$topLine = "$(Git status -sb | Select-Object -First 1)".Trim()
+$topLine = "$(Invoke-Git status -sb | Select-Object -First 1)".Trim()
 if ($behind -gt 0) { Ok "Downloaded $behind update(s) from other machines." }
 if ($topLine -match '\[(ahead|behind)') {
     Warn "Not fully in sync yet ($topLine). Run START-ADMIN or this sync again."
