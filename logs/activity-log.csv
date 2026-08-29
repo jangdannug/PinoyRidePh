@@ -86,3 +86,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 15:35:34","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-08-28 15:36:57",Normelyn,login,,,"Staff logged in"
 "2026-08-28 15:41:00",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-08-29 15:28:14","Charen Charise",login,,,"Staff logged in"
+"2026-08-29 15:37:25","Charen Charise",logout,,,"Staff logged out / shutdown"
