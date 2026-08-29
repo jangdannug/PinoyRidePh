@@ -92,6 +92,10 @@ $filterDate      = trim($_GET['date'] ?? '');
 $filterDateFrom  = trim($_GET['from'] ?? '');
 $filterDateTo    = trim($_GET['to'] ?? '');
 $filterAction    = trim($_GET['action'] ?? '');
+$activeTab       = trim($_GET['tab'] ?? 'overview');
+if (!in_array($activeTab, ['overview', 'attendance', 'ingestion', 'activity'], true)) {
+    $activeTab = 'overview';
+}
 
 // Filter out login/logout for ingestion reports
 $ingestionActions = ['create_passenger', 'create_driver'];
@@ -254,6 +258,7 @@ require __DIR__ . '/includes/header.php';
 <div class="card mb-4">
   <div class="card-body py-2">
     <form method="get" class="row g-2 align-items-end">
+      <input type="hidden" name="tab" value="<?= htmlspecialchars($activeTab) ?>">
       <div class="col-auto">
         <label class="form-label small mb-0">From</label>
         <input type="date" name="from" class="form-control form-control-sm" value="<?= htmlspecialchars($filterDateFrom) ?>">
@@ -284,6 +289,24 @@ require __DIR__ . '/includes/header.php';
   </div>
 </div>
 
+<!-- Report Tabs -->
+<ul class="nav nav-pills mb-3" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link <?= $activeTab === 'overview' ? 'active' : '' ?>" id="tab-overview-btn" data-bs-toggle="pill" data-bs-target="#tab-overview" type="button" role="tab" aria-controls="tab-overview" aria-selected="<?= $activeTab === 'overview' ? 'true' : 'false' ?>">Overview</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link <?= $activeTab === 'attendance' ? 'active' : '' ?>" id="tab-attendance-btn" data-bs-toggle="pill" data-bs-target="#tab-attendance" type="button" role="tab" aria-controls="tab-attendance" aria-selected="<?= $activeTab === 'attendance' ? 'true' : 'false' ?>">Staff In / Out</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link <?= $activeTab === 'ingestion' ? 'active' : '' ?>" id="tab-ingestion-btn" data-bs-toggle="pill" data-bs-target="#tab-ingestion" type="button" role="tab" aria-controls="tab-ingestion" aria-selected="<?= $activeTab === 'ingestion' ? 'true' : 'false' ?>">Ingestion Stats</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link <?= $activeTab === 'activity' ? 'active' : '' ?>" id="tab-activity-btn" data-bs-toggle="pill" data-bs-target="#tab-activity" type="button" role="tab" aria-controls="tab-activity" aria-selected="<?= $activeTab === 'activity' ? 'true' : 'false' ?>">Activity Log</button>
+  </li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane fade <?= $activeTab === 'overview' ? 'show active' : '' ?>" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-btn">
 <!-- Summary Cards -->
 <div class="row g-3 mb-4">
   <div class="col-md-4">
@@ -312,6 +335,10 @@ require __DIR__ . '/includes/header.php';
   </div>
 </div>
 
+</div><!-- /tab-pane: overview -->
+
+<!-- Staff In / Out tab -->
+<div class="tab-pane fade <?= $activeTab === 'attendance' ? 'show active' : '' ?>" id="tab-attendance" role="tabpanel" aria-labelledby="tab-attendance-btn">
 <!-- Staff Time In/Out -->
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Staff Time In / Out</div>
@@ -361,6 +388,10 @@ require __DIR__ . '/includes/header.php';
   </div>
 </div>
 
+</div><!-- /tab-pane: attendance -->
+
+<!-- Ingestion Stats tab -->
+<div class="tab-pane fade <?= $activeTab === 'ingestion' ? 'show active' : '' ?>" id="tab-ingestion" role="tabpanel" aria-labelledby="tab-ingestion-btn">
 <!-- Per Staff Table -->
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Ingested Per Staff</div>
@@ -452,6 +483,10 @@ require __DIR__ . '/includes/header.php';
   </div>
 </div>
 
+</div><!-- /tab-pane: ingestion -->
+
+<!-- Activity Log tab -->
+<div class="tab-pane fade <?= $activeTab === 'activity' ? 'show active' : '' ?>" id="tab-activity" role="tabpanel" aria-labelledby="tab-activity-btn">
 <!-- Activity Log (filtered) -->
 <div class="card mb-4">
   <div class="card-header bg-white">
@@ -464,7 +499,7 @@ require __DIR__ . '/includes/header.php';
         <?php if ($filterAction): ?><span class="badge bg-info"><?= htmlspecialchars($filterAction) ?></span><?php endif; ?>
       </span>
       <?php if ($filterStaff || $filterDate || $filterDateFrom || $filterDateTo || $filterAction): ?>
-        <a href="staff_reports.php" class="btn btn-sm btn-outline-secondary">Clear All</a>
+        <a href="staff_reports.php?tab=activity" class="btn btn-sm btn-outline-secondary">Clear All</a>
       <?php endif; ?>
     </div>
     <?php
@@ -475,11 +510,12 @@ require __DIR__ . '/includes/header.php';
           'to'    => $filterDateTo,
           'date'  => $filterDate,
       ]);
+      $baseParams['tab'] = 'activity';   // action filters live in the Activity Log tab
       $baseQuery = http_build_query($baseParams);
       $baseUrl   = 'staff_reports.php' . ($baseQuery ? "?$baseQuery&" : '?');
     ?>
     <ul class="nav nav-tabs card-header-tabs" role="tablist">
-      <li class="nav-item"><a class="nav-link <?= $filterAction === '' ? 'active' : '' ?>" href="<?= $baseQuery ? "staff_reports.php?$baseQuery" : 'staff_reports.php' ?>">All</a></li>
+      <li class="nav-item"><a class="nav-link <?= $filterAction === '' ? 'active' : '' ?>" href="staff_reports.php?<?= $baseQuery ?>">All</a></li>
       <li class="nav-item"><a class="nav-link <?= $filterAction === 'login' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=login">Login</a></li>
       <li class="nav-item"><a class="nav-link <?= $filterAction === 'logout' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=logout">Logout</a></li>
       <li class="nav-item"><a class="nav-link <?= $filterAction === 'create_passenger' ? 'active' : '' ?>" href="<?= $baseUrl ?>action=create_passenger">Create Passenger</a></li>
@@ -525,6 +561,7 @@ require __DIR__ . '/includes/header.php';
       <div class="text-muted small text-center py-2">Showing first 200 of <?= count($filteredEntries) ?> entries. Export CSV for full data.</div>
     <?php endif; ?>
   </div>
-</div>
+</div><!-- /tab-pane: activity -->
+</div><!-- /tab-content -->
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
