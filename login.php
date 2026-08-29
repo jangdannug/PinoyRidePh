@@ -34,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login — PinoyRide Admin</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
+<link rel="icon" type="image/jpeg" href="assets/logo.jpg">
 <style>
   body { background: #f4f6f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
   .login-card { width: 100%; max-width: 380px; }
+  .login-logo { width: 170px; display: block; margin: 0 auto 0.75rem; border-radius: .5rem; }
 </style>
 </head>
 <body>
@@ -44,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="login-card">
   <div class="card shadow-sm">
     <div class="card-body p-4">
-      <h4 class="text-center mb-4">PinoyRide Admin</h4>
+      <img src="assets/logo.jpg" alt="Pinoy Ride Transport Corporation" class="login-logo">
+      <h4 class="text-center mb-3">PinoyRide Admin</h4>
 
       <?php if ($error !== ''): ?>
         <div class="alert alert-danger py-2"><?= htmlspecialchars($error) ?></div>
