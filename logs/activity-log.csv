@@ -61,3 +61,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 09:50:05","Mary Grace",login,,,"Staff logged in"
 "2026-08-29 10:42:43","Mary Grace",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
 "2026-08-29 10:45:42","Mary Grace",create_driver,rider,8634,"DRN-2608-8058 - wilvic lagmay"
+"2026-08-29 14:34:08","John Roe",login,,,"Staff logged in"
