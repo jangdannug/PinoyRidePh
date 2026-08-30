@@ -80,6 +80,19 @@ function Union-ResolveLogFile([string]$path) {
     Info "Merged shared log file: $path (kept both machines' rows)"
 }
 
+# Returns ONLY real conflicted paths. Invoke-Git merges stderr into stdout
+# (2>&1), and with core.autocrlf=true git prints a "warning: in the working
+# copy of 'x', LF will be replaced by CRLF..." line for every LF file it
+# reads. Those warning lines must never be mistaken for conflicted files -
+# that made every concurrent log sync abort with a bogus "Two machines
+# changed the same file: warning: ..." message instead of union-resolving.
+function Get-ConflictedFiles {
+    @(Invoke-Git diff --name-only --diff-filter=U) |
+        ForEach-Object { [string]$_ } |
+        Where-Object { $_ -and ($_ -notmatch '^(warning|error|fatal)\b') -and ($_ -notmatch 'will be replaced by') }
+}
+
+
 if (-not (Test-Path $Root)) {
     Fail "Project folder not found: $Root"
     exit 1
@@ -194,7 +207,7 @@ while ($true) {
     # normally the .gitattributes union rule means there is no conflict at all).
     $rbTries = 0
     while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 5)) {
-        $conflicted = @(Invoke-Git diff --name-only --diff-filter=U)
+        $conflicted = Get-ConflictedFiles
         if ($conflicted.Count -eq 0) { break }                # failed, no conflict
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) { break }                    # real conflict
@@ -203,7 +216,7 @@ while ($true) {
         $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
             # a replayed commit can become EMPTY after the union merge - drop it
-            if (@(Invoke-Git diff --name-only --diff-filter=U).Count -eq 0) {
+            if ((Get-ConflictedFiles).Count -eq 0) {
                 $null = Invoke-Git rebase --continue
             }
         }
@@ -211,7 +224,7 @@ while ($true) {
     }
 
     # Classify the rebase outcome; never leave the repo half-rebased.
-    $conflicted = @(Invoke-Git diff --name-only --diff-filter=U)
+    $conflicted = Get-ConflictedFiles
     $inRebase = (Test-Path (Join-Path $Root '.git\rebase-merge')) -or
                 (Test-Path (Join-Path $Root '.git\rebase-apply'))
     if ($inRebase -or $conflicted.Count -gt 0) {
