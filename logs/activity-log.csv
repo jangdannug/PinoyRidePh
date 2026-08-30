@@ -92,3 +92,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-29 15:54:53","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-08-29 14:42:08","John Roe",login,,,"Staff logged in"
 "2026-08-29 15:32:45","Dannah Kryzle",login,,,"Staff logged in"
+"2026-08-30 12:38:58","Mary Grace",login,,,"Staff logged in"
+"2026-08-30 12:47:05","Mary Grace",logout,,,"Staff logged out / shutdown"
