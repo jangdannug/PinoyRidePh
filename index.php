@@ -14,7 +14,7 @@ $fname    = trim($_GET['fname'] ?? '');
 $lname    = trim($_GET['lname'] ?? '');
 
 $page     = max(1, (int)($_GET['page'] ?? 1));
-$perPage  = 100;
+$perPage  = 25;
 $offset   = ($page - 1) * $perPage;
 
 // ---------------------------------------------------------------
@@ -92,55 +92,57 @@ $activeNav = 'customers';
 require __DIR__ . '/includes/header.php';
 ?>
 
-<div class="card filter-card mb-4">
-  <div class="card-body">
-    <h5 class="card-title mb-3">Filter Customers</h5>
-    <form method="get" class="row g-3">
-      <div class="col-md-3">
-        <label class="form-label">Created From</label>
+<div class="pr-card">
+  <div class="pr-card-title">Filter Customers</div>
+  <form method="get">
+    <div class="pr-filter-row">
+      <div class="pr-filter-field">
+        <label>Created From</label>
         <input type="date" name="date_from" class="form-control" value="<?= htmlspecialchars($dateFrom) ?>">
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Created To</label>
+      <div class="pr-filter-field">
+        <label>Created To</label>
         <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
       </div>
-      <div class="col-md-2">
-        <label class="form-label">Mobile</label>
+      <div class="pr-filter-field">
+        <label>Mobile</label>
         <input type="text" name="mobile" class="form-control" placeholder="09xxxxxxxxx" value="<?= htmlspecialchars($mobile) ?>">
       </div>
-      <div class="col-md-2">
-        <label class="form-label">First Name</label>
+      <div class="pr-filter-field">
+        <label>First Name</label>
         <input type="text" name="fname" class="form-control" placeholder="First name" value="<?= htmlspecialchars($fname) ?>">
       </div>
-      <div class="col-md-2">
-        <label class="form-label">Last Name</label>
+      <div class="pr-filter-field">
+        <label>Last Name</label>
         <input type="text" name="lname" class="form-control" placeholder="Last name" value="<?= htmlspecialchars($lname) ?>">
       </div>
-
-      <div class="col-12 d-flex gap-2">
-        <button type="submit" class="btn btn-primary">
+      <div class="pr-filter-actions">
+        <button type="submit" class="btn btn-pr-primary">
           <i class="bi bi-search"></i> Search
         </button>
-        <a href="index.php" class="btn btn-outline-secondary">Reset</a>
+        <a href="index.php" class="btn btn-pr-secondary">Reset</a>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <?php if ($errorMsg !== ''): ?>
   <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php endif; ?>
 
-<div class="d-flex justify-content-between align-items-center mb-2">
-  <span class="text-muted"><?= number_format($totalRows) ?> result<?= $totalRows === 1 ? '' : 's' ?> found</span>
-  <div class="d-flex gap-2">
-    <a href="customer_create.php" class="btn btn-sm btn-primary">New Customer</a>
-    <a href="import_customer.php" class="btn btn-sm btn-success">Import from CSV</a>
+<div class="pr-table-wrap">
+    <div class="pr-table-toolbar">
+    <div class="pr-table-toolbar-left">
+      <div class="pr-results-count"><?= number_format($totalRows) ?> result<?= $totalRows === 1 ? '' : 's' ?> found</div>
+      <div class="pr-table-search-slot"></div>
+    </div>
+    <div class="pr-table-toolbar-right">
+      <a href="customer_create.php" class="btn btn-sm btn-pr-primary">New Customer</a>
+      <a href="import_customer.php" class="btn btn-sm btn-success">Import from CSV</a>
+    </div>
   </div>
-</div>
-
-<div class="table-responsive bg-white">
-  <table class="table table-striped table-hover align-middle mb-0 dataTable" data-paging="false">
+  <div class="table-responsive bg-white">
+  <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table" data-paging="false">
     <thead>
       <tr>
         <th>Code</th>
@@ -170,7 +172,7 @@ require __DIR__ . '/includes/header.php';
             <td><?= htmlspecialchars($c['email'] ?? '—') ?></td>
             <td><?= htmlspecialchars($c['customer_type']) ?></td>
             <td>
-              <span class="badge <?= ((int)$c['status'] === 1) ? 'badge-status-1' : 'badge-status-0' ?>">
+              <span class="badge pr-badge <?= ((int)$c['status'] === 1) ? 'pr-badge-active' : 'pr-badge-inactive' ?>">
                 <?= ((int)$c['status'] === 1) ? 'Active' : 'Inactive' ?>
               </span>
             </td>
@@ -188,6 +190,7 @@ require __DIR__ . '/includes/header.php';
       <?php endif; ?>
     </tbody>
   </table>
+  </div>
 </div>
 
 <?php if ($totalPages > 1): ?>

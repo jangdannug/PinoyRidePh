@@ -102,7 +102,7 @@ require __DIR__ . '/includes/header.php';
 <?php if ($customerId > 0 || $riderId > 0): ?>
   <div class="mb-3 d-flex justify-content-between align-items-center">
     <div>
-      <a href="<?= $customerId > 0 ? 'customer_show.php?id=' . $customerId : 'rider_show.php?id=' . $riderId ?>" class="btn btn-sm btn-outline-secondary">
+      <a href="<?= $customerId > 0 ? 'customer_show.php?id=' . $customerId : 'rider_show.php?id=' . $riderId ?>" class="btn btn-sm btn-pr-secondary">
         &laquo; Back to <?= $customerId > 0 ? 'Customer' : 'Rider' ?>
       </a>
     </div>
@@ -112,26 +112,26 @@ require __DIR__ . '/includes/header.php';
   </div>
 <?php endif; ?>
 
-<div class="card filter-card mb-4">
-  <div class="card-body">
-    <h5 class="card-title mb-3">Filter Bookings</h5>
-    <form method="get" class="row g-3">
-      <?php if ($customerId > 0): ?>
-        <input type="hidden" name="customer_id" value="<?= (int)$customerId ?>">
-      <?php endif; ?>
-      <?php if ($riderId > 0): ?>
-        <input type="hidden" name="rider_id" value="<?= (int)$riderId ?>">
-      <?php endif; ?>
-      <div class="col-md-3">
-        <label class="form-label">Date Created From</label>
+<div class="pr-card">
+  <div class="pr-card-title">Filter Bookings</div>
+  <form method="get">
+    <?php if ($customerId > 0): ?>
+      <input type="hidden" name="customer_id" value="<?= (int)$customerId ?>">
+    <?php endif; ?>
+    <?php if ($riderId > 0): ?>
+      <input type="hidden" name="rider_id" value="<?= (int)$riderId ?>">
+    <?php endif; ?>
+    <div class="pr-filter-row">
+      <div class="pr-filter-field">
+        <label>Date Created From</label>
         <input type="date" name="date_from" class="form-control" value="<?= htmlspecialchars($dateFrom) ?>">
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Date Created To</label>
+      <div class="pr-filter-field">
+        <label>Date Created To</label>
         <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
       </div>
-      <div class="col-md-2">
-        <label class="form-label">Status</label>
+      <div class="pr-filter-field">
+        <label>Status</label>
         <select name="status" class="form-control">
           <option value="">-- All --</option>
           <?php foreach (BOOKING_STATUSES as $sVal => $sLabel): ?>
@@ -139,44 +139,47 @@ require __DIR__ . '/includes/header.php';
           <?php endforeach; ?>
         </select>
       </div>
-      <div class="col-md-4">
-        <label class="form-label">Ref Code</label>
+      <div class="pr-filter-field">
+        <label>Ref Code</label>
         <input type="text" name="ref_code" class="form-control" placeholder="Booking ref code" value="<?= htmlspecialchars($refCode) ?>">
       </div>
-      <div class="col-md-4">
-        <label class="form-label">Pickup Location</label>
+      <div class="pr-filter-field">
+        <label>Pickup Location</label>
         <input type="text" name="pickup" class="form-control" placeholder="Pickup keyword" value="<?= htmlspecialchars($pickup) ?>">
       </div>
-      <div class="col-md-4">
-        <label class="form-label">Dropoff Location</label>
+      <div class="pr-filter-field">
+        <label>Dropoff Location</label>
         <input type="text" name="dropoff" class="form-control" placeholder="Dropoff keyword" value="<?= htmlspecialchars($dropoff) ?>">
       </div>
-
-      <div class="col-12 d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="<?= $customerId > 0 ? 'bookings.php?customer_id=' . $customerId : ($riderId > 0 ? 'bookings.php?rider_id=' . $riderId : 'bookings.php') ?>" class="btn btn-outline-secondary">Reset</a>
+      <div class="pr-filter-actions">
+        <button type="submit" class="btn btn-pr-primary">Search</button>
+        <a href="<?= $customerId > 0 ? 'bookings.php?customer_id=' . $customerId : ($riderId > 0 ? 'bookings.php?rider_id=' . $riderId : 'bookings.php') ?>" class="btn btn-pr-secondary">Reset</a>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <?php if ($errorMsg !== ''): ?>
   <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php endif; ?>
 
-<div class="d-flex justify-content-between align-items-center mb-2">
-  <span class="text-muted"><?= number_format($totalRows) ?> result<?= $totalRows === 1 ? '' : 's' ?> found</span>
-  <div class="d-flex gap-2">
-    <a href="booking_check_fare.php" class="btn btn-sm btn-primary">Check Fare</a>
-    <a href="post_booking_create.php" class="btn btn-sm btn-outline-primary">Post Booking</a>
-    <a href="booking_create.php" class="btn btn-sm btn-primary">New Booking</a>
-    <a href="booking_analysis.php" class="btn btn-sm btn-outline-secondary">Booking Analysis</a>
-    <a href="bookings_export.php?<?= htmlspecialchars(http_build_query($_GET), ENT_QUOTES, 'UTF-8') ?>" class="btn btn-sm btn-success">Export CSV</a>
+  <div class="pr-table-wrap">
+  <div class="pr-table-toolbar">
+    <div class="pr-table-toolbar-left">
+      <div class="pr-results-count"><?= number_format($totalRows) ?> result<?= $totalRows === 1 ? '' : 's' ?> found</div>
+      <div class="pr-table-search-slot"></div>
+    </div>
+    <div class="pr-table-toolbar-right">
+      <a href="booking_check_fare.php" class="btn btn-sm btn-pr-primary">Check Fare</a>
+      <a href="post_booking_create.php" class="btn btn-sm btn-pr-secondary">Post Booking</a>
+      <a href="booking_create.php" class="btn btn-sm btn-pr-primary">New Booking</a>
+      <a href="booking_analysis.php" class="btn btn-sm btn-pr-secondary">Booking Analysis</a>
+      <a href="bookings_export.php?<?= htmlspecialchars(http_build_query($_GET), ENT_QUOTES, 'UTF-8') ?>" class="btn btn-sm btn-success">Export CSV</a>
+    </div>
   </div>
-</div>
-
-<div class="table-responsive bg-white">
-  <table class="table table-striped table-hover align-middle mb-0 dataTable" data-paging="false">
+  <div class="pr-table-scroll">
+  <div class="table-responsive bg-white">
+  <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table" data-paging="false">
     <thead>
       <tr>
         <th>Ref Code</th>
@@ -218,12 +221,12 @@ require __DIR__ . '/includes/header.php';
                 <span class="text-muted">—</span>
               <?php endif; ?>
             </td>
-            <td><?= htmlspecialchars($b['pickup_location'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($b['dropoff_location'] ?? '—') ?></td>
+            <td class="pr-address-cell" title="<?= htmlspecialchars($b['pickup_location'] ?? '') ?>"><?= htmlspecialchars($b['pickup_location'] ?? '—') ?></td>
+            <td class="pr-address-cell" title="<?= htmlspecialchars($b['dropoff_location'] ?? '') ?>"><?= htmlspecialchars($b['dropoff_location'] ?? '—') ?></td>
             <td><?= htmlspecialchars($b['distance_km'] ?? '—') ?></td>
             <td><?= htmlspecialchars($b['payment_type'] ?? '—') ?></td>
             <td><?= htmlspecialchars(booking_type_label($b['booking_type'])) ?></td>
-            <td><span class="badge <?= booking_status_badge_class($b['status']) ?>"><?= htmlspecialchars(booking_status_label($b['status'])) ?></span></td>
+            <td><span class="badge pr-badge <?= booking_status_badge_class($b['status']) ?>"><?= htmlspecialchars(booking_status_label($b['status'])) ?></span></td>
             <td><?= htmlspecialchars($b['date_created'] ?? '—') ?></td>
             <td><?= htmlspecialchars($b['time_created'] ?? '—') ?></td>
             <td>
@@ -234,6 +237,8 @@ require __DIR__ . '/includes/header.php';
       <?php endif; ?>
     </tbody>
   </table>
+  </div>
+  </div>
 </div>
 
 <?php if ($totalPages > 1): ?>

@@ -42,21 +42,33 @@ $orderedStaff = array_merge($recentStaff, $remainingStaff);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PinoyRide Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin-theme.css">
+<link rel="icon" type="image/png" href="assets/logo.png">
+
 <style>
-  body { background: #f4f6f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-  .staff-card { width: 100%; max-width: 400px; }
+  body { background: var(--pr-body-bg); min-height: 100vh; }
+  .staff-card { width: 100%; max-width: 400px; margin: 3rem auto; }
   .staff-list { max-height: 300px; overflow-y: auto; }
   .staff-item { cursor: pointer; transition: background 0.1s; }
   .staff-item:hover { background: #e3f2fd; }
-  .staff-item.active { background: #1976d2; color: #fff; }
+  .staff-item.active { background: var(--pr-orange); color: #111; border-color: var(--pr-orange); font-weight: 600; }
 </style>
 </head>
 <body>
 
+<nav class="pr-navbar">
+  <div class="pr-logo">
+    <img src="assets/logo.png" alt="PinoyRide">
+    Pinoy<span class="pr-brand-ride">Ride</span>
+    <span class="pr-brand-suffix">Admin Portal</span>
+  </div>
+</nav>
+
 <div class="staff-card">
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
-      <h4 class="text-center mb-3">PinoyRide Admin</h4>
+  <div class="pr-card shadow-sm">
+    <div class="card-body p-0">
+      <h4 class="text-center mb-3">Select Staff</h4>
       <p class="text-muted text-center mb-3">Select your name to continue</p>
 
       <input type="text" id="search" class="form-control mb-3" placeholder="Search name..." autofocus>
@@ -73,7 +85,7 @@ $orderedStaff = array_merge($recentStaff, $remainingStaff);
             </button>
           <?php endforeach; ?>
         </div>
-        <button type="submit" class="btn btn-primary w-100" id="continue-btn" disabled>Continue</button>
+        <button type="submit" class="btn btn-pr-primary w-100" id="continue-btn" disabled>Continue</button>
       </form>
     </div>
   </div>

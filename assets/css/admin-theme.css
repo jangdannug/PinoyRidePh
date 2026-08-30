@@ -1,0 +1,540 @@
+/* ===========================================
+   PinoyRide Admin Theme
+   Matches public landing page branding
+   =========================================== */
+
+:root {
+  --pr-orange: #F5A623;
+  --pr-orange-hover: #e0951a;
+  --pr-dark: #111111;
+  --pr-dark-secondary: #1a1a1a;
+  --pr-text-light: #ffffff;
+  --pr-text-muted: #cccccc;
+  --pr-body-bg: #f8f9fa;
+  --pr-card-radius: 8px;
+  --pr-pill-radius: 24px;
+  --pr-border-color: #e5e7eb;
+  --pr-font: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background-color: var(--pr-body-bg);
+  font-family: var(--pr-font);
+}
+
+/* ---------- Navbar ---------- */
+.pr-navbar {
+  background-color: var(--pr-dark);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Sticky header: stays pinned to the top while page content scrolls.
+     z-index 1020 matches Bootstrap's .sticky-top so navbar dropdowns
+     (z-index 1000) still open above page content. */
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.pr-navbar .pr-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--pr-text-light);
+  white-space: nowrap;
+}
+
+.pr-navbar .pr-logo img {
+  height: 32px;
+  width: auto;
+  /* Dark-bg logo: screen blend melts its black background into the
+     navbar (#111). Only valid on dark surfaces — never apply it to the
+     white login card, where screen would wash the whole image to white. */
+  mix-blend-mode: screen;
+}
+
+.pr-navbar .pr-logo .pr-brand-ride {
+  color: var(--pr-orange);
+}
+
+.pr-navbar .pr-logo .pr-brand-suffix {
+  font-weight: 400;
+  color: var(--pr-text-muted);
+  margin-left: 6px;
+  font-size: 1rem;
+}
+
+.pr-navbar .pr-nav-links {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pr-navbar .pr-nav-links a {
+  color: var(--pr-text-light);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: var(--pr-pill-radius);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pr-navbar .pr-nav-links a:hover {
+  color: var(--pr-orange);
+}
+
+.pr-navbar .pr-nav-links a.active {
+  background-color: var(--pr-orange);
+  color: var(--pr-dark);
+  font-weight: 600;
+}
+
+.pr-navbar .pr-user-menu {
+  color: var(--pr-text-light);
+  font-size: 0.9rem;
+}
+
+/* Navbar dropdowns (keep the standard light dropdown look) */
+.pr-navbar .dropdown-menu {
+  background: #ffffff;
+  border: 1px solid var(--pr-border-color);
+  border-radius: var(--pr-card-radius);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.35rem 0;
+}
+
+.pr-navbar .dropdown-menu a,
+.pr-navbar .dropdown-menu .dropdown-item {
+  color: #212529;
+  border-radius: 0;
+  padding: 0.5rem 1rem;
+  font-weight: 400;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.pr-navbar .dropdown-menu a:hover,
+.pr-navbar .dropdown-menu .dropdown-item:hover {
+  background: #f1f1f1;
+  color: var(--pr-dark);
+}
+
+.pr-navbar .pr-nav-user {
+  display: flex;
+  align-items: center;
+}
+
+.pr-navbar .pr-nav-user .pr-user-menu {
+  text-decoration: none;
+}
+
+.pr-navbar .pr-nav-user .user-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  margin-right: 0.45rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn-pr-primary {
+  background-color: var(--pr-orange);
+  border: none;
+  color: var(--pr-dark);
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: var(--pr-pill-radius);
+  transition: background-color 0.15s ease;
+}
+
+.btn-pr-primary:hover {
+  background-color: var(--pr-orange-hover);
+  color: var(--pr-dark);
+}
+
+.btn-pr-secondary {
+  background-color: transparent;
+  border: 1px solid var(--pr-border-color);
+  color: #333333;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: var(--pr-pill-radius);
+}
+
+.btn-pr-secondary:hover {
+  background-color: #f1f1f1;
+}
+
+/* ---------- Cards / Filter panels (compact) ---------- */
+.pr-card {
+  background: #ffffff;
+  border-radius: var(--pr-card-radius);
+  border-top: 3px solid var(--pr-orange);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.pr-card h5,
+.pr-card .pr-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+/* ---------- Filter form layout ---------- */
+.pr-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.pr-filter-row .pr-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+  flex: 1 1 140px;
+}
+
+.pr-filter-row .pr-filter-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #444444;
+  margin-bottom: 0;
+}
+
+.pr-filter-row .pr-filter-field input,
+.pr-filter-row .pr-filter-field select {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  height: 34px;
+  border-radius: 4px;
+}
+
+.pr-filter-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+  order: -1; /* PinoyRide: keep the Search/Reset on the far left of the row */
+}
+
+/* Smaller buttons specifically inside filter panels */
+.pr-filter-actions .btn-pr-secondary {
+  padding: 6px 18px;
+  font-size: 0.85rem;
+}
+
+/* Make the primary search button prominent (left-aligned, eye-catching) */
+.pr-filter-actions .btn-pr-primary {
+  padding: 8px 24px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(245, 166, 35, 0.45);
+}
+
+/* ---------- Compact results header bar ---------- */
+.pr-results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.pr-results-bar .btn {
+  padding: 6px 18px;
+  font-size: 0.85rem;
+}
+
+.pr-results-bar .btn-sm {
+  padding: 5px 14px;
+  font-size: 0.8rem;
+}
+
+/* ---------- Tables ---------- */
+.pr-table thead {
+  background-color: #f1f3f5;
+}
+
+.pr-table thead th {
+  font-weight: 700;
+  color: #333333;
+  border-bottom: 2px solid var(--pr-border-color);
+}
+
+.pr-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* ---------- Table toolbar (results count + search + actions) ---------- */
+.pr-table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 12px 0;
+}
+
+.pr-table-toolbar-right .btn,
+.pr-table-toolbar-right .btn-sm {
+  padding: 6px 18px;
+  font-size: 0.85rem;
+}
+
+.pr-table-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pr-table-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Search box — sits right after the results count, pill-shaped with icon */
+.pr-table-search-slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pr-table-search-slot::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='16' y1='16' x2='21' y2='21'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pr-table-search {
+  height: 36px;
+  padding: 6px 14px 6px 36px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--pr-border-color);
+  min-width: 240px;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pr-table-search::placeholder {
+  color: #9ca3af;
+}
+
+.pr-table-search:focus {
+  border-color: var(--pr-orange);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.18);
+}
+
+/* Repositioned DataTables length control inside the toolbar (the search input
+   is extracted into .pr-table-search-slot above and styled by .pr-table-search) */
+.pr-table-toolbar-right .dt-length {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.pr-table-toolbar-right .dt-length label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555555;
+}
+
+.pr-table-toolbar-right .dt-length select {
+  height: 34px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: 1px solid var(--pr-border-color);
+  margin: 0;
+}
+
+/* ---------- Horizontally scrollable table ---------- */
+.pr-table-scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Truncated address cell with ellipsis + hover tooltip */
+.pr-table td.pr-address-cell {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Add Passenger / Add Driver forms (compact) ---------- */
+.pr-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+
+.pr-form-grid.pr-form-grid-3col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.pr-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 0;
+}
+
+.pr-form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.pr-form-field input,
+.pr-form-field select,
+.pr-form-field textarea {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.pr-form-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ---------- Aligned checkbox row (Nearby Drivers) ---------- */
+.pr-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pr-checkbox-row input[type="checkbox"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.pr-checkbox-row label {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* ---------- Responsive two-column grid (Commission panels) ---------- */
+.pr-two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .pr-two-col-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Commission pagination controls */
+.pr-table-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.pr-table-pager .dt-paging {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 0;
+}
+
+/* DataTables 2.x + Bootstrap 5 renders pager buttons as
+   li.dt-paging-button.page-item > button.page-link (active/disabled on the li) */
+.pr-table-pager .dt-paging .page-item .page-link {
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  border: 1px solid var(--pr-border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #333333;
+}
+
+.pr-table-pager .dt-paging .page-item .page-link:hover {
+  background-color: var(--pr-orange);
+  border-color: var(--pr-orange);
+  color: var(--pr-dark);
+}
+
+.pr-table-pager .dt-paging .page-item.active .page-link {
+  background-color: var(--pr-orange);
+  border-color: var(--pr-orange);
+  color: var(--pr-dark);
+  font-weight: 600;
+}
+
+.pr-table-pager .dt-paging .page-item.disabled .page-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* DataTables native controls left in the wrapper (non-toolbar pages) */
+.dt-container > .dt-length,
+.dt-container > .dt-search {
+  display: inline-block;
+  margin: 0 16px 8px 0;
+}
+
+.pr-badge {
+  border-radius: var(--pr-pill-radius);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.pr-badge-active {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.pr-badge-inactive {
+  background-color: #6b7280;
+  color: #ffffff;
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--pr-font);
+  font-weight: 700;
+}

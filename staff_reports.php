@@ -255,38 +255,37 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <!-- Date Range Filter -->
-<div class="card mb-4">
-  <div class="card-body py-2">
-    <form method="get" class="row g-2 align-items-end">
+<div class="pr-card">
+  <div class="pr-card-title">Filter Reports</div>
+  <form method="get">
+    <div class="pr-filter-row">
       <input type="hidden" name="tab" value="<?= htmlspecialchars($activeTab) ?>">
-      <div class="col-auto">
-        <label class="form-label small mb-0">From</label>
-        <input type="date" name="from" class="form-control form-control-sm" value="<?= htmlspecialchars($filterDateFrom) ?>">
+      <div class="pr-filter-field">
+        <label>From</label>
+        <input type="date" name="from" class="form-control" value="<?= htmlspecialchars($filterDateFrom) ?>">
       </div>
-      <div class="col-auto">
-        <label class="form-label small mb-0">To</label>
-        <input type="date" name="to" class="form-control form-control-sm" value="<?= htmlspecialchars($filterDateTo) ?>">
+      <div class="pr-filter-field">
+        <label>To</label>
+        <input type="date" name="to" class="form-control" value="<?= htmlspecialchars($filterDateTo) ?>">
       </div>
-      <div class="col-auto">
-        <label class="form-label small mb-0">Staff</label>
-        <select name="staff" class="form-select form-select-sm">
+      <div class="pr-filter-field">
+        <label>Staff</label>
+        <select name="staff" class="form-control">
           <option value="">All Staff</option>
           <?php foreach (STAFF_LIST as $name): ?>
             <option value="<?= htmlspecialchars($name) ?>" <?= $filterStaff === $name ? 'selected' : '' ?>><?= htmlspecialchars($name) ?></option>
           <?php endforeach; ?>
         </select>
       </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-sm btn-primary">Filter</button>
-        <a href="staff_reports.php" class="btn btn-sm btn-outline-secondary">Clear</a>
+      <div class="pr-filter-actions">
+        <button type="submit" class="btn btn-pr-primary">Filter</button>
+        <a href="staff_reports.php" class="btn btn-pr-secondary">Clear</a>
       </div>
       <?php if ($filterStaff || $filterDate || $filterDateFrom || $filterDateTo): ?>
-        <div class="col-auto">
-          <span class="badge bg-info">Filtered</span>
-        </div>
+        <span class="badge bg-info align-self-center">Filtered</span>
       <?php endif; ?>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <!-- Report Tabs -->
@@ -343,7 +342,7 @@ require __DIR__ . '/includes/header.php';
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Staff Time In / Out</div>
   <div class="card-body p-0">
-    <table class="table table-sm table-hover mb-0">
+    <table class="table table-sm table-hover mb-0 pr-table">
       <thead>
         <tr><th>Date</th><th>Staff</th><th>Time In</th><th>Time Out</th><th>Duration</th></tr>
       </thead>
@@ -396,7 +395,7 @@ require __DIR__ . '/includes/header.php';
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Ingested Per Staff</div>
   <div class="card-body p-0">
-    <table class="table table-sm table-hover mb-0">
+    <table class="table table-sm table-hover mb-0 pr-table">
       <thead>
         <tr><th>Staff</th><th class="text-center">Passengers</th><th class="text-center">Drivers</th><th class="text-center">Total</th></tr>
       </thead>
@@ -428,7 +427,7 @@ require __DIR__ . '/includes/header.php';
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Daily Breakdown (Date + Staff)</div>
   <div class="card-body p-0">
-    <table class="table table-sm table-hover mb-0">
+    <table class="table table-sm table-hover mb-0 pr-table">
       <thead>
         <tr><th>Date</th><th>Staff</th><th class="text-center">Passengers</th><th class="text-center">Drivers</th><th class="text-center">Total</th></tr>
       </thead>
@@ -455,7 +454,7 @@ require __DIR__ . '/includes/header.php';
 <div class="card mb-4">
   <div class="card-header bg-white fw-semibold">Activity By Date (Totals)</div>
   <div class="card-body p-0">
-    <table class="table table-sm table-hover mb-0">
+    <table class="table table-sm table-hover mb-0 pr-table">
       <thead>
         <tr><th>Date</th><th class="text-center">Passengers</th><th class="text-center">Drivers</th><th class="text-center">Total</th></tr>
       </thead>
@@ -499,7 +498,7 @@ require __DIR__ . '/includes/header.php';
         <?php if ($filterAction): ?><span class="badge bg-info"><?= htmlspecialchars($filterAction) ?></span><?php endif; ?>
       </span>
       <?php if ($filterStaff || $filterDate || $filterDateFrom || $filterDateTo || $filterAction): ?>
-        <a href="staff_reports.php?tab=activity" class="btn btn-sm btn-outline-secondary">Clear All</a>
+        <a href="staff_reports.php?tab=activity" class="btn btn-sm btn-pr-secondary">Clear All</a>
       <?php endif; ?>
     </div>
     <?php
@@ -524,7 +523,7 @@ require __DIR__ . '/includes/header.php';
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
-    <table class="table table-sm table-hover mb-0">
+    <table class="table table-sm table-hover mb-0 pr-table">
       <thead>
         <tr><th>Time</th><th>Staff</th><th>Action</th><th>Type</th><th>ID</th><th>Details</th></tr>
       </thead>

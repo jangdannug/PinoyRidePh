@@ -106,7 +106,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Drivers</a>
+  <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Drivers</a>
 </div>
 
 <div class="card filter-card mb-4">
@@ -125,8 +125,8 @@ require __DIR__ . '/includes/header.php';
         </select>
       </div>
       <div class="col-md-4 d-flex align-items-end gap-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="riders_credit.php" class="btn btn-outline-secondary">Reset</a>
+        <button type="submit" class="btn btn-pr-primary">Search</button>
+        <a href="riders_credit.php" class="btn btn-pr-secondary">Reset</a>
       </div>
     </form>
   </div>
@@ -160,7 +160,7 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="table-responsive bg-white">
-    <table class="table table-striped table-hover align-middle mb-0 dataTable" data-paging="false">
+    <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table" data-paging="false">
       <thead>
         <tr>
           <th>Code</th>
@@ -192,7 +192,7 @@ require __DIR__ . '/includes/header.php';
               <td class="fw-semibold text-success"><?= fmt_money($row['balance']) ?></td>
               <td class="d-flex gap-1">
                 <a href="rider_show.php?id=<?= (int)$row['rider_id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
-                <a href="wallet_transactions.php?wallet_id=<?= (int)$row['wallet_id'] ?>" class="btn btn-sm btn-outline-secondary">Transactions</a>
+                <a href="wallet_transactions.php?wallet_id=<?= (int)$row['wallet_id'] ?>" class="btn btn-sm btn-pr-secondary">Transactions</a>
               </td>
             </tr>
           <?php endforeach; ?>

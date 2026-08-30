@@ -403,7 +403,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="bookings.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Bookings</a>
+  <a href="bookings.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Bookings</a>
 </div>
 
 <h4 class="mb-3">New Booking</h4>
@@ -478,8 +478,8 @@ require __DIR__ . '/includes/header.php';
             </div>
 
             <div class="col-12 d-flex gap-2 mt-4">
-              <button type="submit" class="btn btn-primary">Look Up &amp; Preview</button>
-              <a href="bookings.php" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-pr-primary">Look Up &amp; Preview</button>
+              <a href="bookings.php" class="btn btn-pr-secondary">Cancel</a>
             </div>
           </form>
         </div>
@@ -601,7 +601,7 @@ require __DIR__ . '/includes/header.php';
         <input type="hidden" name="fare" value="<?= htmlspecialchars($preview['manual_fare_input']) ?>">
         <div class="d-flex gap-2 mb-4">
           <button type="submit" class="btn btn-success">Confirm &amp; Create Booking</button>
-          <a href="booking_create.php" class="btn btn-outline-secondary">Start Over</a>
+          <a href="booking_create.php" class="btn btn-pr-secondary">Start Over</a>
         </div>
       </form>
 

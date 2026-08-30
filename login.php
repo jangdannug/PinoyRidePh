@@ -34,20 +34,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PinoyRide Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cosmo/bootstrap.min.css" rel="stylesheet">
-<link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/admin-theme.css">
+<link rel="icon" type="image/png" href="assets/logo.png">
 <style>
-  body { background: #f4f6f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-  .login-card { width: 100%; max-width: 380px; }
+  body { background: var(--pr-body-bg); min-height: 100vh; }
+  .login-card { width: 100%; max-width: 380px; margin: 3rem auto; }
   .login-logo { width: 170px; display: block; margin: 0 auto 0.75rem; border-radius: .5rem; }
 </style>
 </head>
 <body>
 
+<nav class="pr-navbar">
+  <div class="pr-logo">
+    <img src="assets/logo.png" alt="PinoyRide">
+    Pinoy<span class="pr-brand-ride">Ride</span>
+    <span class="pr-brand-suffix">Admin Portal</span>
+  </div>
+</nav>
+
 <div class="login-card">
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
-      <img src="assets/logo.jpg" alt="Pinoy Ride Transport Corporation" class="login-logo">
-      <h4 class="text-center mb-3">PinoyRide Admin</h4>
+  <div class="pr-card shadow-sm">
+    <div class="card-body p-0">
+      <img src="assets/logo.png" alt="Pinoy Ride Transport Corporation" class="login-logo">
+      <h4 class="text-center mb-3">Sign In</h4>
 
       <?php if ($error !== ''): ?>
         <div class="alert alert-danger py-2"><?= htmlspecialchars($error) ?></div>
@@ -62,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label class="form-label">Password</label>
           <input type="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Log In</button>
+        <button type="submit" class="btn btn-pr-primary w-100">Log In</button>
       </form>
     </div>
   </div>

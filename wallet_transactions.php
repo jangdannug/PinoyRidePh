@@ -124,9 +124,9 @@ require __DIR__ . '/includes/header.php';
 
 <div class="mb-3 d-flex gap-2">
   <?php if ($wallet && $wallet['user_id']): ?>
-    <a href="rider_show.php?id=<?= (int)$wallet['user_id'] ?>" class="btn btn-sm btn-outline-secondary">&laquo; Back to Rider</a>
+    <a href="rider_show.php?id=<?= (int)$wallet['user_id'] ?>" class="btn btn-sm btn-pr-secondary">&laquo; Back to Rider</a>
   <?php else: ?>
-    <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Riders</a>
+    <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Riders</a>
   <?php endif; ?>
 </div>
 
@@ -170,8 +170,8 @@ require __DIR__ . '/includes/header.php';
         </div>
 
         <div class="col-12 d-flex gap-2">
-          <button type="submit" class="btn btn-primary">Search</button>
-          <a href="wallet_transactions.php?wallet_id=<?= (int)$walletId ?>" class="btn btn-outline-secondary">Reset</a>
+          <button type="submit" class="btn btn-pr-primary">Search</button>
+          <a href="wallet_transactions.php?wallet_id=<?= (int)$walletId ?>" class="btn btn-pr-secondary">Reset</a>
         </div>
       </form>
     </div>
@@ -182,7 +182,7 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="table-responsive bg-white">
-    <table class="table table-striped table-hover align-middle mb-0 dataTable" data-paging="false">
+    <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table" data-paging="false">
       <thead>
         <tr>
           <th>Created At</th>

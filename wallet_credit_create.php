@@ -126,9 +126,9 @@ require __DIR__ . '/includes/header.php';
 
 <div class="mb-3">
   <?php if ($riderId > 0): ?>
-    <a href="rider_show.php?id=<?= (int)$riderId ?>" class="btn btn-sm btn-outline-secondary">&laquo; Back to Rider</a>
+    <a href="rider_show.php?id=<?= (int)$riderId ?>" class="btn btn-sm btn-pr-secondary">&laquo; Back to Rider</a>
   <?php else: ?>
-    <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Riders</a>
+    <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Riders</a>
   <?php endif; ?>
 </div>
 
@@ -175,8 +175,8 @@ require __DIR__ . '/includes/header.php';
               <textarea name="description" class="form-control" rows="3" placeholder="Reason for this cash-in"><?= htmlspecialchars($description) ?></textarea>
             </div>
             <div class="col-12 d-flex gap-2">
-              <button type="submit" class="btn btn-primary">Add Credit</button>
-              <a href="rider_show.php?id=<?= (int)$riderId ?>" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-pr-primary">Add Credit</button>
+              <a href="rider_show.php?id=<?= (int)$riderId ?>" class="btn btn-pr-secondary">Cancel</a>
             </div>
           </form>
         </div>

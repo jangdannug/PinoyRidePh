@@ -203,7 +203,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="bookings.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Bookings</a>
+  <a href="bookings.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Bookings</a>
 </div>
 
 <h4 class="mb-3">Fare Check</h4>
@@ -243,8 +243,8 @@ require __DIR__ . '/includes/header.php';
                 class="form-control" value="<?= htmlspecialchars($_POST['driver_number'] ?? '') ?>">
             </div>
             <div class="col-12 d-flex gap-2 mt-4">
-              <button name="fare_lookup" type="submit" class="btn btn-primary">Fare Look Up</button>
-              <a href="bookings.php" class="btn btn-outline-secondary">Cancel</a>
+              <button name="fare_lookup" type="submit" class="btn btn-pr-primary">Fare Look Up</button>
+              <a href="bookings.php" class="btn btn-pr-secondary">Cancel</a>
             </div>
           </form>
         </div>
@@ -364,7 +364,7 @@ require __DIR__ . '/includes/header.php';
                     'dropoff_address' => $preview['dropoff_address'],
                     'fare'            => $preview['fare']['total_amount'],
                 ]) ?>" class="btn btn-outline-success">Post Booking</a>
-                <a href="booking_check_fare.php" class="btn btn-outline-secondary">Done</a>
+                <a href="booking_check_fare.php" class="btn btn-pr-secondary">Done</a>
             </div>
         </div>
     </div>

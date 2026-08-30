@@ -200,7 +200,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Riders</a>
+  <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Riders</a>
 </div>
 
 <?php if ($errorMsg !== ''): ?>

@@ -118,7 +118,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="index.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Customers</a>
+  <a href="index.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Customers</a>
 </div>
 
 <?php if ($errorMsg !== ''): ?>

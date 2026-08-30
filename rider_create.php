@@ -434,7 +434,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Drivers</a>
+  <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Drivers</a>
 </div>
 
 <h4 class="mb-3">Add Driver(s)</h4>
@@ -473,61 +473,65 @@ require __DIR__ . '/includes/header.php';
             </div>
           <?php endif; ?>
 
-          <form method="post" class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">First Name *</label>
-              <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($f['first_name']) ?>" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Last Name *</label>
-              <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($f['last_name']) ?>" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Mobile *</label>
-              <input type="text" name="mobile" class="form-control" placeholder="09xxxxxxxxx" value="<?= htmlspecialchars($f['mobile']) ?>" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Email</label>
-              <input type="text" name="email" class="form-control" value="<?= htmlspecialchars($f['email']) ?>">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Vehicle Type</label>
-              <select name="v_type_raw" class="form-select">
-                <option value="Motorcycle" <?= $f['v_type_raw'] === 'Motorcycle' ? 'selected' : '' ?>>Motorcycle</option>
-                <option value="Tricycle" <?= $f['v_type_raw'] === 'Tricycle' ? 'selected' : '' ?>>Tricycle</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Plate Number</label>
-              <input type="text" name="v_plate_number" class="form-control" value="<?= htmlspecialchars($f['v_plate_number']) ?>">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Brand</label>
-              <input type="text" name="v_brand" class="form-control" value="<?= htmlspecialchars($f['v_brand']) ?>">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Model</label>
-              <input type="text" name="v_model" class="form-control" value="<?= htmlspecialchars($f['v_model']) ?>">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Color</label>
-              <input type="text" name="v_color" class="form-control" value="<?= htmlspecialchars($f['v_color']) ?>">
-            </div>
-            <div class="col-12">
-              <label class="form-label">Address</label>
-              <textarea name="address" class="form-control" rows="2"><?= htmlspecialchars($f['address']) ?></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Driver's License Image</label>
-              <input type="text" name="drivers_license_img" class="form-control" placeholder="filename.jpg or link" value="<?= htmlspecialchars($f['drivers_license_img']) ?>">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">OR/CR Image</label>
-              <input type="text" name="v_or_cr_img" class="form-control" placeholder="filename.jpg or link" value="<?= htmlspecialchars($f['v_or_cr_img']) ?>">
-            </div>
-            <div class="col-12 d-flex gap-2 pt-2">
-              <button type="submit" name="review_single" value="1" class="btn btn-primary">Review &amp; Register</button>
-              <a href="riders.php" class="btn btn-outline-secondary">Cancel</a>
+          <form method="post">
+            <div class="pr-form-grid">
+              <div class="pr-form-field">
+                <label>First Name *</label>
+                <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($f['first_name']) ?>" required>
+              </div>
+              <div class="pr-form-field">
+                <label>Last Name *</label>
+                <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($f['last_name']) ?>" required>
+              </div>
+              <div class="pr-form-field">
+                <label>Mobile *</label>
+                <input type="text" name="mobile" class="form-control" placeholder="09xxxxxxxxx" value="<?= htmlspecialchars($f['mobile']) ?>" required>
+              </div>
+              <div class="pr-form-field">
+                <label>Email</label>
+                <input type="text" name="email" class="form-control" value="<?= htmlspecialchars($f['email']) ?>">
+              </div>
+              <div class="pr-form-field">
+                <label>Vehicle Type</label>
+                <select name="v_type_raw" class="form-select">
+                  <option value="Motorcycle" <?= $f['v_type_raw'] === 'Motorcycle' ? 'selected' : '' ?>>Motorcycle</option>
+                  <option value="Tricycle" <?= $f['v_type_raw'] === 'Tricycle' ? 'selected' : '' ?>>Tricycle</option>
+                </select>
+              </div>
+              <div class="pr-form-field">
+                <label>Plate Number</label>
+                <input type="text" name="v_plate_number" class="form-control" value="<?= htmlspecialchars($f['v_plate_number']) ?>">
+              </div>
+              <div class="pr-form-grid pr-form-grid-3col" style="grid-column: 1 / -1;">
+                <div class="pr-form-field">
+                  <label>Brand</label>
+                  <input type="text" name="v_brand" class="form-control" value="<?= htmlspecialchars($f['v_brand']) ?>">
+                </div>
+                <div class="pr-form-field">
+                  <label>Model</label>
+                  <input type="text" name="v_model" class="form-control" value="<?= htmlspecialchars($f['v_model']) ?>">
+                </div>
+                <div class="pr-form-field">
+                  <label>Color</label>
+                  <input type="text" name="v_color" class="form-control" value="<?= htmlspecialchars($f['v_color']) ?>">
+                </div>
+              </div>
+              <div class="pr-form-field">
+                <label>Address</label>
+                <textarea name="address" class="form-control" rows="2"><?= htmlspecialchars($f['address']) ?></textarea>
+              </div>
+              <div class="pr-form-field">
+                <label>Driver's License Image</label>
+                <input type="text" name="drivers_license_img" class="form-control" placeholder="filename.jpg or link" value="<?= htmlspecialchars($f['drivers_license_img']) ?>">
+              </div>
+              <div class="pr-form-field">
+                <label>OR/CR Image</label>
+                <input type="text" name="v_or_cr_img" class="form-control" placeholder="filename.jpg or link" value="<?= htmlspecialchars($f['v_or_cr_img']) ?>">
+              </div>
+              <div class="pr-form-field pr-form-actions d-flex">
+                <button type="submit" name="review_single" value="1" class="btn btn-pr-primary">Review &amp; Register</button>
+                <a href="riders.php" class="btn btn-pr-secondary">Cancel</a>
+              </div>
             </div>
           </form>
         </div>
@@ -546,8 +550,8 @@ require __DIR__ . '/includes/header.php';
               • Up to <?= PASTE_MAX_ROWS ?> rows per paste. Duplicates are flagged before saving.
             </div>
             <div class="d-flex gap-2 pt-3">
-              <button type="submit" name="review_paste" value="1" class="btn btn-primary">Review Rows</button>
-              <a href="riders.php" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" name="review_paste" value="1" class="btn btn-pr-primary">Review Rows</button>
+              <a href="riders.php" class="btn btn-pr-secondary">Cancel</a>
             </div>
           </form>
         </div>
@@ -636,11 +640,11 @@ require __DIR__ . '/includes/header.php';
                 onclick="return confirm('Register <?= count($payloadRows) ?> driver(s) into the database?');">
           Confirm &amp; Register <?= count($payloadRows) ?> Driver<?= count($payloadRows) === 1 ? '' : '(s)' ?>
         </button>
-        <a href="rider_create.php" class="btn btn-outline-secondary">Start Over</a>
+        <a href="rider_create.php" class="btn btn-pr-secondary">Start Over</a>
       </form>
       <?php else: ?>
       <div class="alert alert-secondary mb-0">Nothing eligible to register — go back and fix or drop the flagged rows.</div>
-      <a href="rider_create.php" class="btn btn-outline-secondary mt-2">Back</a>
+      <a href="rider_create.php" class="btn btn-pr-secondary mt-2">Back</a>
       <?php endif; ?>
     </div>
   </div>
@@ -660,7 +664,7 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="table-responsive bg-white">
-    <table class="table table-striped table-hover align-middle mb-0">
+    <table class="table table-striped table-hover align-middle mb-0 pr-table">
       <thead>
         <tr>
           <th>#</th>
@@ -697,8 +701,8 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="mt-3">
-    <a href="rider_create.php" class="btn btn-primary">Add More Driver(s)</a>
-    <a href="riders.php" class="btn btn-outline-secondary">Go to Drivers</a>
+    <a href="rider_create.php" class="btn btn-pr-primary">Add More Driver(s)</a>
+    <a href="riders.php" class="btn btn-pr-secondary">Go to Drivers</a>
   </div>
 <?php endif; ?>
 

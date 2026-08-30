@@ -267,7 +267,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="bookings.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Bookings</a>
+  <a href="bookings.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Bookings</a>
 </div>
 
 <?php if ($errorMsg !== ''): ?>
@@ -338,7 +338,7 @@ require __DIR__ . '/includes/header.php';
                      placeholder="09xxxxxxxxx" value="<?= htmlspecialchars($_POST['assign_rider_mobile'] ?? '') ?>" required>
             </div>
             <div class="col-auto">
-              <button type="submit" class="btn btn-sm btn-primary">Assign Rider</button>
+              <button type="submit" class="btn btn-sm btn-pr-primary">Assign Rider</button>
             </div>
           </form>
         </div>
@@ -353,7 +353,7 @@ require __DIR__ . '/includes/header.php';
       <div class="card h-100">
         <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
           <span>Trip Details</span>
-          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shareSummaryModal">
+          <button type="button" class="btn btn-sm btn-pr-secondary" data-bs-toggle="modal" data-bs-target="#shareSummaryModal">
             Share Summary
           </button>
         </div>
@@ -502,7 +502,7 @@ require __DIR__ . '/includes/header.php';
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-pr-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

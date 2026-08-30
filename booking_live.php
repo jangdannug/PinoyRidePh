@@ -72,7 +72,7 @@ require __DIR__ . '/includes/header.php';
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <div class="mb-3 d-flex gap-2">
-  <a href="booking_show.php?id=<?= (int)$id ?>" class="btn btn-sm btn-outline-secondary">&laquo; Back to Booking</a>
+  <a href="booking_show.php?id=<?= (int)$id ?>" class="btn btn-sm btn-pr-secondary">&laquo; Back to Booking</a>
 </div>
 
 <?php if ($errorMsg !== ''): ?>

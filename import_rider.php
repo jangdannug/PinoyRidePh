@@ -427,7 +427,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="riders.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Riders</a>
+  <a href="riders.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Riders</a>
 </div>
 
 <h4 class="mb-3">Import Riders from CSV</h4>
@@ -450,7 +450,7 @@ require __DIR__ . '/includes/header.php';
           <input type="file" name="csv_file" class="form-control" accept=".csv" required>
         </div>
         <div class="col-md-4">
-          <button type="submit" class="btn btn-primary">Upload &amp; Preview</button>
+          <button type="submit" class="btn btn-pr-primary">Upload &amp; Preview</button>
         </div>
       </form>
     </div>
@@ -460,7 +460,7 @@ require __DIR__ . '/includes/header.php';
 
   <div class="d-flex justify-content-between align-items-center mb-2">
     <span class="text-muted"><?= count($rows) ?> row(s) parsed — review the mapping below before ingesting.</span>
-    <a href="import_rider.php" class="btn btn-sm btn-outline-secondary">Upload a different file</a>
+    <a href="import_rider.php" class="btn btn-sm btn-pr-secondary">Upload a different file</a>
   </div>
 
   <div class="table-responsive bg-white mb-3">
@@ -527,7 +527,7 @@ require __DIR__ . '/includes/header.php';
     <button type="submit" class="btn btn-success" onclick="return confirm('Ingest <?= count($rows) ?> rider(s) into the database?');">
       Confirm &amp; Ingest <?= count($rows) ?> Row(s)
     </button>
-    <a href="import_rider.php" class="btn btn-outline-secondary">Cancel</a>
+    <a href="import_rider.php" class="btn btn-pr-secondary">Cancel</a>
   </form>
 
 <?php elseif ($mode === 'ingest'): ?>
@@ -545,7 +545,7 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="table-responsive bg-white">
-    <table class="table table-striped table-hover align-middle mb-0">
+    <table class="table table-striped table-hover align-middle mb-0 pr-table">
       <thead>
         <tr>
           <th>#</th>
@@ -582,8 +582,8 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="mt-3">
-    <a href="import_rider.php" class="btn btn-outline-secondary">Import Another File</a>
-    <a href="riders.php" class="btn btn-primary">Go to Riders</a>
+    <a href="import_rider.php" class="btn btn-pr-secondary">Import Another File</a>
+    <a href="riders.php" class="btn btn-pr-primary">Go to Riders</a>
   </div>
 
 <?php endif; ?>

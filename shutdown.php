@@ -78,7 +78,7 @@ require __DIR__ . '/includes/header.php';
                     onclick="return confirm('Stop the admin panel? You will need to run START-ADMIN again to use it.');">
               Shutdown
             </button>
-            <a href="index.php" class="btn btn-outline-secondary ms-2">Cancel</a>
+            <a href="index.php" class="btn btn-pr-secondary ms-2">Cancel</a>
           </form>
         <?php endif; ?>
       </div>

@@ -156,25 +156,26 @@ require __DIR__ . '/includes/header.php';
 
 <h4 class="mb-3">Nearby Active Drivers</h4>
 
-<div class="card filter-card mb-4">
-  <div class="card-body">
-    <form method="get" class="row g-3">
-      <div class="col-md-9">
-        <label class="form-label">Pickup Address</label>
+<div class="pr-card">
+  <div class="pr-card-title">Find Nearby Drivers</div>
+  <form method="get">
+    <div class="pr-filter-row">
+      <div class="pr-filter-field">
+        <label>Pickup Address</label>
         <input type="text" name="address" class="form-control" placeholder="e.g. 40 Falcon, Quezon City, Metro Manila" value="<?= htmlspecialchars($address) ?>" required>
       </div>
-      <div class="col-md-3 d-flex align-items-end">
-        <button type="submit" class="btn btn-primary w-100">Find Drivers</button>
+      <div class="pr-filter-actions">
+        <button type="submit" class="btn btn-pr-primary">Find Drivers</button>
       </div>
-      <div class="col-12">
+      <div class="pr-filter-field" style="flex: 1 1 100%;">
         <input type="hidden" name="online_only" value="0">
-        <div class="form-check">
+        <div class="pr-checkbox-row">
           <input type="checkbox" name="online_only" id="online_only" value="1" class="form-check-input" <?= $onlineOnly ? 'checked' : '' ?>>
-          <label class="form-check-label" for="online_only">Online only (app-online and logged in)</label>
+          <label for="online_only">Online only (app-online and logged in)</label>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <?php if ($errorMsg !== ''): ?>
@@ -193,7 +194,7 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="table-responsive bg-white">
-    <table class="table table-striped table-hover align-middle mb-0 dataTable">
+    <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table">
       <thead>
         <tr>
           <th>Distance</th>
@@ -241,13 +242,13 @@ require __DIR__ . '/includes/header.php';
               ?></td>
               <td>
                 <?= ((int)$r['is_online'] === 1 && (int)$r['is_login'] === 1)
-                      ? '<span class="badge bg-success">Online</span>'
-                      : '<span class="badge bg-secondary">Offline</span>' ?>
+                      ? '<span class="badge pr-badge pr-badge-active">Online</span>'
+                      : '<span class="badge pr-badge pr-badge-inactive">Offline</span>' ?>
               </td>
               <td>
                 <?= ((int)$r['is_available'] === 1)
-                      ? '<span class="badge bg-success">Yes</span>'
-                      : '<span class="badge bg-secondary">No</span>' ?>
+                      ? '<span class="badge pr-badge pr-badge-active">Yes</span>'
+                      : '<span class="badge pr-badge pr-badge-inactive">No</span>' ?>
               </td>
               <td class="small"><?= val($r['current_location']) ?></td>
               <td class="d-flex gap-1">

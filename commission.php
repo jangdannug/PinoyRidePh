@@ -119,20 +119,20 @@ $activeNav = 'commission';
 require __DIR__ . '/includes/header.php';
 ?>
 
-<div class="card filter-card mb-4">
-  <div class="card-body">
-    <h5 class="card-title mb-3">Filter Commission</h5>
-    <form method="get" class="row g-3">
-      <div class="col-md-3">
-        <label class="form-label">Date Created From</label>
+<div class="pr-card">
+  <div class="pr-card-title">Filter Commission</div>
+  <form method="get">
+    <div class="pr-filter-row">
+      <div class="pr-filter-field">
+        <label>Date Created From</label>
         <input type="date" name="date_from" class="form-control" value="<?= htmlspecialchars($dateFrom) ?>">
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Date Created To</label>
+      <div class="pr-filter-field">
+        <label>Date Created To</label>
         <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
       </div>
-      <div class="col-md-2">
-        <label class="form-label">Status</label>
+      <div class="pr-filter-field">
+        <label>Status</label>
         <select name="status" class="form-control">
           <option value="">-- All --</option>
           <?php foreach (BOOKING_STATUSES as $sVal => $sLabel): ?>
@@ -140,25 +140,23 @@ require __DIR__ . '/includes/header.php';
           <?php endforeach; ?>
         </select>
       </div>
-      <div class="col-md-4">
-        <label class="form-label">Rider (name / code / mobile)</label>
+      <div class="pr-filter-field">
+        <label>Rider (name / code / mobile)</label>
         <input type="text" name="rider_q" class="form-control" placeholder="Search rider" value="<?= htmlspecialchars($riderQ) ?>" <?= $riderId > 0 ? 'disabled' : '' ?>>
       </div>
-
+      <div class="pr-filter-actions">
+        <button type="submit" class="btn btn-pr-primary">Apply</button>
+        <a href="commission.php" class="btn btn-pr-secondary">Reset</a>
+      </div>
       <?php if ($riderId > 0): ?>
         <input type="hidden" name="rider_id" value="<?= (int)$riderId ?>">
-        <div class="col-12">
+        <div style="flex: 1 1 100%; display: flex; align-items: center; gap: 8px;">
           <span class="text-muted">Scoped to rider #<?= (int)$riderId ?>.</span>
-          <a href="commission.php" class="btn btn-sm btn-outline-secondary ms-2">Clear rider scope</a>
+          <a href="commission.php" class="btn btn-sm btn-pr-secondary">Clear rider scope</a>
         </div>
       <?php endif; ?>
-
-      <div class="col-12 d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Apply</button>
-        <a href="commission.php" class="btn btn-outline-secondary">Reset</a>
-      </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <?php if ($errorMsg !== ''): ?>
@@ -229,15 +227,22 @@ require __DIR__ . '/includes/header.php';
     </div>
   </div>
 
-  <div class="row g-3">
-    <div class="col-lg-8">
-      <div class="card h-100">
-        <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center">
-          <span>Daily Breakdown</span>
-          <span class="text-muted small"><?= number_format(count($dailyRows)) ?> day<?= count($dailyRows) === 1 ? '' : 's' ?></span>
+  <div class="pr-two-col-grid">
+    <div class="pr-card h-100">
+      <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+        <span class="fw-bold fw-semibold pr-card-title mb-0">Daily Breakdown</span>
+        <span class="text-muted small"><?= number_format(count($dailyRows)) ?> day<?= count($dailyRows) === 1 ? '' : 's' ?></span>
+      </div>
+                  <div class="pr-table-wrap">
+        <div class="pr-table-toolbar">
+          <div class="pr-table-toolbar-left">
+            <div class="pr-results-count"></div>
+            <div class="pr-table-search-slot"></div>
+          </div>
+          <div class="pr-table-toolbar-right"></div>
         </div>
         <div class="table-responsive">
-          <table class="table table-striped table-hover align-middle mb-0 dataTable">
+          <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table">
             <thead>
               <tr>
                 <th>Date</th>
@@ -278,11 +283,18 @@ require __DIR__ . '/includes/header.php';
       </div>
     </div>
 
-    <div class="col-lg-4">
-      <div class="card h-100">
-        <div class="card-header bg-white fw-semibold">Top Riders by Commission</div>
+    <div class="pr-card h-100">
+      <div class="fw-semibold pr-card-title mb-2">Top Riders by Commission</div>
+                            <div class="pr-table-wrap">
+        <div class="pr-table-toolbar">
+          <div class="pr-table-toolbar-left">
+            <div class="pr-results-count"></div>
+            <div class="pr-table-search-slot"></div>
+          </div>
+          <div class="pr-table-toolbar-right"></div>
+        </div>
         <div class="table-responsive">
-          <table class="table table-striped table-hover align-middle mb-0 dataTable">
+          <table class="table table-striped table-hover align-middle mb-0 dataTable pr-table">
             <thead>
               <tr>
                 <th>Rider</th>

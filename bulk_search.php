@@ -101,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
 function bs_status_badge($status): string
 {
     return ((int)$status === 1)
-        ? '<span class="badge bg-success">Active</span>'
-        : '<span class="badge bg-secondary">Inactive</span>';
+        ? '<span class="badge pr-badge pr-badge-active">Active</span>'
+        : '<span class="badge pr-badge pr-badge-inactive">Inactive</span>';
 }
 
 require __DIR__ . '/includes/header.php';
@@ -115,18 +115,17 @@ require __DIR__ . '/includes/header.php';
   <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php endif; ?>
 
-<div class="card mb-4">
-  <div class="card-body">
-    <form method="post">
-      <label class="form-label" for="numbers">Mobile Numbers (one per line)</label>
-      <textarea id="numbers" name="numbers" class="form-control font-monospace" rows="8"
-                placeholder="09278448353&#10;09957930665&#10;09392490973&#10;..."><?= htmlspecialchars($pasteText) ?></textarea>
-      <div class="d-flex gap-2 mt-3">
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="bulk_search.php" class="btn btn-outline-secondary">Clear</a>
-      </div>
-    </form>
-  </div>
+<div class="pr-card">
+  <div class="pr-card-title">Bulk Search</div>
+  <form method="post">
+    <label class="form-label" for="numbers">Mobile Numbers (one per line)</label>
+    <textarea id="numbers" name="numbers" class="form-control font-monospace" rows="8"
+              placeholder="09278448353&#10;09957930665&#10;09392490973&#10;..."><?= htmlspecialchars($pasteText) ?></textarea>
+    <div class="pr-filter-actions mt-3">
+      <button type="submit" class="btn btn-pr-primary">Search</button>
+      <a href="bulk_search.php" class="btn btn-pr-secondary">Clear</a>
+    </div>
+  </form>
 </div>
 
 <?php if ($results !== []): ?>
@@ -154,7 +153,7 @@ require __DIR__ . '/includes/header.php';
     <div class="card-header bg-white fw-semibold">Results</div>
     <div class="card-body p-0">
       <div class="table-responsive">
-      <table class="table table-sm table-hover align-middle mb-0">
+      <table class="table table-sm table-hover align-middle mb-0 pr-table">
         <thead>
           <tr>
             <th>#</th><th>Number</th><th>Found As</th><th>Name</th><th>Code</th><th>Status</th><th>Action</th>

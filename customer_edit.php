@@ -140,7 +140,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="customer_show.php?id=<?= (int)$id ?>" class="btn btn-sm btn-outline-secondary">&laquo; Back to Customer</a>
+  <a href="customer_show.php?id=<?= (int)$id ?>" class="btn btn-sm btn-pr-secondary">&laquo; Back to Customer</a>
 </div>
 
 <?php if ($errorMsg !== '' && !$customer): ?>
@@ -209,8 +209,8 @@ require __DIR__ . '/includes/header.php';
             </div>
 
             <div class="col-12 d-flex gap-2">
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-              <a href="customer_show.php?id=<?= (int)$id ?>" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-pr-primary">Save Changes</button>
+              <a href="customer_show.php?id=<?= (int)$id ?>" class="btn btn-pr-secondary">Cancel</a>
             </div>
           </form>
         </div>

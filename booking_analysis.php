@@ -85,7 +85,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <div class="mb-3">
-  <a href="bookings.php" class="btn btn-sm btn-outline-secondary">&laquo; Back to Bookings</a>
+  <a href="bookings.php" class="btn btn-sm btn-pr-secondary">&laquo; Back to Bookings</a>
 </div>
 
 <div class="card filter-card mb-4">
@@ -101,8 +101,8 @@ require __DIR__ . '/includes/header.php';
         <input type="date" name="date_to" class="form-control" value="<?= htmlspecialchars($dateTo) ?>">
       </div>
       <div class="col-md-6 d-flex align-items-end gap-2">
-        <button type="submit" class="btn btn-primary">Apply</button>
-        <a href="booking_analysis.php" class="btn btn-outline-secondary">Reset</a>
+        <button type="submit" class="btn btn-pr-primary">Apply</button>
+        <a href="booking_analysis.php" class="btn btn-pr-secondary">Reset</a>
       </div>
     </form>
   </div>
