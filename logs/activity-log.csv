@@ -100,3 +100,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-30 16:00:19","John Roe",logout,,,"Staff logged out / shutdown"
 "2026-08-30 16:02:38","John Roe",login,,,"Staff logged in"
 "2026-08-30 16:03:43","John Roe",logout,,,"Staff logged out / shutdown"
+"2026-08-30 11:36:11","Dannah Kryzle",login,,,"Staff logged in"
