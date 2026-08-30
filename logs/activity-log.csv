@@ -103,3 +103,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-30 11:36:11","Dannah Kryzle",login,,,"Staff logged in"
 "2026-08-30 16:21:56","Mary Grace",login,,,"Staff logged in"
 "2026-08-30 17:02:11","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-08-30 11:32:01","Charen Charise",login,,,"Staff logged in"
