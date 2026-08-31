@@ -116,3 +116,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-30 22:35:02","Charen Charise",logout,,,"Staff logged out / shutdown"
 "2026-08-30 16:16:36","Dannah Kryzle",login,,,"Staff logged in"
 "2026-08-31 10:13:57","Charen Charise",login,,,"Staff logged in"
+"2026-08-30 15:56:21","John Roe",login,,,"Staff logged in"
+"2026-08-30 16:07:03","John Roe",login,,,"Staff logged in"
