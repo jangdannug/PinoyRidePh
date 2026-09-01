@@ -129,3 +129,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-01 13:11:44","Charen Charise",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-09-01 13:13:34","Charen Charise",login,,,"Staff logged in"
 "2026-09-01 13:14:06","Charen Charise",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-09-01 09:05:46","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-01 09:17:07","Dannah Kryzle",create_driver,rider,8640,"DRN-2609-8064 - Jonard Jaromamay"
+"2026-09-01 10:34:54","Dannah Kryzle",create_driver,rider,8646,"DRN-2609-8070 - Bark darrel Abella"
