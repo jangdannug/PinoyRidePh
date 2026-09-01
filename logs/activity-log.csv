@@ -162,3 +162,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-01 16:50:49","Charen Charise",logout,,,"Staff logged out / shutdown"
 "2026-09-01 14:01:58","Dannah Kryzle",login,,,"Staff logged in"
 "2026-09-01 16:56:42","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
+"2026-09-01 16:51:15","Charen Charise",logout,,,"Staff logged out / shutdown"
