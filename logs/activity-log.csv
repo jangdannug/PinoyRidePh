@@ -121,3 +121,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-08-31 11:20:44","John Roe",login,,,"Staff logged in"
 "2026-08-31 09:06:22","Dannah Kryzle",login,,,"Staff logged in"
 "2026-08-31 09:12:54","Dannah Kryzle",create_driver,rider,8639,"DRN-2608-8063 - ALLAN JOSON"
+"2026-08-31 10:48:10","Charen Charise",login,,,"Staff logged in"
