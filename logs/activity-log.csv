@@ -127,3 +127,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-01 09:25:53","Charen Charise",create_driver,rider,8642,"DRN-2609-8066 - Dexter Tompong"
 "2026-09-01 09:25:55","Charen Charise",create_driver,rider,8643,"DRN-2609-8067 - Alvin Domingo"
 "2026-09-01 13:11:44","Charen Charise",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-09-01 13:13:34","Charen Charise",login,,,"Staff logged in"
+"2026-09-01 13:14:06","Charen Charise",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
