@@ -175,3 +175,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-02 09:39:16","Mary Grace",login,,,"Staff logged in"
 "2026-09-02 09:40:24","Mary Grace",create_driver,rider,8650,"DRN-2609-8074 - roldan tabong"
 "2026-09-02 17:04:17","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-02 09:43:39","Charen Charise",login,,,"Staff logged in"
+"2026-09-02 10:13:31","Charen Charise",create_driver,rider,8653,"DRN-2609-8077 - Earl Curioso"
+"2026-09-02 17:04:08","Charen Charise",logout,,,"Staff logged out / shutdown"
