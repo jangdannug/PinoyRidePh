@@ -163,3 +163,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-01 14:01:58","Dannah Kryzle",login,,,"Staff logged in"
 "2026-09-01 16:56:42","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
 "2026-09-01 16:51:15","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-02 09:48:02","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-02 10:00:25","Dannah Kryzle",create_driver,rider,8651,"DRN-2609-8075 - LORENZO JABOYA"
+"2026-09-02 10:05:07","Dannah Kryzle",create_driver,rider,8652,"DRN-2609-8076 - Christopher john Salazar"
+"2026-09-02 12:05:08","Dannah Kryzle",create_driver,rider,8654,"DRN-2609-8078 - John Tyron Odo"
+"2026-09-02 17:09:27","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
