@@ -209,3 +209,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-03 13:40:32",Rhelyn,logout,,,"Switched to Mary Grace"
 "2026-09-03 13:40:32","Mary Grace",login,,,"Staff logged in"
 "2026-09-03 15:17:03","Mary Grace",create_driver,rider,8660,"DRN-2609-8084 - Jericho Labsan"
+"2026-09-03 16:59:21","Mary Grace",login,,,"Staff logged in"
+"2026-09-03 16:59:44","Mary Grace",logout,,,"Staff logged out / shutdown"
