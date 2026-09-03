@@ -180,3 +180,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-02 17:04:08","Charen Charise",logout,,,"Staff logged out / shutdown"
 "2026-09-03 09:19:23","Dannah Kryzle",login,,,"Staff logged in"
 "2026-09-03 09:24:14","Dannah Kryzle",create_driver,rider,8656,"DRN-2609-8080 - Mark anthony Lancita"
+"2026-09-03 09:08:23","Charen Charise",login,,,"Staff logged in"
+"2026-09-03 09:08:54","Charen Charise",login,,,"Staff logged in"
