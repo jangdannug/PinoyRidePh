@@ -213,3 +213,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-03 16:59:44","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-09-03 16:15:22","Charen Charise",login,,,"Staff logged in"
 "2026-09-03 17:00:44","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-04 08:28:49","Mary Grace",login,,,"Staff logged in"
+"2026-09-04 08:38:22","Mary Grace",logout,,,"Staff logged out / shutdown"
