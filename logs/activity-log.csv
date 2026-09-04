@@ -256,3 +256,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-04 09:37:21",Normelyn,login,,,"Staff logged in"
 "2026-09-04 17:53:23",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-04 17:53:37",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-04 17:56:13",Normelyn,login,,,"Staff logged in"
+"2026-09-04 17:56:28",Normelyn,logout,,,"Staff logged out / shutdown"
