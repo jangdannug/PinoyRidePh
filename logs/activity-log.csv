@@ -226,3 +226,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-04 10:57:29","Mary Grace",login,,,"Staff logged in"
 "2026-09-04 11:36:50","Mary Grace",bulk_search,,,"Searched 15 numbers: 2 passengers, 13 drivers, 0 both, 0 not found"
 "2026-09-04 11:46:22","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-04 09:45:17","Charen Charise",login,,,"Staff logged in"
