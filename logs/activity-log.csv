@@ -239,3 +239,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-05 09:13:55","Mary Grace",login,,,"Staff logged in"
 "2026-09-05 11:29:41","Mary Grace",create_driver,rider,8668,"DRN-2609-8092 - Julius Villegas"
 "2026-09-05 11:37:17","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-05 10:44:43","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-05 10:45:13","Dannah Kryzle",create_driver,rider,8667,"DRN-2609-8091 - ronald diesta"
