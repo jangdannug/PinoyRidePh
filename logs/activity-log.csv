@@ -251,3 +251,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-05 17:04:49","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-09-05 11:54:20","Charen Charise",login,,,"Staff logged in"
 "2026-09-05 11:59:47","Charen Charise",create_driver,rider,8670,"DRN-2609-8094 - RICHARD ESGUERRA"
+"2026-09-05 17:10:05","Charen Charise",login,,,"Staff logged in"
+"2026-09-05 17:10:21","Charen Charise",logout,,,"Staff logged out / shutdown"
