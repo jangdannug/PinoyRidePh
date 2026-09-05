@@ -249,3 +249,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-05 16:52:55","Mary Grace",create_driver,rider,8672,"DRN-2609-8096 - Daryl Jumawan"
 "2026-09-05 16:57:51","Mary Grace",create_passenger,customer,227,"CUST-2609-196 - Emma Pascual"
 "2026-09-05 17:04:49","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-05 11:54:20","Charen Charise",login,,,"Staff logged in"
+"2026-09-05 11:59:47","Charen Charise",create_driver,rider,8670,"DRN-2609-8094 - RICHARD ESGUERRA"
