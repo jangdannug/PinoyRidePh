@@ -267,3 +267,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-05 12:00:28","Dannah Kryzle",login,,,"Staff logged in"
 "2026-09-05 12:01:01","Dannah Kryzle",create_driver,rider,8669,"DRN-2609-8093 - Gear Bechachino"
 "2026-09-05 19:04:34","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
+"2026-09-06 08:38:09","Mary Grace",login,,,"Staff logged in"
+"2026-09-06 08:38:53","Mary Grace",create_driver,rider,8673,"DRN-2609-8097 - Ryan ver Marquez"
+"2026-09-06 11:29:16","Mary Grace",create_driver,rider,8674,"DRN-2609-8098 - Chris Barcinas"
+"2026-09-06 11:33:04","Mary Grace",logout,,,"Staff logged out / shutdown"
