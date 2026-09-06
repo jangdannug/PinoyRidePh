@@ -278,3 +278,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-06 17:18:26",Normelyn,login,,,"Staff logged in"
 "2026-09-06 17:18:47",Normelyn,create_driver,rider,8676,"DRN-2609-8100 - Ansel Ignacio"
 "2026-09-06 11:37:40","Charen Charise",login,,,"Staff logged in"
+"2026-09-06 21:30:12","Charen Charise",login,,,"Staff logged in"
+"2026-09-06 21:30:27","Charen Charise",logout,,,"Staff logged out / shutdown"
