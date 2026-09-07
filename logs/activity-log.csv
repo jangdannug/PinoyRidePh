@@ -301,3 +301,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-07 12:18:43","Dannah Kryzle",create_driver,rider,8681,"DRN-2609-8105 - Francis Jan Rubrico"
 "2026-09-07 13:35:02","Mary Grace",login,,,"Staff logged in"
 "2026-09-07 13:36:05","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-07 09:18:13","Charen Charise",login,,,"Staff logged in"
+"2026-09-07 11:02:51","Charen Charise",create_driver,rider,8678,"DRN-2609-8102 - CARLO PIQUIT"
+"2026-09-07 15:44:23","Charen Charise",create_driver,rider,8698,"DRN-2609-8122 - Francis Ramos"
+"2026-09-07 17:07:05","Charen Charise",logout,,,"Staff logged out / shutdown"
