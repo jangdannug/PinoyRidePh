@@ -299,3 +299,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-07 11:25:06","Dannah Kryzle",create_driver,rider,8679,"DRN-2609-8103 - Jude Kevin Bustamante"
 "2026-09-07 11:46:27","Dannah Kryzle",create_driver,rider,8680,"DRN-2609-8104 - John Christopher hale Francisco"
 "2026-09-07 12:18:43","Dannah Kryzle",create_driver,rider,8681,"DRN-2609-8105 - Francis Jan Rubrico"
+"2026-09-07 13:35:02","Mary Grace",login,,,"Staff logged in"
+"2026-09-07 13:36:05","Mary Grace",logout,,,"Staff logged out / shutdown"
