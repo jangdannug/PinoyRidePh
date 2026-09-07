@@ -295,3 +295,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-06 17:30:01","Dannah Kryzle",logout,,,"Switched to Normelyn"
 "2026-09-06 17:30:01",Normelyn,login,,,"Staff logged in"
 "2026-09-06 17:30:24",Normelyn,create_driver,rider,8677,"DRN-2609-8101 - Leonardo Campos"
+"2026-09-07 09:20:43","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-07 11:25:06","Dannah Kryzle",create_driver,rider,8679,"DRN-2609-8103 - Jude Kevin Bustamante"
+"2026-09-07 11:46:27","Dannah Kryzle",create_driver,rider,8680,"DRN-2609-8104 - John Christopher hale Francisco"
+"2026-09-07 12:18:43","Dannah Kryzle",create_driver,rider,8681,"DRN-2609-8105 - Francis Jan Rubrico"
