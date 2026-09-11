@@ -375,3 +375,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-11 11:29:07",Normelyn,create_driver,rider,8757,"DRN-2609-8181 - Glyndle Edison Etrata"
 "2026-09-11 13:15:22",Normelyn,create_passenger,customer,234,"CUST-2609-203 - Mhel Remegio"
 "2026-09-11 17:22:07",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-11 17:22:21",Normelyn,logout,,,"Staff logged out / shutdown"
