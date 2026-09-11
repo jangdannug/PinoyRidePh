@@ -364,3 +364,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-10 10:19:40","Charen Charise",create_passenger,customer,231,"CUST-2609-200 - Angelo Viana"
 "2026-09-10 10:19:41","Charen Charise",create_passenger,customer,232,"CUST-2609-201 - charles trinidad"
 "2026-09-10 13:17:23","Charen Charise",create_driver,rider,8742,"DRN-2609-8166 - Niel Patrik Biguelme"
+"2026-09-11 09:10:05","Charen Charise",login,,,"Staff logged in"
+"2026-09-11 09:53:03","Charen Charise",create_driver,rider,8754,"DRN-2609-8178 - yasser Abpet"
+"2026-09-11 12:17:20","Charen Charise",bulk_search,,,"Searched 14 numbers: 1 passengers, 13 drivers, 0 both, 0 not found"
+"2026-09-11 12:17:49","Charen Charise",bulk_search,,,"Searched 14 numbers: 1 passengers, 13 drivers, 0 both, 0 not found"
