@@ -205,7 +205,12 @@ $behindRaw = @(Invoke-Git rev-list --count HEAD..origin/main)
 $script:PushRetries = 0
 $script:Pushed      = 0
 while ($true) {
-    $rbOut = @(Invoke-Git rebase origin/main)
+    # --merge forces the 3-way merge backend so a per-machine logs/.boot-id
+    # ALWAYS surfaces as a conflict for the resolver below. The old plain
+    # `git rebase` on some Git builds silently re-applies .boot-id to every
+    # replayed commit (modify/delete "resolved" by keeping the file), which
+    # left it tracked forever and kept the churn alive.
+    $rbOut = @(Invoke-Git rebase --merge origin/main)
 
     # Auto-resolve conflicts that are ONLY inside logs/ (belt-and-suspenders:
     # normally the .gitattributes union rule means there is no conflict at all).
@@ -255,6 +260,20 @@ while ($true) {
     }
 
     $ahead = 0
+    # Safety sweep (defense in depth): no matter which rebase backend ran, a
+    # stale per-machine logs/.boot-id must NEVER be part of HEAD. If any
+    # replayed commit smuggled one in, remove it from tracking now - the push
+    # below then goes out without it (and heals origin if a LAGGING machine
+    # temporarily re-uploaded one).
+    if (@(Invoke-Git ls-files -- logs/.boot-id).Count -gt 0) {
+        [void](Invoke-Git rm --cached -- logs/.boot-id)
+        $null = Invoke-Git commit --amend --no-edit
+        if ($LASTEXITCODE -eq 0) {
+            Info 'Dropped per-machine logs/.boot-id from HEAD (kept the file on disk).'
+        } else {
+            Warn 'Could not amend .boot-id out of HEAD - ask your admin.'
+        }
+    }
     $aheadRaw = @(Invoke-Git rev-list --count origin/main..HEAD)
     [void][int]::TryParse("$($aheadRaw | Select-Object -First 1)", [ref]$ahead)
 
