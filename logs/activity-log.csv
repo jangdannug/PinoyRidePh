@@ -377,3 +377,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-11 17:22:07",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-11 17:22:21",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-08-31 10:15:59","John Roe",login,,,"Staff logged in"
+"2026-09-07 11:50:38","John Roe",login,,,"Staff logged in"
+"2026-09-07 12:15:54","John Roe",create_driver,rider,8682,"DRN-2609-8106 - mary grace dagupan"
