@@ -459,3 +459,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-12 16:16:29","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-09-12 15:36:39",Normelyn,login,,,"Staff logged in"
 "2026-09-12 17:09:35",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-12 17:09:48",Normelyn,logout,,,"Staff logged out / shutdown"
