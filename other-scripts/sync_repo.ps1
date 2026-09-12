@@ -220,10 +220,12 @@ while ($true) {
         foreach ($f in $conflicted) { Union-ResolveLogFile $f }
         [void](Invoke-Git add -- logs/)
         # logs/.boot-id is per-machine: mark it resolved so the rebase can
-        # continue, but immediately unstage it so the replayed commit DROPS
-        # this machine's boot-id churn instead of re-introducing it (this is
-        # exactly what kept making the sync stop on machines with a backlog).
-        [void](Invoke-Git reset -q -- logs/.boot-id)
+        # continue, but RESOLVE IT AS DELETED (git rm), not merely unstaged -
+        # the file must leave git tracking once and for all. (A D/M conflict
+        # resolved with a plain `git reset` would silently keep the other
+        # side's copy tracked and the churn never ends.) Deleting the local
+        # worktree copy is harmless: start_admin.ps1 recreates it on boot.
+        [void](Invoke-Git rm -f -- logs/.boot-id 2>$null)
         $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
             # a replayed commit can become EMPTY after the union merge - drop it
