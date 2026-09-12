@@ -162,13 +162,9 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # ---------------- 2. commit this machine's activity log -------------------
-# The ONLY thing that is ever committed + pushed automatically. logs/.boot-id
-# is per-machine and must NEVER be committed (it has snuck back in before via
-# `git add -- logs/` on machines whose history still tracks it, which is what
-# caused the recurring rebase conflicts). So stage the ONE shared file
-# explicitly, and unstage .boot-id first as a belt-and-suspenders.
-[void](Invoke-Git reset -q -- logs/.boot-id)
-[void](Invoke-Git add -- logs/activity-log.csv)
+# The ONLY thing that is ever committed + pushed automatically. No -f, so
+# gitignored per-machine files (logs/.boot-id) stay out.
+[void](Invoke-Git add -- logs/)
 $staged = @(Invoke-Git diff --cached --name-only)
 if ($staged.Count -gt 0) {
     $null = Invoke-Git commit -m $CommitMessage
@@ -205,32 +201,18 @@ $behindRaw = @(Invoke-Git rev-list --count HEAD..origin/main)
 $script:PushRetries = 0
 $script:Pushed      = 0
 while ($true) {
-    # --merge forces the 3-way merge backend so a per-machine logs/.boot-id
-    # ALWAYS surfaces as a conflict for the resolver below. The old plain
-    # `git rebase` on some Git builds silently re-applies .boot-id to every
-    # replayed commit (modify/delete "resolved" by keeping the file), which
-    # left it tracked forever and kept the churn alive.
-    $rbOut = @(Invoke-Git rebase --merge origin/main)
+    $rbOut = @(Invoke-Git rebase origin/main)
 
     # Auto-resolve conflicts that are ONLY inside logs/ (belt-and-suspenders:
     # normally the .gitattributes union rule means there is no conflict at all).
-    # Allow MORE rounds than before: a machine that was offline for a while
-    # replays many local commits and EVERY one can conflict on the logs/ files.
     $rbTries = 0
-    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 25)) {
+    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 5)) {
         $conflicted = Get-ConflictedFiles
         if ($conflicted.Count -eq 0) { break }                # failed, no conflict
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) { break }                    # real conflict
         foreach ($f in $conflicted) { Union-ResolveLogFile $f }
         [void](Invoke-Git add -- logs/)
-        # logs/.boot-id is per-machine: mark it resolved so the rebase can
-        # continue, but RESOLVE IT AS DELETED (git rm), not merely unstaged -
-        # the file must leave git tracking once and for all. (A D/M conflict
-        # resolved with a plain `git reset` would silently keep the other
-        # side's copy tracked and the churn never ends.) Deleting the local
-        # worktree copy is harmless: start_admin.ps1 recreates it on boot.
-        [void](Invoke-Git rm -f -- logs/.boot-id 2>$null)
         $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
             # a replayed commit can become EMPTY after the union merge - drop it
@@ -260,20 +242,6 @@ while ($true) {
     }
 
     $ahead = 0
-    # Safety sweep (defense in depth): no matter which rebase backend ran, a
-    # stale per-machine logs/.boot-id must NEVER be part of HEAD. If any
-    # replayed commit smuggled one in, remove it from tracking now - the push
-    # below then goes out without it (and heals origin if a LAGGING machine
-    # temporarily re-uploaded one).
-    if (@(Invoke-Git ls-files -- logs/.boot-id).Count -gt 0) {
-        [void](Invoke-Git rm --cached -- logs/.boot-id)
-        $null = Invoke-Git commit --amend --no-edit
-        if ($LASTEXITCODE -eq 0) {
-            Info 'Dropped per-machine logs/.boot-id from HEAD (kept the file on disk).'
-        } else {
-            Warn 'Could not amend .boot-id out of HEAD - ask your admin.'
-        }
-    }
     $aheadRaw = @(Invoke-Git rev-list --count origin/main..HEAD)
     [void][int]::TryParse("$($aheadRaw | Select-Object -First 1)", [ref]$ahead)
 
