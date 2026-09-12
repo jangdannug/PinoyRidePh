@@ -162,9 +162,13 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # ---------------- 2. commit this machine's activity log -------------------
-# The ONLY thing that is ever committed + pushed automatically. No -f, so
-# gitignored per-machine files (logs/.boot-id) stay out.
-[void](Invoke-Git add -- logs/)
+# The ONLY thing that is ever committed + pushed automatically. logs/.boot-id
+# is per-machine and must NEVER be committed (it has snuck back in before via
+# `git add -- logs/` on machines whose history still tracks it, which is what
+# caused the recurring rebase conflicts). So stage the ONE shared file
+# explicitly, and unstage .boot-id first as a belt-and-suspenders.
+[void](Invoke-Git reset -q -- logs/.boot-id)
+[void](Invoke-Git add -- logs/activity-log.csv)
 $staged = @(Invoke-Git diff --cached --name-only)
 if ($staged.Count -gt 0) {
     $null = Invoke-Git commit -m $CommitMessage
@@ -205,14 +209,21 @@ while ($true) {
 
     # Auto-resolve conflicts that are ONLY inside logs/ (belt-and-suspenders:
     # normally the .gitattributes union rule means there is no conflict at all).
+    # Allow MORE rounds than before: a machine that was offline for a while
+    # replays many local commits and EVERY one can conflict on the logs/ files.
     $rbTries = 0
-    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 5)) {
+    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 25)) {
         $conflicted = Get-ConflictedFiles
         if ($conflicted.Count -eq 0) { break }                # failed, no conflict
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) { break }                    # real conflict
         foreach ($f in $conflicted) { Union-ResolveLogFile $f }
         [void](Invoke-Git add -- logs/)
+        # logs/.boot-id is per-machine: mark it resolved so the rebase can
+        # continue, but immediately unstage it so the replayed commit DROPS
+        # this machine's boot-id churn instead of re-introducing it (this is
+        # exactly what kept making the sync stop on machines with a backlog).
+        [void](Invoke-Git reset -q -- logs/.boot-id)
         $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
             # a replayed commit can become EMPTY after the union merge - drop it
