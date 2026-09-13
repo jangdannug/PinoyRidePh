@@ -466,3 +466,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-13 13:25:52",Normelyn,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-09-13 13:26:42",Normelyn,bulk_search,,,"Searched 4 numbers: 0 passengers, 4 drivers, 0 both, 0 not found"
 "2026-09-13 13:36:41",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-11 12:18:54","Charen Charise",login,,,"Staff logged in"
+"2026-09-13 20:47:11","Charen Charise",logout,,,"Staff logged out / shutdown"
