@@ -503,3 +503,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-15 14:22:59","Charen Charise",create_driver,rider,8776,"DRN-2609-8200 - Cjay Bonete"
 "2026-09-15 14:36:40","Charen Charise",create_driver,rider,8779,"DRN-2609-8203 - Albert jamuel Marasigan"
 "2026-09-15 15:29:23","Charen Charise",bulk_search,,,"Searched 10 numbers: 1 passengers, 8 drivers, 0 both, 1 not found"
+"2026-09-15 16:46:37","Mary Grace",login,,,"Staff logged in"
+"2026-09-15 16:58:10","Mary Grace",logout,,,"Staff logged out / shutdown"
