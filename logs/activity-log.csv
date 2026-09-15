@@ -513,3 +513,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-15 14:26:36",Normelyn,create_driver,rider,8778,"DRN-2609-8202 - Armin Ordanza"
 "2026-09-15 15:20:23",Normelyn,create_passenger,customer,242,"CUST-2609-211 - John Michael Tutanes"
 "2026-09-15 16:58:23",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-15 16:58:35",Normelyn,logout,,,"Staff logged out / shutdown"
