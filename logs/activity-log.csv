@@ -488,3 +488,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-14 10:36:17",Normelyn,create_passenger,customer,240,"CUST-2609-209 - Eduardo Trinidad"
 "2026-09-14 18:04:29",Normelyn,bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
 "2026-09-14 18:04:52",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-14 15:29:48","Charen Charise",login,,,"Staff logged in"
