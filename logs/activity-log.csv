@@ -516,3 +516,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-15 16:58:35",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-15 16:19:04","Charen Charise",login,,,"Staff logged in"
 "2026-09-15 16:58:36","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-16 09:15:48","Charen Charise",login,,,"Staff logged in"
