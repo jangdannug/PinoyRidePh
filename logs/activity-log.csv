@@ -522,3 +522,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-16 12:02:46","Charen Charise",login,,,"Staff logged in"
 "2026-09-16 14:07:02","Charen Charise",login,,,"Staff logged in"
 "2026-09-16 14:59:06","Charen Charise",create_driver,rider,8784,"DRN-2609-8208 - Estephano Bascos"
+"2026-09-17 13:37:00","Mary Grace",login,,,"Staff logged in"
