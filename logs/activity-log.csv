@@ -523,3 +523,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-16 14:07:02","Charen Charise",login,,,"Staff logged in"
 "2026-09-16 14:59:06","Charen Charise",create_driver,rider,8784,"DRN-2609-8208 - Estephano Bascos"
 "2026-09-17 13:37:00","Mary Grace",login,,,"Staff logged in"
+"2026-09-17 09:20:27",Normelyn,login,,,"Staff logged in"
+"2026-09-17 09:27:17",Normelyn,create_driver,rider,8785,"DRN-2609-8209 - Joseph Albert Azul"
+"2026-09-17 09:41:46",Normelyn,create_passenger,customer,243,"CUST-2609-212 - jonathan lumangaya"
+"2026-09-17 10:32:55",Normelyn,bulk_search,,,"Searched 12 numbers: 0 passengers, 10 drivers, 2 both, 0 not found"
