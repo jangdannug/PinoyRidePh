@@ -533,3 +533,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-17 09:26:28","Charen Charise",login,,,"Staff logged in"
 "2026-09-17 15:56:32","Charen Charise",create_driver,rider,8790,"DRN-2609-8214 - Jayvee Monterde"
 "2026-09-17 16:53:31","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-17 16:54:00","Charen Charise",logout,,,"Staff logged out / shutdown"
