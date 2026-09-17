@@ -529,3 +529,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-17 14:43:50",Normelyn,login,,,"Staff logged in"
 "2026-09-17 16:12:40",Normelyn,login,,,"Staff logged in"
 "2026-09-17 16:13:00",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-17 16:13:39","Dannah Kryzle",login,,,"Staff logged in"
