@@ -534,3 +534,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-17 14:18:09","Mary Grace",logout,,,"Switched to Rhelyn"
 "2026-09-17 14:18:09",Rhelyn,login,,,"Staff logged in"
 "2026-09-17 14:18:23",Rhelyn,create_driver,rider,8788,"DRN-2609-8212 - Alexander Parcon"
+"2026-09-17 15:17:14",Rhelyn,login,,,"Staff logged in"
+"2026-09-17 15:21:31",Rhelyn,login,,,"Staff logged in"
+"2026-09-17 15:21:49",Rhelyn,create_driver,rider,8789,"DRN-2609-8213 - John joart Gabrinao"
+"2026-09-17 15:23:24",Rhelyn,logout,,,"Staff logged out / shutdown"
