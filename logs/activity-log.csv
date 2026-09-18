@@ -552,3 +552,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 09:55:39","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-09-18 09:56:18","Mary Grace",login,,,"Staff logged in"
 "2026-09-18 09:56:49","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-18 09:58:37",Rhelyn,login,,,"Staff logged in"
+"2026-09-18 10:00:12",Rhelyn,logout,,,"Switched to Mary Grace"
+"2026-09-18 10:00:12","Mary Grace",login,,,"Staff logged in"
+"2026-09-18 10:02:47","Mary Grace",logout,,,"Staff logged out / shutdown"
