@@ -550,3 +550,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 09:42:51",Rhelyn,logout,,,"Switched to Mary Grace"
 "2026-09-18 09:42:51","Mary Grace",login,,,"Staff logged in"
 "2026-09-18 09:55:39","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-18 09:56:18","Mary Grace",login,,,"Staff logged in"
+"2026-09-18 09:56:49","Mary Grace",logout,,,"Staff logged out / shutdown"
