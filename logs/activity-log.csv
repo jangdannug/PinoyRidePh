@@ -570,3 +570,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 16:37:28","Charen Charise",bulk_search,,,"Searched 15 numbers: 3 passengers, 12 drivers, 0 both, 0 not found"
 "2026-09-18 16:51:14","Charen Charise",logout,,,"Staff logged out / shutdown"
 "2026-09-18 16:51:49","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-18 18:01:40","Mary Grace",login,,,"Staff logged in"
+"2026-09-18 18:01:46","Mary Grace",login,,,"Staff logged in"
+"2026-09-18 18:09:54","Mary Grace",logout,,,"Staff logged out / shutdown"
