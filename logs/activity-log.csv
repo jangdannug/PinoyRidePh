@@ -558,3 +558,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 10:02:47","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-09-18 11:33:41","Mary Grace",login,,,"Staff logged in"
 "2026-09-18 14:31:16","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-18 09:09:25",Normelyn,login,,,"Staff logged in"
+"2026-09-18 09:17:26",Normelyn,create_driver,rider,8792,"DRN-2609-8216 - jhoanna marie dela cruz"
+"2026-09-18 09:32:20",Normelyn,create_driver,rider,8793,"DRN-2609-8217 - Jeffrey Sanchez"
+"2026-09-18 16:37:23",Normelyn,logout,,,"Staff logged out / shutdown"
