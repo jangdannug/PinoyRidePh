@@ -573,3 +573,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 18:01:40","Mary Grace",login,,,"Staff logged in"
 "2026-09-18 18:01:46","Mary Grace",login,,,"Staff logged in"
 "2026-09-18 18:09:54","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-18 18:10:54","Mary Grace",login,,,"Staff logged in"
+"2026-09-18 18:11:06","Mary Grace",create_passenger,customer,245,"CUST-2609-214 - Angelo Ramos"
+"2026-09-18 18:15:17","Mary Grace",create_passenger,customer,246,"CUST-2609-215 - Frank Arzaga"
+"2026-09-18 18:19:04","Mary Grace",logout,,,"Staff logged out / shutdown"
