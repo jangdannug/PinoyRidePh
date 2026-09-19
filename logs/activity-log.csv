@@ -582,3 +582,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 14:43:07","Dannah Kryzle",create_driver,rider,8798,"DRN-2609-8222 - Joseph Ryan Magaway"
 "2026-09-18 14:47:21","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 1 passengers, 14 drivers, 0 both, 0 not found"
 "2026-09-18 14:48:09","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 13 drivers, 2 both, 0 not found"
+"2026-09-12 12:46:35","John Roe",login,,,"Staff logged in"
+"2026-09-12 12:48:29","John Roe",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-12 12:48:56","John Roe",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-12 12:49:46","John Roe",bulk_search,,,"Searched 20 numbers: 1 passengers, 17 drivers, 2 both, 0 not found"
+"2026-09-12 12:51:37","John Roe",bulk_search,,,"Searched 20 numbers: 2 passengers, 18 drivers, 0 both, 0 not found"
