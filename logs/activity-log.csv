@@ -577,3 +577,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-18 18:11:06","Mary Grace",create_passenger,customer,245,"CUST-2609-214 - Angelo Ramos"
 "2026-09-18 18:15:17","Mary Grace",create_passenger,customer,246,"CUST-2609-215 - Frank Arzaga"
 "2026-09-18 18:19:04","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-18 09:15:58","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-18 14:43:04","Dannah Kryzle",create_driver,rider,8797,"DRN-2609-8221 - Ramil Naesa"
+"2026-09-18 14:43:07","Dannah Kryzle",create_driver,rider,8798,"DRN-2609-8222 - Joseph Ryan Magaway"
+"2026-09-18 14:47:21","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 1 passengers, 14 drivers, 0 both, 0 not found"
+"2026-09-18 14:48:09","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 13 drivers, 2 both, 0 not found"
