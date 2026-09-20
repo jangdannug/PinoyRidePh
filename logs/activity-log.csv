@@ -603,3 +603,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-19 12:59:49","Mary Grace",bulk_search,,,"Searched 13 numbers: 2 passengers, 10 drivers, 1 both, 0 not found"
 "2026-09-19 13:00:21","Mary Grace",bulk_search,,,"Searched 13 numbers: 2 passengers, 11 drivers, 0 both, 0 not found"
 "2026-09-19 14:12:31","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-19 12:03:17","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-19 12:06:27","Dannah Kryzle",create_driver,rider,8799,"DRN-2609-8223 - Arcel Arales"
+"2026-09-19 12:10:08","Dannah Kryzle",bulk_search,,,"Searched 16 numbers: 1 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-19 12:13:17","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 13 drivers, 2 both, 0 not found"
+"2026-09-19 12:14:40","Dannah Kryzle",create_driver,rider,8800,"DRN-2609-8224 - Rodel Sealmoy"
