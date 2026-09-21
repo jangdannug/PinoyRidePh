@@ -382,6 +382,41 @@ body {
   width: 100%;
 }
 
+/* ---------- Frozen (sticky) lead columns for wide tables ----------
+   Add class="pr-table-sticky" to the table and pr-sticky pr-sticky-N to the
+   first four cells of EVERY row (thead included) — used by bulk_search.php
+   where the results table is wider than the viewport. The fixed widths keep
+   the cumulative `left` offsets of the frozen columns predictable while the
+   remaining columns scroll horizontally inside .table-responsive / .pr-table-scroll.
+
+   A sticky cell needs an opaque background or the columns scrolling underneath
+   would show through it, so each row state (plain, striped pair rows, Not Found,
+   hover) is repeated below. */
+.pr-table-sticky .pr-sticky {
+  position: sticky;
+  z-index: 2;
+  background-color: #ffffff;
+}
+
+.pr-table-sticky thead .pr-sticky {
+  z-index: 3;                 /* above the frozen body cells */
+  background-color: #eef1f5;   /* matches `.table thead th` in includes/header.php */
+}
+
+.pr-table-sticky tbody tr.table-warning .pr-sticky { background-color: var(--bs-warning-bg-subtle); }
+.pr-table-sticky tbody tr.table-danger  .pr-sticky { background-color: var(--bs-danger-bg-subtle); }
+.pr-table-sticky tbody tr:hover         .pr-sticky { background-color: #fafafa; }
+
+.pr-table-sticky .pr-sticky-1 { left: 0;     width: 46px;  min-width: 46px;  white-space: nowrap; }
+.pr-table-sticky .pr-sticky-2 { left: 46px;  width: 150px; min-width: 150px; white-space: nowrap; }
+.pr-table-sticky .pr-sticky-3 { left: 196px; width: 104px; min-width: 104px; white-space: nowrap; }
+.pr-table-sticky .pr-sticky-4 {
+  left: 300px;
+  min-width: 210px;
+  border-right: 1px solid var(--pr-border-color);
+  box-shadow: 6px 0 6px -6px rgba(0, 0, 0, .18);   /* seam between frozen and scrolling columns */
+}
+
 /* Truncated address cell with ellipsis + hover tooltip */
 .pr-table td.pr-address-cell {
   max-width: 220px;
