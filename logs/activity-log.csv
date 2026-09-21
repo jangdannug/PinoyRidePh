@@ -630,3 +630,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 09:24:48","Charen Charise",create_driver,rider,8813,"DRN-2609-8237 - Renante Macahilig"
 "2026-09-21 09:24:50","Charen Charise",create_driver,rider,8814,"DRN-2609-8238 - Rhon llyod Formaran"
 "2026-09-21 09:28:26","Charen Charise",create_passenger,customer,255,"CUST-2609-224 - Janlee Martinez"
+"2026-09-21 09:33:54","Charen Charise",login,,,"Staff logged in"
+"2026-09-21 09:34:16","Charen Charise",login,,,"Staff logged in"
+"2026-09-21 09:34:16","Charen Charise",login,,,"Staff logged in"
