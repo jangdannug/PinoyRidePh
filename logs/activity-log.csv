@@ -729,3 +729,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 15:32:01","Charen Charise",bulk_search,,,"Searched 20 numbers: 4 passengers, 15 drivers, 1 both, 0 not found"
 "2026-09-21 15:38:10","Charen Charise",create_driver,rider,8818,"DRN-2609-8242 - janjan bergantinc"
 "2026-09-21 16:47:47","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-21 16:48:21","Charen Charise",logout,,,"Staff logged out / shutdown"
