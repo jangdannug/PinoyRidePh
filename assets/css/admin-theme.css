@@ -568,6 +568,17 @@ body {
   color: #ffffff;
 }
 
+/* Bulk Search "Checker" column: Valid = has tracking data, Invalid = none */
+.pr-badge-valid {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
+.pr-badge-invalid {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
 /* ---------- Headings ---------- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--pr-font);

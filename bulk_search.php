@@ -148,6 +148,19 @@ function bs_lat($v): string
     return ($v === null || $v === '') ? '—' : htmlspecialchars((string)$v);
 }
 
+// "Checker" column: a record counts as Valid when it has tracking data — a
+// Last Online timestamp or a Current Lat (e.g. 14.7563177). Passengers have
+// no last_online_datetime column at all, so they validate on current_lat
+// alone.
+function bs_checker(array $rec): string
+{
+    $hasOnline = isset($rec['last_online_datetime']) && trim((string)$rec['last_online_datetime']) !== '';
+    $hasLat    = isset($rec['current_lat']) && trim((string)$rec['current_lat']) !== '';
+    return ($hasOnline || $hasLat)
+        ? '<span class="badge pr-badge pr-badge-valid">Valid</span>'
+        : '<span class="badge pr-badge pr-badge-invalid">Invalid</span>';
+}
+
 // Sort key for the "Created At" column: the earliest created_at among the
 // records found for one input number (a number can be both a passenger and a
 // driver), or null for "Not Found" rows, which always sort last.
@@ -252,6 +265,7 @@ require __DIR__ . '/includes/header.php';
             <th>Last Online</th>
             <th>Last Offline</th>
             <th>Current Lat</th>
+            <th>Checker</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -277,6 +291,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_checker($r['customer']) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
               <tr class="<?= $rowClass ?>">
@@ -288,6 +303,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_checker($r['rider']) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'customer'): ?>
@@ -302,6 +318,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_checker($r['customer']) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'rider'): ?>
@@ -316,6 +333,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_checker($r['rider']) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php else: ?>
@@ -334,6 +352,7 @@ require __DIR__ . '/includes/header.php';
                 </td>
                 <td></td>
                 <td></td>
+                <td>--</td>
                 <td>--</td>
                 <td>--</td>
                 <td>--</td>
