@@ -721,3 +721,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 14:24:44",Normelyn,bulk_search,,,"Searched 20 numbers: 5 passengers, 15 drivers, 0 both, 0 not found"
 "2026-09-21 16:47:49",Normelyn,login,,,"Staff logged in"
 "2026-09-21 16:48:03",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-21 16:48:15",Normelyn,logout,,,"Staff logged out / shutdown"
