@@ -711,3 +711,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 16:00:23",Rhelyn,login,,,"Staff logged in"
 "2026-09-21 16:03:20",Rhelyn,create_driver,rider,8819,"DRN-2609-8243 - frederick paala"
 "2026-09-21 16:10:36",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-21 16:14:16",Rhelyn,login,,,"Staff logged in"
+"2026-09-21 16:15:04",Rhelyn,create_driver,rider,8820,"DRN-2609-8244 - Melvin John Gobangco"
+"2026-09-21 16:16:44",Rhelyn,logout,,,"Switched to Mary Grace"
+"2026-09-21 16:16:44","Mary Grace",login,,,"Staff logged in"
+"2026-09-21 16:38:05","Mary Grace",logout,,,"Staff logged out / shutdown"
