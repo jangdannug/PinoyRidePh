@@ -625,3 +625,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-20 13:17:35",Rhelyn,login,,,"Staff logged in"
 "2026-09-20 13:17:50",Rhelyn,create_driver,rider,8812,"DRN-2609-8236 - eleazar cabayan"
 "2026-09-21 09:19:48",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-19 11:56:57","Charen Charise",login,,,"Staff logged in"
