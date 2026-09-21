@@ -679,3 +679,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 12:37:30","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 2 passengers, 18 drivers, 0 both, 0 not found"
 "2026-09-21 12:37:58","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 4 passengers, 15 drivers, 1 both, 0 not found"
 "2026-09-21 12:39:53","Dannah Kryzle",create_driver,rider,8817,"DRN-2609-8241 - Francisco Santos"
+"2026-09-19 13:12:57","John Roe",login,,,"Staff logged in"
+"2026-09-19 13:15:37","John Roe",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
