@@ -702,3 +702,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-21 14:01:34","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-09-21 14:03:43","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-09-21 14:24:31","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
+"2026-09-21 14:24:08","Mary Grace",login,,,"Staff logged in"
+"2026-09-21 14:24:18","Mary Grace",bulk_search,,,"Searched 15 numbers: 3 passengers, 12 drivers, 0 both, 0 not found"
+"2026-09-21 14:29:43","Mary Grace",logout,,,"Staff logged out / shutdown"
