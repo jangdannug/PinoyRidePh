@@ -9,20 +9,47 @@ $activeNav = 'bulk_search';
 
 $pasteText = '';
 $results   = [];   // one row per input number
-$summary   = ['found_customer' => 0, 'found_rider' => 0, 'found_both' => 0, 'not_found' => 0, 'total' => 0];
+$summary   = ['found_customer' => 0, 'found_rider' => 0, 'found_both' => 0, 'not_found' => 0, 'total' => 0, 'valid' => 0, 'invalid' => 0];
 $errorMsg  = '';
-$sort      = '';   // Created At ordering: '' = paste order, 'asc' = oldest first, 'desc' = newest first
+$sort      = 'asc'; // Created At ordering: defaults to oldest first ('asc'); 'desc' = newest first
+$dateFrom  = '';   // Last Online / Offline range start (YYYY-MM-DD, '' = open-ended)
+$dateTo    = '';   // Last Online / Offline range end   (YYYY-MM-DD, '' = open-ended)
+$fromTs    = null; // unix timestamp of $dateFrom 00:00:00 (null = no lower bound)
+$toTs      = null; // unix timestamp of $dateTo 23:59:59   (null = no upper bound)
+$rangeOn   = false; // true once at least one range bound is set
+$filter    = '';   // Checker filter: '' = all records, 'valid' | 'invalid'
 
 const BULK_SEARCH_MAX = 1000; // safety cap
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
     $pasteText = (string)$_POST['numbers'];
 
-    // Created At ordering — whitelisted, so a tampered value simply falls back
-    // to paste order rather than reaching the sort comparison.
-    $sort = (string)($_POST['sort'] ?? '');
+    // Created At ordering — whitelisted, and it defaults to oldest first:
+    // a fresh search (which posts no sort at all) or a tampered value both
+    // end up ordered oldest -> newest.
+    $sort = (string)($_POST['sort'] ?? 'asc');
     if (!in_array($sort, ['asc', 'desc'], true)) {
-        $sort = '';
+        $sort = 'asc';
+    }
+
+    // Date range for the Last Online / Last Offline columns (inclusive whole
+    // days). Format is whitelisted like $sort, so a tampered value simply
+    // disables that bound instead of reaching the comparison below.
+    $dateFrom = trim((string)($_POST['date_from'] ?? ''));
+    $dateTo   = trim((string)($_POST['date_to'] ?? ''));
+    if ($dateFrom !== '' && !bs_valid_date($dateFrom)) $dateFrom = '';
+    if ($dateTo !== '' && !bs_valid_date($dateTo)) $dateTo = '';
+    $ts     = $dateFrom !== '' ? strtotime($dateFrom . ' 00:00:00') : false;
+    $fromTs = $ts === false ? null : (int)$ts;
+    $ts     = $dateTo !== '' ? strtotime($dateTo . ' 23:59:59') : false;
+    $toTs   = $ts === false ? null : (int)$ts;
+    $rangeOn = ($fromTs !== null || $toTs !== null);
+
+    // Checker filter ('' = all, else 'valid' | 'invalid') — whitelisted like
+    // the sort toggle, so a tampered value simply shows every record.
+    $filter = (string)($_POST['checker_filter'] ?? '');
+    if (!in_array($filter, ['valid', 'invalid'], true)) {
+        $filter = '';
     }
 
     // Split on any whitespace / newline / comma, keep non-empty
@@ -33,6 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
         $errorMsg = 'Paste at least one mobile number.';
     } elseif (count($rawTokens) > BULK_SEARCH_MAX) {
         $errorMsg = 'Too many numbers (' . count($rawTokens) . '). Max is ' . BULK_SEARCH_MAX . ' per search.';
+    } elseif ($rangeOn && $fromTs !== null && $toTs !== null && $fromTs > $toTs) {
+        $errorMsg = 'Invalid date range: "From" must be on or before "To".';
     } else {
         // Normalize each input to the 63xxxxxxxxxx format used in the DB.
         // Keep a map of normalized -> original input(s) so we can show what was pasted.
@@ -102,9 +131,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
         }
         $summary['total'] = count($results);
 
-        // Order by registration date when asked for. A number that is both a
-        // passenger and a driver sorts by the earliest of its two records, so
-        // the pair sits where that person first appeared in the system.
+        // Checker totals across ALL found records — computed before the
+        // optional Valid/Invalid filter below so the summary cards always
+        // show the full picture. Passengers: Valid = Current Lat not empty.
+        // Drivers: Valid = Last Online or Last Offline inside the picked range.
+        foreach ($results as $r) {
+            foreach (['customer', 'rider'] as $key) {
+                $rec = $r[$key] ?? null;
+                if ($rec === null) continue;
+                if (bs_is_valid($rec, $fromTs, $toTs)) $summary['valid']++;
+                else $summary['invalid']++;
+            }
+        }
+
+        // Order by registration date (always on: oldest first by default,
+        // newest first when toggled). A number that is both a passenger and a
+        // driver sorts by the earliest of its two records, so the pair sits
+        // where that person first appeared in the system.
         // "Not Found" rows carry no date and always stay at the bottom.
         // usort() is stable, so equal dates keep the paste order.
         if ($sort !== '') {
@@ -118,10 +161,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             });
         }
 
-        // Log the search
+        // Checker filter: keep only the record rows whose Checker verdict
+        // matches, flattened to one row per record — a "both" number can
+        // contribute just its matching side. Runs after the sort so the
+        // order is preserved. Not Found rows have no Checker and never match.
+        if ($filter !== '') {
+            $wantValid = ($filter === 'valid');
+            $flat = [];
+            foreach ($results as $r) {
+                foreach (['customer', 'rider'] as $key) {
+                    $rec = $r[$key] ?? null;
+                    if ($rec === null || bs_is_valid($rec, $fromTs, $toTs) !== $wantValid) continue;
+                    $flat[] = [
+                        'input'      => $r['input'],
+                        'normalized' => $r['normalized'],
+                        'type'       => $key,
+                        'customer'   => $key === 'customer' ? $rec : null,
+                        'rider'      => $key === 'rider' ? $rec : null,
+                    ];
+                }
+            }
+            $results = $flat;
+        }
+
+        // Log the search (range bounds and filter included when used)
         log_activity('bulk_search', '', '', 'Searched ' . $summary['total'] . ' numbers: '
             . $summary['found_customer'] . ' passengers, ' . $summary['found_rider'] . ' drivers, '
-            . $summary['found_both'] . ' both, ' . $summary['not_found'] . ' not found');
+            . $summary['found_both'] . ' both, ' . $summary['not_found'] . ' not found'
+            . ($rangeOn ? ' | range ' . ($dateFrom !== '' ? $dateFrom : '...') . ' to ' . ($dateTo !== '' ? $dateTo : '...') : '')
+            . ($filter !== '' ? ' | filtered: ' . $filter . ' only' : ''));
     }
 }
 
@@ -141,6 +209,16 @@ function bs_dt($v): string
     return $ts ? htmlspecialchars(date('Y-m-d h:i A', $ts)) : htmlspecialchars((string)$v);
 }
 
+// Calendar-date whitelist for the Last Online / Offline range pickers
+// (rejects e.g. 2026-02-31, which strtotime would silently roll over).
+// Same philosophy as the $sort whitelist: a tampered value just disables
+// that bound rather than erroring out.
+function bs_valid_date(string $d): bool
+{
+    if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m)) return false;
+    return checkdate((int)$m[2], (int)$m[3], (int)$m[1]);
+}
+
 // current_lat is varchar(255) in the DB and is NULL/'' for records that never
 // reported a location (most passengers), so show an em dash rather than "".
 function bs_lat($v): string
@@ -148,15 +226,41 @@ function bs_lat($v): string
     return ($v === null || $v === '') ? '—' : htmlspecialchars((string)$v);
 }
 
-// "Checker" column: a record counts as Valid when it has tracking data — a
-// Last Online timestamp or a Current Lat (e.g. 14.7563177). Passengers have
-// no last_online_datetime column at all, so they validate on current_lat
-// alone.
-function bs_checker(array $rec): string
+// "Checker" column. Shared verdict, also used for the summary totals and the
+// Valid / Invalid list filter. Drivers (riders) are ruled purely by the date
+// range: Valid when Last Online OR Last Offline falls inside it (inclusive
+// whole days; empty or unparsable timestamps are never in range). Passengers
+// have no last_online_datetime / last_offline_datetime columns at all — they
+// are Valid when Current Lat is not empty. With no range picked the bounds
+// are open, so any parseable timestamp counts as in range for drivers.
+// A record counts as a driver when the rider SELECT columns are present
+// (array_key_exists, because a NULL timestamp would fail isset()).
+function bs_is_valid(array $rec, ?int $fromTs, ?int $toTs): bool
 {
-    $hasOnline = isset($rec['last_online_datetime']) && trim((string)$rec['last_online_datetime']) !== '';
-    $hasLat    = isset($rec['current_lat']) && trim((string)$rec['current_lat']) !== '';
-    return ($hasOnline || $hasLat)
+    $isDriver = array_key_exists('last_online_datetime', $rec)
+        || array_key_exists('last_offline_datetime', $rec);
+
+    if (!$isDriver) {
+        // Passenger (customer record): ruled by the presence of a location fix.
+        return isset($rec['current_lat']) && trim((string)$rec['current_lat']) !== '';
+    }
+
+    foreach (['last_online_datetime', 'last_offline_datetime'] as $key) {
+        $v = $rec[$key] ?? null;
+        if ($v === null || trim((string)$v) === '') continue;
+        $ts = strtotime((string)$v);
+        if ($ts === false) continue;
+        if (($fromTs === null || $ts >= $fromTs) && ($toTs === null || $ts <= $toTs)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// "Checker" column badge — the only column that carries Valid / Invalid.
+function bs_checker(array $rec, ?int $fromTs = null, ?int $toTs = null): string
+{
+    return bs_is_valid($rec, $fromTs, $toTs)
         ? '<span class="badge pr-badge pr-badge-valid">Valid</span>'
         : '<span class="badge pr-badge pr-badge-invalid">Invalid</span>';
 }
@@ -180,69 +284,133 @@ function bs_created_ts(array $r): ?int
 require __DIR__ . '/includes/header.php';
 ?>
 
-<h4 class="mb-3">Bulk Mobile Number Search</h4>
-<p class="text-muted">Paste a list of mobile numbers (any format: 09xx, 9xx, +63xx). Searches both Passengers and Drivers at once.</p>
+<div class="pr-page-head">
+  <h4 class="mb-1">Bulk Mobile Number Search</h4>
+  <div class="pr-page-sub">
+    <span class="pr-hint">Paste mobile numbers (one per line). Any format: 09xx, 9xx, +63xx.</span>
+    <details class="pr-how-it-works">
+      <summary>ⓘ How it works</summary>
+      <p class="text-muted">
+        Paste a list of mobile numbers (any format: 09xx, 9xx, +63xx). Searches both Passengers and Drivers at once.
+        Optionally pick a From / To date range below to rule the Checker column:
+        Drivers are <span class="badge pr-badge pr-badge-valid">Valid</span> when their Last Online or Last Offline
+        falls inside the range; passengers are <span class="badge pr-badge pr-badge-valid">Valid</span> when Current Lat
+        is not empty; everything else is <span class="badge pr-badge pr-badge-invalid">Invalid</span>.
+        Click the Valid / Invalid totals below to list just those records.
+      </p>
+    </details>
+  </div>
+</div>
 
 <?php if ($errorMsg !== ''): ?>
   <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php endif; ?>
 
-<div class="pr-card">
+<div class="pr-card pr-bulk-search-card">
   <div class="pr-card-title">Bulk Search</div>
   <form method="post">
-    <label class="form-label" for="numbers">Mobile Numbers (one per line)</label>
-    <textarea id="numbers" name="numbers" class="form-control font-monospace" rows="8"
-              placeholder="09278448353&#10;09957930665&#10;09392490973&#10;..."><?= htmlspecialchars($pasteText) ?></textarea>
-    <div class="pr-filter-actions mt-3">
-      <button type="submit" class="btn btn-pr-primary">Search</button>
-      <a href="bulk_search.php" class="btn btn-pr-secondary">Clear</a>
+    <div class="pr-bulk-search-grid">
+      <div class="pr-bulk-search-left">
+        <label class="form-label" for="numbers">Mobile Numbers (one per line)</label>
+        <textarea id="numbers" name="numbers" class="form-control font-monospace pr-bulk-textarea" rows="5"
+                  placeholder="09278448353&#10;09957930665&#10;09392490973&#10;..."><?= htmlspecialchars($pasteText) ?></textarea>
+      </div>
+      <div class="pr-bulk-search-right">
+        <div class="pr-bulk-dates">
+          <div class="pr-filter-field">
+            <label for="date_from">Last Online / Offline From</label>
+            <input type="date" id="date_from" name="date_from" class="form-control"
+                   value="<?= htmlspecialchars($dateFrom) ?>">
+          </div>
+          <div class="pr-filter-field">
+            <label for="date_to">To</label>
+            <input type="date" id="date_to" name="date_to" class="form-control"
+                   value="<?= htmlspecialchars($dateTo) ?>">
+          </div>
+        </div>
+        <div class="pr-bulk-actions">
+          <button type="submit" class="btn btn-pr-primary">Search</button>
+          <a href="bulk_search.php" class="btn btn-pr-secondary">Clear</a>
+        </div>
+      </div>
     </div>
   </form>
 </div>
 
-<?php if ($results !== []): ?>
+<?php if ($summary['total'] > 0): ?>
 
-  <!-- Summary -->
-  <div class="row g-3 mb-4">
-    <div class="col"><div class="card text-center"><div class="card-body py-3">
-      <h4 class="mb-0"><?= $summary['total'] ?></h4><small class="text-muted">Total Searched</small>
-    </div></div></div>
-    <div class="col"><div class="card text-center"><div class="card-body py-3">
-      <h4 class="text-success mb-0"><?= $summary['found_customer'] ?></h4><small class="text-muted">Passengers</small>
-    </div></div></div>
-    <div class="col"><div class="card text-center"><div class="card-body py-3">
-      <h4 class="text-info mb-0"><?= $summary['found_rider'] ?></h4><small class="text-muted">Drivers</small>
-    </div></div></div>
-    <div class="col"><div class="card text-center"><div class="card-body py-3">
-      <h4 class="text-warning mb-0"><?= $summary['found_both'] ?></h4><small class="text-muted">Both</small>
-    </div></div></div>
-    <div class="col"><div class="card text-center"><div class="card-body py-3">
-      <h4 class="text-danger mb-0"><?= $summary['not_found'] ?></h4><small class="text-muted">Not Found</small>
-    </div></div></div>
-  </div>
+  <!-- Summary chips. These submit buttons re-run the same search with
+       checker_filter set so the table lists only those records;
+       the "All" chip (and "Show All" while filtered) clears it again. -->
+  <form method="post" id="pr-chip-filter-form">
+    <input type="hidden" name="numbers" value="<?= htmlspecialchars($pasteText) ?>">
+    <input type="hidden" name="sort" value="<?= htmlspecialchars($sort) ?>">
+    <input type="hidden" name="date_from" value="<?= htmlspecialchars($dateFrom) ?>">
+    <input type="hidden" name="date_to" value="<?= htmlspecialchars($dateTo) ?>">
+  </form>
 
   <?php
     // "Created At" column header is a sort toggle (plain form post, so the
-    // pasted numbers survive the round-trip): paste order -> oldest -> newest
-    // -> paste order.
-    $sortNext  = $sort === 'asc' ? 'desc' : ($sort === 'desc' ? '' : 'asc');
-    $sortLabel = $sort === 'asc' ? 'Oldest first' : ($sort === 'desc' ? 'Newest first' : '');
-    $sortIcon  = $sort === 'asc' ? '&#9650;' : ($sort === 'desc' ? '&#9660;' : '&#8645;');
+    // pasted numbers survive the round-trip): oldest first <-> newest first.
+    // Oldest first is the default for every fresh search.
+    $sortNext  = $sort === 'asc' ? 'desc' : 'asc';
+    $sortLabel = $sort === 'asc' ? 'Oldest first' : 'Newest first';
+    $sortIcon  = $sort === 'asc' ? '&#9650;' : '&#9660;';
     $sortTitle = $sort === 'asc'
         ? 'Sorted by registration date, oldest first - click for newest first'
-        : ($sort === 'desc'
-            ? 'Sorted by registration date, newest first - click to go back to paste order'
-            : 'Click to sort by registration date (oldest first)');
+        : 'Sorted by registration date, newest first - click for oldest first';
+
+    // Active Last Online / Offline date range — shown in the results header
+    // Active date range + Checker filter — reflected in the results header
+    // and in the Checker column tooltip.
+    $rangeLabel = $rangeOn
+        ? (($dateFrom !== '' ? $dateFrom : 'start') . ' -> ' . ($dateTo !== '' ? $dateTo : 'today'))
+        : '';
+    $checkerTitle = 'Drivers: Valid when Last Online or Last Offline falls inside the picked date range. '
+        . 'Passengers: Valid when Current Lat is not empty.'
+        . ($rangeOn ? ' Active range: ' . $rangeLabel . '.' : ' No range picked, so any timestamp counts as in range.');
+    $headerMeta = [];
+    if ($rangeOn) {
+        $headerMeta[] = 'Range: ' . $rangeLabel . ' — Checker: drivers ruled by range, passengers by Current Lat';
+    }
+    if ($filter !== '') {
+        $headerMeta[] = 'Filter: showing ' . $filter . ' records only (' . count($results) . ' of ' . ($summary['valid'] + $summary['invalid']) . ')';
+    }
+    if ($sortLabel !== '') {
+        $headerMeta[] = 'Sort: ' . $sortLabel;
+    }
   ?>
-  <div class="card mb-4">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-      <span class="fw-semibold">Results</span>
-      <?php if ($sortLabel !== ''): ?>
-        <span class="small fw-normal text-muted">Sort: <?= $sortLabel ?></span>
-      <?php endif; ?>
+  <div class="pr-card pr-bulk-results-card">
+    <div class="pr-bulk-results-head">
+      <div class="pr-bulk-results-title">
+        <span class="pr-card-title mb-0">Results</span>
+        <?php if ($headerMeta !== []): ?>
+        <span class="pr-bulk-range text-muted"><?= htmlspecialchars(implode(chr(32).chr(124).chr(32), $headerMeta)) ?></span>
+        <?php endif; ?>
+      </div>
+      <div class="pr-chips" role="group" aria-label="Filter results">
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value=""
+                class="pr-chip pr-chip-all<?= $filter === '' ? ' active' : '' ?><?= $summary['total'] === 0 ? ' is-zero' : '' ?>"
+                title="Show every record">All <?= $summary['total'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="valid"
+                class="pr-chip pr-chip-valid<?= $filter === 'valid' ? ' active' : '' ?><?= $summary['valid'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only Valid records (drivers: timestamp in range, passengers: Current Lat set)">Valid <?= $summary['valid'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="invalid"
+                class="pr-chip pr-chip-invalid<?= $filter === 'invalid' ? ' active' : '' ?><?= $summary['invalid'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only Invalid records">Invalid <?= $summary['invalid'] ?></button>
+        <span class="pr-chip-sep" aria-hidden="true"></span>
+        <span class="pr-chip pr-chip-static pr-chip-customer<?= $summary['found_customer'] === 0 ? ' is-zero' : '' ?>" title="Passenger rows in this search">Passengers <?= $summary['found_customer'] ?></span>
+        <span class="pr-chip pr-chip-static pr-chip-rider<?= $summary['found_rider'] === 0 ? ' is-zero' : '' ?>" title="Driver rows in this search">Drivers <?= $summary['found_rider'] ?></span>
+        <span class="pr-chip pr-chip-static pr-chip-both<?= $summary['found_both'] === 0 ? ' is-zero' : '' ?>" title="Numbers found as both passenger and driver">Both <?= $summary['found_both'] ?></span>
+        <span class="pr-chip pr-chip-static pr-chip-notfound<?= $summary['not_found'] === 0 ? ' is-zero' : '' ?>" title="Numbers not found">Not found <?= $summary['not_found'] ?></span>
+        <?php if ($filter !== ''): ?>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="" class="pr-chip pr-chip-showall" title="Clear the Valid / Invalid filter and show every record">&#8635; Show All</button>
+        <?php endif; ?>
+      </div>
+      <div class="pr-bulk-results-meta text-muted">Showing <?= count($results) ?> of <?= ($summary['valid'] + $summary['invalid']) ?> &middot; Sorted: <?= htmlspecialchars($sortLabel) ?></div>
     </div>
     <div class="card-body p-0">
-      <div class="table-responsive pr-table-scroll">
+      <div class="table-responsive pr-table-scroll pr-bulk-table-wrap">
       <table class="table table-sm table-hover align-middle mb-0 pr-table pr-table-sticky">
         <thead>
           <tr>
@@ -255,6 +423,10 @@ require __DIR__ . '/includes/header.php';
               <form method="post" class="d-inline mb-0">
                 <input type="hidden" name="numbers" value="<?= htmlspecialchars($pasteText) ?>">
                 <input type="hidden" name="sort" value="<?= htmlspecialchars($sortNext) ?>">
+                <!-- Keep the date range and Checker filter alive across the sort round-trip -->
+                <input type="hidden" name="date_from" value="<?= htmlspecialchars($dateFrom) ?>">
+                <input type="hidden" name="date_to" value="<?= htmlspecialchars($dateTo) ?>">
+                <input type="hidden" name="checker_filter" value="<?= htmlspecialchars($filter) ?>">
                 <button type="submit" class="btn btn-link p-0 text-decoration-none"
                         style="color:inherit;font-weight:inherit"
                         title="<?= htmlspecialchars($sortTitle) ?>">
@@ -265,7 +437,7 @@ require __DIR__ . '/includes/header.php';
             <th>Last Online</th>
             <th>Last Offline</th>
             <th>Current Lat</th>
-            <th>Checker</th>
+            <th title="<?= htmlspecialchars($checkerTitle) ?>">Checker</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -291,7 +463,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
-                <td><?= bs_checker($r['customer']) ?></td>
+                <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
               <tr class="<?= $rowClass ?>">
@@ -303,7 +475,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
-                <td><?= bs_checker($r['rider']) ?></td>
+                <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'customer'): ?>
@@ -318,7 +490,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
-                <td><?= bs_checker($r['customer']) ?></td>
+                <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'rider'): ?>
@@ -333,7 +505,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
-                <td><?= bs_checker($r['rider']) ?></td>
+                <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php else: ?>
@@ -361,6 +533,13 @@ require __DIR__ . '/includes/header.php';
               </tr>
             <?php endif; ?>
           <?php endforeach; ?>
+          <?php if ($results === [] && $filter !== ''): ?>
+            <tr>
+              <td colspan="12" class="text-center text-muted py-4">
+                No <?= htmlspecialchars($filter) ?> records found — use "Show All" above to reset the filter.
+              </td>
+            </tr>
+          <?php endif; ?>
         </tbody>
       </table>
       </div>
