@@ -9,7 +9,8 @@ $activeNav = 'bulk_search';
 
 $pasteText = '';
 $results   = [];   // one row per input number
-$summary   = ['found_customer' => 0, 'found_rider' => 0, 'found_both' => 0, 'not_found' => 0, 'total' => 0, 'valid' => 0, 'invalid' => 0];
+$summary   = ['found_customer' => 0, 'found_rider' => 0, 'found_both' => 0, 'not_found' => 0, 'total' => 0, 'valid' => 0, 'invalid' => 0, 'duplicates' => 0];
+$dupeGroups = [];  // normalized => ['count' => N, 'inputs' => [...raw variants]] for dupes pasted 2+ times
 $errorMsg  = '';
 $sort      = 'asc'; // Created At ordering: defaults to oldest first ('asc'); 'desc' = newest first
 $dateFrom  = '';   // Last Online / Offline range start (YYYY-MM-DD, '' = open-ended)
@@ -45,10 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
     $toTs   = $ts === false ? null : (int)$ts;
     $rangeOn = ($fromTs !== null || $toTs !== null);
 
-    // Checker filter ('' = all, else 'valid' | 'invalid') — whitelisted like
+    // Checker + type filter ('' = all, else 'valid' | 'invalid' | 'passenger'
+    // | 'driver' | 'both' | 'not_found' | 'duplicates') — whitelisted like
     // the sort toggle, so a tampered value simply shows every record.
     $filter = (string)($_POST['checker_filter'] ?? '');
-    if (!in_array($filter, ['valid', 'invalid'], true)) {
+    if (!in_array($filter, ['valid', 'invalid', 'passenger', 'driver', 'both', 'not_found', 'duplicates'], true)) {
         $filter = '';
     }
 
@@ -85,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             // last_online_datetime / last_offline_datetime — those two columns
             // only exist on public.riders, so passenger rows show "—" for them.
             $custStmt = $pdo->prepare(
-                "SELECT id, code, fname, mname, lname, mobile, email, status, is_verified, created_at, current_lat
+                "SELECT id, code, fname, mname, lname, mobile, email, status, is_verified, is_login, created_at, current_lat
                  FROM public.customer WHERE mobile IN ($in)"
             );
             $custStmt->execute($uniqueNorms);
@@ -95,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
 
             // Riders (drivers)
             $riderStmt = $pdo->prepare(
-                "SELECT id, code, first_name, middle_name, last_name, mobile_no, email_address, status, is_verified, created_at,
+                "SELECT id, code, first_name, middle_name, last_name, mobile_no, email_address, status, is_verified, is_login, created_at,
                         last_online_datetime, last_offline_datetime, current_lat
                  FROM public.riders WHERE mobile_no IN ($in)"
             );
@@ -105,11 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             }
         }
 
-        // Build one result row per unique input number (preserve paste order, dedupe)
+        // Build one result row per unique input number (preserve paste order, dedupe).
+        // Duplicate pastes are tracked in $dupeGroups so the Duplicates chip can
+        // show how many extras were entered and the filter can list just them.
         $seen = [];
+        $dupeCounts = [];
         foreach ($normalizedList as $idx => $norm) {
             $origInput = $rawTokens[$idx];
             $dedupeKey = $norm !== '' ? $norm : 'raw:' . $origInput;
+            $dupeCounts[$dedupeKey] = ($dupeCounts[$dedupeKey] ?? 0) + 1;
             if (isset($seen[$dedupeKey])) continue;
             $seen[$dedupeKey] = true;
 
@@ -127,13 +133,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
                 'type'       => $type,
                 'customer'   => $cust,
                 'rider'      => $rider,
+                'dupe_count' => 1, // overwritten below from $dupeCounts
             ];
         }
+        // Stamp how many times each unique number was pasted; >1 = duplicate row.
+        foreach ($results as &$r) {
+            $key = $r['normalized'] !== '' ? $r['normalized'] : 'raw:' . $r['input'];
+            $r['dupe_count'] = $dupeCounts[$key] ?? 1;
+            if ($r['dupe_count'] > 1) {
+                $dupeGroups[$key] = [
+                    'count'      => $r['dupe_count'],
+                    'input'      => $r['input'],
+                    'normalized' => $r['normalized'],
+                ];
+            }
+        }
+        unset($r);
         $summary['total'] = count($results);
+        // Extra pastes beyond the first occurrence (e.g. 3x pasted = 2 dupes).
+        $summary['duplicates'] = array_sum(array_map(
+            static fn(array $g): int => $g['count'] - 1,
+            $dupeGroups
+        ));
 
         // Checker totals across ALL found records — computed before the
         // optional Valid/Invalid filter below so the summary cards always
-        // show the full picture. Passengers: Valid = Current Lat not empty.
+        // show the full picture. Passengers: Valid = is_login = 1 or Current Lat not empty.
         // Drivers: Valid = Last Online or Last Offline inside the picked range.
         foreach ($results as $r) {
             foreach (['customer', 'rider'] as $key) {
@@ -161,11 +186,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             });
         }
 
-        // Checker filter: keep only the record rows whose Checker verdict
-        // matches, flattened to one row per record — a "both" number can
-        // contribute just its matching side. Runs after the sort so the
-        // order is preserved. Not Found rows have no Checker and never match.
-        if ($filter !== '') {
+        // Result filter: keeps only the matching rows. 'valid' / 'invalid' keep
+        // only the record rows whose Checker verdict matches, flattened to one
+        // row per record — a "both" number can contribute just its matching
+        // side. 'passenger' / 'driver' / 'both' / 'not_found' / 'duplicates'
+        // keep the grouped input-number rows of that kind. Runs after the sort
+        // so the order is preserved. Not Found rows have no Checker and never
+        // match valid/invalid.
+        if ($filter === 'valid' || $filter === 'invalid') {
             $wantValid = ($filter === 'valid');
             $flat = [];
             foreach ($results as $r) {
@@ -178,16 +206,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
                         'type'       => $key,
                         'customer'   => $key === 'customer' ? $rec : null,
                         'rider'      => $key === 'rider' ? $rec : null,
+                        'dupe_count' => $r['dupe_count'] ?? 1,
                     ];
                 }
             }
             $results = $flat;
+        } elseif ($filter !== '') {
+            $results = array_values(array_filter(
+                $results,
+                static function (array $r) use ($filter): bool {
+                    if ($filter === 'passenger')  return $r['type'] === 'customer';
+                    if ($filter === 'driver')     return $r['type'] === 'rider';
+                    if ($filter === 'both')       return $r['type'] === 'both';
+                    if ($filter === 'duplicates') return ($r['dupe_count'] ?? 1) > 1;
+                    return $r['type'] === 'none'; // 'not_found' chip
+                }
+            ));
         }
 
         // Log the search (range bounds and filter included when used)
         log_activity('bulk_search', '', '', 'Searched ' . $summary['total'] . ' numbers: '
             . $summary['found_customer'] . ' passengers, ' . $summary['found_rider'] . ' drivers, '
             . $summary['found_both'] . ' both, ' . $summary['not_found'] . ' not found'
+            . ($summary['duplicates'] > 0 ? ', ' . $summary['duplicates'] . ' duplicate pastes' : '')
             . ($rangeOn ? ' | range ' . ($dateFrom !== '' ? $dateFrom : '...') . ' to ' . ($dateTo !== '' ? $dateTo : '...') : '')
             . ($filter !== '' ? ' | filtered: ' . $filter . ' only' : ''));
     }
@@ -198,6 +239,16 @@ function bs_status_badge($status): string
     return ((int)$status === 1)
         ? '<span class="badge pr-badge pr-badge-active">Active</span>'
         : '<span class="badge pr-badge pr-badge-inactive">Inactive</span>';
+}
+
+// is_login cell: same green/grey "Logged In / Logged Out" meaning as the
+// detail pages; NULL (column missing on old rows) renders as an em dash.
+function bs_login_badge($v): string
+{
+    if ($v === null || $v === '') return '—';
+    return ((int)$v === 1)
+        ? '<span class="badge bg-success">Logged In</span>'
+        : '<span class="badge bg-secondary">Logged Out</span>';
 }
 
 // Timestamp cell: registration (Created At), Last Online and Last Offline all
@@ -231,8 +282,9 @@ function bs_lat($v): string
 // range: Valid when Last Online OR Last Offline falls inside it (inclusive
 // whole days; empty or unparsable timestamps are never in range). Passengers
 // have no last_online_datetime / last_offline_datetime columns at all — they
-// are Valid when Current Lat is not empty. With no range picked the bounds
-// are open, so any parseable timestamp counts as in range for drivers.
+// are Valid when is_login = 1 or Current Lat is not empty. With no range
+// picked the bounds are open, so any parseable timestamp counts as in range
+// for drivers.
 // A record counts as a driver when the rider SELECT columns are present
 // (array_key_exists, because a NULL timestamp would fail isset()).
 function bs_is_valid(array $rec, ?int $fromTs, ?int $toTs): bool
@@ -241,7 +293,10 @@ function bs_is_valid(array $rec, ?int $fromTs, ?int $toTs): bool
         || array_key_exists('last_offline_datetime', $rec);
 
     if (!$isDriver) {
-        // Passenger (customer record): ruled by the presence of a location fix.
+        // Passenger (customer record): logged in, or has a location fix.
+        if ((int)($rec['is_login'] ?? 0) === 1) {
+            return true;
+        }
         return isset($rec['current_lat']) && trim((string)$rec['current_lat']) !== '';
     }
 
@@ -281,6 +336,29 @@ function bs_created_ts(array $r): ?int
     return $timestamps === [] ? null : min($timestamps);
 }
 
+// Human-readable label for the active result filter chip.
+function bs_filter_label(string $filter): string
+{
+    return match ($filter) {
+        'valid'      => 'Valid',
+        'invalid'    => 'Invalid',
+        'passenger'  => 'Passengers',
+        'driver'     => 'Drivers',
+        'both'       => 'Both',
+        'not_found'  => 'Not found',
+        'duplicates' => 'Duplicates',
+        default      => 'All',
+    };
+}
+
+// Small "x2" style badge shown next to a Number cell pasted more than once.
+function bs_dupe_badge($count): string
+{
+    $n = (int)($count ?? 1);
+    if ($n <= 1) return '';
+    return ' <span class="badge bg-warning text-dark" title="Pasted ' . $n . ' times in this search">x' . $n . '</span>';
+}
+
 require __DIR__ . '/includes/header.php';
 ?>
 
@@ -294,9 +372,11 @@ require __DIR__ . '/includes/header.php';
         Paste a list of mobile numbers (any format: 09xx, 9xx, +63xx). Searches both Passengers and Drivers at once.
         Optionally pick a From / To date range below to rule the Checker column:
         Drivers are <span class="badge pr-badge pr-badge-valid">Valid</span> when their Last Online or Last Offline
-        falls inside the range; passengers are <span class="badge pr-badge pr-badge-valid">Valid</span> when Current Lat
+        falls inside the range; passengers are <span class="badge pr-badge pr-badge-valid">Valid</span> when is_login = 1 or Current Lat
         is not empty; everything else is <span class="badge pr-badge pr-badge-invalid">Invalid</span>.
-        Click the Valid / Invalid totals below to list just those records.
+        Click the Valid / Invalid totals below to list just those records, or the
+        Passengers / Drivers / Both / Not found totals to list just that type.
+        Pasted a number twice? The Duplicates chip lists the repeated rows.
       </p>
     </details>
   </div>
@@ -340,8 +420,9 @@ require __DIR__ . '/includes/header.php';
 <?php if ($summary['total'] > 0): ?>
 
   <!-- Summary chips. These submit buttons re-run the same search with
-       checker_filter set so the table lists only those records;
-       the "All" chip (and "Show All" while filtered) clears it again. -->
+       checker_filter set so the table lists only those records
+       (Valid/Invalid = flattened record rows, the rest = grouped input rows);
+       the "All" chip clears the filter again. -->
   <form method="post" id="pr-chip-filter-form">
     <input type="hidden" name="numbers" value="<?= htmlspecialchars($pasteText) ?>">
     <input type="hidden" name="sort" value="<?= htmlspecialchars($sort) ?>">
@@ -367,14 +448,14 @@ require __DIR__ . '/includes/header.php';
         ? (($dateFrom !== '' ? $dateFrom : 'start') . ' -> ' . ($dateTo !== '' ? $dateTo : 'today'))
         : '';
     $checkerTitle = 'Drivers: Valid when Last Online or Last Offline falls inside the picked date range. '
-        . 'Passengers: Valid when Current Lat is not empty.'
+        . 'Passengers: Valid when is_login = 1 or Current Lat is not empty.'
         . ($rangeOn ? ' Active range: ' . $rangeLabel . '.' : ' No range picked, so any timestamp counts as in range.');
     $headerMeta = [];
     if ($rangeOn) {
-        $headerMeta[] = 'Range: ' . $rangeLabel . ' — Checker: drivers ruled by range, passengers by Current Lat';
+        $headerMeta[] = 'Range: ' . $rangeLabel . ' — Checker: drivers ruled by range, passengers by is_login / Current Lat';
     }
     if ($filter !== '') {
-        $headerMeta[] = 'Filter: showing ' . $filter . ' records only (' . count($results) . ' of ' . ($summary['valid'] + $summary['invalid']) . ')';
+        $headerMeta[] = 'Filter: showing ' . bs_filter_label($filter) . ' only (' . count($results) . ' of ' . $summary['total'] . ')';
     }
     if ($sortLabel !== '') {
         $headerMeta[] = 'Sort: ' . $sortLabel;
@@ -394,18 +475,26 @@ require __DIR__ . '/includes/header.php';
                 title="Show every record">All <?= $summary['total'] ?></button>
         <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="valid"
                 class="pr-chip pr-chip-valid<?= $filter === 'valid' ? ' active' : '' ?><?= $summary['valid'] === 0 ? ' is-zero' : '' ?>"
-                title="Show only Valid records (drivers: timestamp in range, passengers: Current Lat set)">Valid <?= $summary['valid'] ?></button>
+                title="Show only Valid records (drivers: timestamp in range, passengers: is_login = 1 or Current Lat set)">Valid <?= $summary['valid'] ?></button>
         <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="invalid"
                 class="pr-chip pr-chip-invalid<?= $filter === 'invalid' ? ' active' : '' ?><?= $summary['invalid'] === 0 ? ' is-zero' : '' ?>"
                 title="Show only Invalid records">Invalid <?= $summary['invalid'] ?></button>
         <span class="pr-chip-sep" aria-hidden="true"></span>
-        <span class="pr-chip pr-chip-static pr-chip-customer<?= $summary['found_customer'] === 0 ? ' is-zero' : '' ?>" title="Passenger rows in this search">Passengers <?= $summary['found_customer'] ?></span>
-        <span class="pr-chip pr-chip-static pr-chip-rider<?= $summary['found_rider'] === 0 ? ' is-zero' : '' ?>" title="Driver rows in this search">Drivers <?= $summary['found_rider'] ?></span>
-        <span class="pr-chip pr-chip-static pr-chip-both<?= $summary['found_both'] === 0 ? ' is-zero' : '' ?>" title="Numbers found as both passenger and driver">Both <?= $summary['found_both'] ?></span>
-        <span class="pr-chip pr-chip-static pr-chip-notfound<?= $summary['not_found'] === 0 ? ' is-zero' : '' ?>" title="Numbers not found">Not found <?= $summary['not_found'] ?></span>
-        <?php if ($filter !== ''): ?>
-        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="" class="pr-chip pr-chip-showall" title="Clear the Valid / Invalid filter and show every record">&#8635; Show All</button>
-        <?php endif; ?>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="passenger"
+                class="pr-chip pr-chip-customer<?= $filter === 'passenger' ? ' active' : '' ?><?= $summary['found_customer'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only passenger rows in this search">Passengers <?= $summary['found_customer'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="driver"
+                class="pr-chip pr-chip-rider<?= $filter === 'driver' ? ' active' : '' ?><?= $summary['found_rider'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only driver rows in this search">Drivers <?= $summary['found_rider'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="both"
+                class="pr-chip pr-chip-both<?= $filter === 'both' ? ' active' : '' ?><?= $summary['found_both'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only numbers found as both passenger and driver">Both <?= $summary['found_both'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="not_found"
+                class="pr-chip pr-chip-notfound<?= $filter === 'not_found' ? ' active' : '' ?><?= $summary['not_found'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only numbers not found">Not found <?= $summary['not_found'] ?></button>
+        <button type="submit" form="pr-chip-filter-form" name="checker_filter" value="duplicates"
+                class="pr-chip pr-chip-dupe<?= $filter === 'duplicates' ? ' active' : '' ?><?= $summary['duplicates'] === 0 ? ' is-zero' : '' ?>"
+                title="Show only numbers pasted more than once in this search">Duplicates <?= $summary['duplicates'] ?></button>
       </div>
       <div class="pr-bulk-results-meta text-muted">Showing <?= count($results) ?> of <?= ($summary['valid'] + $summary['invalid']) ?> &middot; Sorted: <?= htmlspecialchars($sortLabel) ?></div>
     </div>
@@ -437,6 +526,7 @@ require __DIR__ . '/includes/header.php';
             <th>Last Online</th>
             <th>Last Offline</th>
             <th>Current Lat</th>
+            <th>Is Login</th>
             <th title="<?= htmlspecialchars($checkerTitle) ?>">Checker</th>
             <th>Action</th>
           </tr>
@@ -454,7 +544,7 @@ require __DIR__ . '/includes/header.php';
               <!-- Passenger row -->
               <tr class="<?= $rowClass ?>">
                 <td rowspan="2" class="pr-sticky pr-sticky-1"><?= $i + 1 ?></td>
-                <td rowspan="2" class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?></td>
+                <td rowspan="2" class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?><?= bs_dupe_badge($r['dupe_count'] ?? 1) ?></td>
                 <td class="pr-sticky pr-sticky-3"><span class="badge bg-success">Passenger</span></td>
                 <td class="pr-sticky pr-sticky-4"><?= htmlspecialchars(trim($r['customer']['fname'] . ' ' . $r['customer']['lname'])) ?></td>
                 <td><?= htmlspecialchars($r['customer']['code'] ?? '') ?></td>
@@ -463,6 +553,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_login_badge($r['customer']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
@@ -475,13 +566,14 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_login_badge($r['rider']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'customer'): ?>
               <tr>
                 <td class="pr-sticky pr-sticky-1"><?= $i + 1 ?></td>
-                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?></td>
+                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?><?= bs_dupe_badge($r['dupe_count'] ?? 1) ?></td>
                 <td class="pr-sticky pr-sticky-3"><span class="badge bg-success">Passenger</span></td>
                 <td class="pr-sticky pr-sticky-4"><?= htmlspecialchars(trim($r['customer']['fname'] . ' ' . $r['customer']['lname'])) ?></td>
                 <td><?= htmlspecialchars($r['customer']['code'] ?? '') ?></td>
@@ -490,13 +582,14 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_login_badge($r['customer']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php elseif ($r['type'] === 'rider'): ?>
               <tr>
                 <td class="pr-sticky pr-sticky-1"><?= $i + 1 ?></td>
-                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?></td>
+                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?><?= bs_dupe_badge($r['dupe_count'] ?? 1) ?></td>
                 <td class="pr-sticky pr-sticky-3"><span class="badge bg-info">Driver</span></td>
                 <td class="pr-sticky pr-sticky-4"><?= htmlspecialchars(trim($r['rider']['first_name'] . ' ' . $r['rider']['last_name'])) ?></td>
                 <td><?= htmlspecialchars($r['rider']['code'] ?? '') ?></td>
@@ -505,13 +598,14 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_login_badge($r['rider']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
               </tr>
             <?php else: ?>
               <tr class="table-danger">
                 <td class="pr-sticky pr-sticky-1"><?= $i + 1 ?></td>
-                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?></td>
+                <td class="font-monospace pr-sticky pr-sticky-2"><?= htmlspecialchars($r['input']) ?><?= bs_dupe_badge($r['dupe_count'] ?? 1) ?></td>
                 <!-- Split across Found As / Name (instead of one colspan cell) so the
                      sticky columns keep the same structure as the rows above. -->
                 <td class="pr-sticky pr-sticky-3"><span class="badge bg-danger">Not Found</span></td>
@@ -530,13 +624,14 @@ require __DIR__ . '/includes/header.php';
                 <td>--</td>
                 <td>--</td>
                 <td>--</td>
+                <td>--</td>
               </tr>
             <?php endif; ?>
           <?php endforeach; ?>
           <?php if ($results === [] && $filter !== ''): ?>
             <tr>
-              <td colspan="12" class="text-center text-muted py-4">
-                No <?= htmlspecialchars($filter) ?> records found — use "Show All" above to reset the filter.
+              <td colspan="13" class="text-center text-muted py-4">
+                No <?= htmlspecialchars(bs_filter_label($filter)) ?> records found — click "All" above to reset the filter.
               </td>
             </tr>
           <?php endif; ?>

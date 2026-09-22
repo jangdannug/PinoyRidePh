@@ -570,7 +570,7 @@ body {
 
 /* Bulk Search Valid/Invalid badges: used by the "Checker" column only.
    Drivers are Valid when Last Online or Last Offline falls inside the
-   picked date range; passengers are Valid when Current Lat is not empty. */
+   picked date range; passengers are Valid when is_login = 1 or Current Lat is not empty. */
 .pr-badge-valid {
   background-color: #16a34a;
   color: #ffffff;
@@ -797,6 +797,12 @@ button.pr-chip:hover {
   color: #7f1d1d;
 }
 
+.pr-chip-dupe {
+  background-color: #fef9c3;
+  border-color: #ca8a04;
+  color: #713f12;
+}
+
 .pr-chip-static {
   cursor: default;
 }
@@ -814,11 +820,6 @@ button.pr-chip:hover {
   width: 1px;
   height: 18px;
   background: var(--pr-border-color);
-}
-
-.pr-chip-showall {
-  background: #ffffff;
-  color: #333333;
 }
 
 .pr-bulk-results-meta {
