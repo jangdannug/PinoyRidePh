@@ -1018,3 +1018,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-25 16:28:26","Mary Grace",create_driver,rider,8883,"DRN-2609-8307 - Sharlon Jay Ulang"
 "2026-09-25 16:28:28","Mary Grace",create_driver,rider,8884,"DRN-2609-8308 - Fidel latagan"
 "2026-09-25 16:29:23","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-25 13:39:46","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-25 13:44:06","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-25 15:16:34","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-25 15:16:52","Dannah Kryzle",bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-09-25 15:17:07","Dannah Kryzle",bulk_search,,,"Searched 12 numbers: 1 passengers, 11 drivers, 0 both, 0 not found"
