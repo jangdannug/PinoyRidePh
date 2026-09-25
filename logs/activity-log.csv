@@ -985,3 +985,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-25 09:59:01","Dannah Kryzle",create_driver,rider,8860,"DRN-2609-8284 - Nelson Layon"
 "2026-09-25 10:34:42","Dannah Kryzle",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
 "2026-09-25 10:55:47","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-25 11:34:24","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-25 11:34:43","Dannah Kryzle",create_driver,rider,8863,"DRN-2609-8287 - Ayrold Medina Medenilla"
