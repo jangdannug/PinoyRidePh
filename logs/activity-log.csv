@@ -981,3 +981,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-25 09:08:34","Dannah Kryzle",login,,,"Staff logged in"
 "2026-09-25 09:13:41","Dannah Kryzle",bulk_search,,,"Searched 12 numbers: 0 passengers, 12 drivers, 0 both, 0 not found"
 "2026-09-25 09:16:59","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
+"2026-09-25 09:51:24","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-25 09:59:01","Dannah Kryzle",create_driver,rider,8860,"DRN-2609-8284 - Nelson Layon"
+"2026-09-25 10:34:42","Dannah Kryzle",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
