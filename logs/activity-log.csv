@@ -1107,3 +1107,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-26 16:14:53","Dannah Kryzle",bulk_search,,,"Searched 18 numbers: 0 passengers, 17 drivers, 1 both, 0 not found"
 "2026-09-26 17:02:36","Dannah Kryzle",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found, 6 duplicate pastes"
 "2026-09-26 17:22:42","Dannah Kryzle",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
+"2026-09-26 22:49:56",Melissa,login,,,"Staff logged in"
+"2026-09-26 22:50:36",Melissa,create_driver,rider,8906,"DRN-2609-8330 - Joselino Cada"
+"2026-09-26 22:53:13",Melissa,logout,,,"Staff logged out / shutdown"
