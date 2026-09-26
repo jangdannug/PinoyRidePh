@@ -1118,3 +1118,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 11:34:49",Melissa,login,,,"Staff logged in"
 "2026-09-27 12:23:46","Mary Grace",login,,,"Staff logged in"
 "2026-09-27 12:34:57","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-26 23:01:38",Melissa,login,,,"Staff logged in"
+"2026-09-26 23:02:27",Melissa,create_driver,rider,8907,"DRN-2609-8331 - Emelio Racelis"
+"2026-09-26 23:15:18",Melissa,logout,,,"Staff logged out / shutdown"
