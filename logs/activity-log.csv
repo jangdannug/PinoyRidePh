@@ -1123,3 +1123,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-26 23:15:18",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-09-26 23:27:16",Melissa,login,,,"Staff logged in"
 "2026-09-26 23:28:19",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-26 23:46:20",Melissa,login,,,"Staff logged in"
+"2026-09-26 23:47:25",Melissa,create_driver,rider,8908,"DRN-2609-8332 - arjay fernandez"
+"2026-09-26 23:51:39",Melissa,logout,,,"Staff logged out / shutdown"
