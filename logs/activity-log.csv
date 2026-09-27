@@ -1170,3 +1170,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 22:26:52",Melissa,login,,,"Staff logged in"
 "2026-09-27 22:30:21",Melissa,create_driver,rider,8918,"DRN-2609-8342 - Rodolfo Ofilada"
 "2026-09-27 22:32:01",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-27 22:44:16",Melissa,login,,,"Staff logged in"
+"2026-09-27 22:44:57",Melissa,logout,,,"Staff logged out / shutdown"
