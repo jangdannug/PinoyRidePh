@@ -1148,3 +1148,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 14:12:32","Mary Grace",login,,,"Staff logged in"
 "2026-09-27 14:12:38","Mary Grace",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-09-27 14:14:44","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-09-27 14:39:33","Mary Grace",login,,,"Staff logged in"
+"2026-09-27 14:40:43","Mary Grace",create_driver,rider,8909,"DRN-2609-8333 - Jefferson Valenzuela"
+"2026-09-27 14:42:45","Mary Grace",logout,,,"Staff logged out / shutdown"
