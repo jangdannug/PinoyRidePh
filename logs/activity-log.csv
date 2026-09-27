@@ -1164,3 +1164,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 07:54:46",Melissa,create_driver,rider,8911,"DRN-2609-8335 - Laurence Mandahuyan"
 "2026-09-27 08:03:21",Melissa,create_driver,rider,8912,"DRN-2609-8336 - Kit Martin Pantoja"
 "2026-09-27 08:31:01",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-27 10:51:52",Melissa,login,,,"Staff logged in"
+"2026-09-27 10:52:16",Melissa,create_driver,rider,8913,"DRN-2609-8337 - Davey Eballar"
+"2026-09-27 10:57:32",Melissa,logout,,,"Staff logged out / shutdown"
