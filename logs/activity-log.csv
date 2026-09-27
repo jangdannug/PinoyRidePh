@@ -1194,3 +1194,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 16:26:57",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-28 03:44:21",Melissa,login,,,"Staff logged in"
 "2026-09-28 03:49:21",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-28 04:04:36",Melissa,login,,,"Staff logged in"
+"2026-09-28 04:22:34",Melissa,create_driver,rider,8923,"DRN-2609-8347 - Mark Anthony Gaborno"
+"2026-09-28 04:27:12",Melissa,logout,,,"Staff logged out / shutdown"
