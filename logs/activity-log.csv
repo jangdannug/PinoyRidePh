@@ -1145,3 +1145,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 09:57:46",Normelyn,bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
 "2026-09-27 09:59:01",Normelyn,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
 "2026-09-27 13:38:58",Normelyn,bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
+"2026-09-27 14:12:32","Mary Grace",login,,,"Staff logged in"
+"2026-09-27 14:12:38","Mary Grace",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-09-27 14:14:44","Mary Grace",logout,,,"Staff logged out / shutdown"
