@@ -1191,3 +1191,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 16:12:42",Normelyn,bulk_search,,,"Searched 112 numbers: 25 passengers, 83 drivers, 3 both, 1 not found | filtered: not_found only"
 "2026-09-28 16:12:47",Normelyn,bulk_search,,,"Searched 112 numbers: 25 passengers, 83 drivers, 3 both, 1 not found | filtered: both only"
 "2026-09-28 16:26:41",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-28 16:26:57",Normelyn,logout,,,"Staff logged out / shutdown"
