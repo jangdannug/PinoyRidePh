@@ -2770,3 +2770,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 15:19:10","Charen Charise",bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
 "2026-09-28 15:21:42","Charen Charise",bulk_search,,,"Searched 2 numbers: 0 passengers, 2 drivers, 0 both, 0 not found"
 "2026-09-28 16:28:11","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-09-28 16:28:33","Charen Charise",logout,,,"Staff logged out / shutdown"
