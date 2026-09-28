@@ -2756,3 +2756,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-27 08:04:32","Charen Charise",bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
 "2026-09-27 09:09:34","Charen Charise",bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
 "2026-09-27 10:03:33","Charen Charise",bulk_search,,,"Searched 4 numbers: 0 passengers, 4 drivers, 0 both, 0 not found"
+"2026-09-28 09:36:06","Charen Charise",login,,,"Staff logged in"
+"2026-09-28 10:27:58","Charen Charise",create_driver,rider,8914,"DRN-2609-8338 - Richard Macawili"
