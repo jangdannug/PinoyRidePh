@@ -1198,3 +1198,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 04:22:34",Melissa,create_driver,rider,8923,"DRN-2609-8347 - Mark Anthony Gaborno"
 "2026-09-28 04:27:12",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-09-28 04:27:26",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-28 08:43:08",Melissa,login,,,"Staff logged in"
+"2026-09-28 08:43:42",Melissa,create_driver,rider,8924,"DRN-2609-8348 - Jeyson Calma"
+"2026-09-28 08:58:28",Melissa,logout,,,"Staff logged out / shutdown"
