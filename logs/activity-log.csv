@@ -1201,3 +1201,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 08:43:08",Melissa,login,,,"Staff logged in"
 "2026-09-28 08:43:42",Melissa,create_driver,rider,8924,"DRN-2609-8348 - Jeyson Calma"
 "2026-09-28 08:58:28",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-28 18:56:12",Melissa,login,,,"Staff logged in"
+"2026-09-28 18:57:00",Melissa,create_driver,rider,8925,"DRN-2609-8349 - Johannsen Aranas"
+"2026-09-28 18:57:03",Melissa,create_driver,rider,8926,"DRN-2609-8350 - Hans christian Saymo"
+"2026-09-28 18:57:06",Melissa,create_driver,rider,8927,"DRN-2609-8351 - John rey Frayco"
