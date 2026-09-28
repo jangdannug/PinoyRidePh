@@ -1289,3 +1289,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-29 16:08:40",Normelyn,create_driver,rider,8941,"DRN-2609-8365 - Eduardo jr Abrera"
 "2026-09-29 16:45:24",Normelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-28 22:40:45",Melissa,login,,,"Staff logged in"
+"2026-09-29 04:22:31",Melissa,login,,,"Staff logged in"
+"2026-09-29 04:30:59",Melissa,create_driver,rider,8942,"DRN-2609-8366 - Joel Ergina"
+"2026-09-29 04:37:32",Melissa,bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
+"2026-09-29 04:48:44",Melissa,logout,,,"Staff logged out / shutdown"
