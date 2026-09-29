@@ -1300,3 +1300,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-29 19:19:09",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-09-29 19:26:43",Melissa,login,,,"Staff logged in"
 "2026-09-29 19:29:22",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-29 19:37:13",Rhelyn,login,,,"Staff logged in"
+"2026-09-29 19:39:15",Rhelyn,logout,,,"Staff logged out / shutdown"
