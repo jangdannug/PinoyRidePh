@@ -1293,3 +1293,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-29 04:30:59",Melissa,create_driver,rider,8942,"DRN-2609-8366 - Joel Ergina"
 "2026-09-29 04:37:32",Melissa,bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
 "2026-09-29 04:48:44",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-29 16:51:05",Melissa,login,,,"Staff logged in"
+"2026-09-29 16:52:36",Melissa,create_driver,rider,8943,"DRN-2609-8367 - Christian Rada"
+"2026-09-29 17:14:01",Melissa,create_driver,rider,8944,"DRN-2609-8368 - Harold Villanueva"
+"2026-09-29 19:16:27",Melissa,bulk_search,,,"Searched 7 numbers: 0 passengers, 7 drivers, 0 both, 0 not found"
+"2026-09-29 19:19:09",Melissa,logout,,,"Staff logged out / shutdown"
