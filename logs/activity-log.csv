@@ -1255,3 +1255,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-28 20:00:36",Melissa,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-09-28 20:00:37",Melissa,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-09-28 20:03:43",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-29 09:39:40","Dannah Kryzle",login,,,"Staff logged in"
+"2026-09-29 09:40:00","Dannah Kryzle",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-09-29 10:09:34","Dannah Kryzle",create_driver,rider,8931,"DRN-2609-8355 - Medina Dimaculangan"
