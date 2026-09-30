@@ -1325,3 +1325,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-29 16:04:04","Dannah Kryzle",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
 "2026-09-29 16:04:26","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-09-29 16:45:12","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-09-30 16:24:43",Rhelyn,login,,,"Staff logged in"
+"2026-09-30 16:25:05",Rhelyn,create_driver,rider,8951,"DRN-2609-8375 - Jowie Santonia"
+"2026-09-30 16:27:06",Rhelyn,logout,,,"Staff logged out / shutdown"
