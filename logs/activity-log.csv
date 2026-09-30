@@ -1366,3 +1366,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-30 19:11:18",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-09-30 19:12:29",Melissa,login,,,"Staff logged in"
 "2026-09-30 19:13:02",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-09-30 19:14:54",Melissa,login,,,"Staff logged in"
