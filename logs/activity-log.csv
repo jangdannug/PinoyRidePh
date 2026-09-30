@@ -1351,3 +1351,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-30 16:40:45",Normelyn,bulk_search,,,"Searched 116 numbers: 26 passengers, 86 drivers, 3 both, 1 not found | filtered: invalid only"
 "2026-09-30 16:41:02",Normelyn,bulk_search,,,"Searched 116 numbers: 26 passengers, 86 drivers, 3 both, 1 not found | filtered: valid only"
 "2026-09-30 17:30:20",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-09-30 17:41:11",Melissa,login,,,"Staff logged in"
+"2026-09-30 17:51:08",Melissa,create_driver,rider,8954,"DRN-2609-8378 - Julius Panganiban"
