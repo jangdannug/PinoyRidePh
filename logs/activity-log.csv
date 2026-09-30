@@ -1330,3 +1330,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-30 16:27:06",Rhelyn,logout,,,"Staff logged out / shutdown"
 "2026-09-30 10:11:32",Rhelyn,login,,,"Staff logged in"
 "2026-09-30 15:23:05",Rhelyn,create_driver,rider,8949,"DRN-2609-8373 - Jochelle Manibo"
+"2026-09-30 16:31:05",Melissa,login,,,"Staff logged in"
+"2026-09-30 16:40:12",Melissa,create_driver,rider,8953,"DRN-2609-8377 - Luigie Tapiador"
