@@ -1364,3 +1364,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-30 19:07:28",Melissa,bulk_search,,,"Searched 13 numbers: 0 passengers, 13 drivers, 0 both, 0 not found"
 "2026-09-30 19:10:18",Melissa,create_driver,rider,8956,"DRN-2609-8380 - JESSIE ARABOS"
 "2026-09-30 19:11:18",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-09-30 19:12:29",Melissa,login,,,"Staff logged in"
+"2026-09-30 19:13:02",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
