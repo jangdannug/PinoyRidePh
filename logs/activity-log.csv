@@ -1377,3 +1377,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-09-30 20:06:54",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-09-30 20:09:47",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-09-30 16:29:26",Rhelyn,login,,,"Staff logged in"
+"2026-10-01 09:08:05",Melissa,login,,,"Staff logged in"
+"2026-10-01 09:18:49",Melissa,create_driver,rider,8957,"DRN-2610-8381 - John rey Gamba"
+"2026-10-01 09:28:23",Melissa,bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found"
+"2026-10-01 09:45:02",Melissa,logout,,,"Staff logged out / shutdown"
