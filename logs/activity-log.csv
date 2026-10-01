@@ -1397,3 +1397,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-01 15:56:19","Mary Grace",bulk_search,,,"Searched 6 numbers: 1 passengers, 5 drivers, 0 both, 0 not found"
 "2026-10-01 16:02:50","Mary Grace",create_driver,rider,8967,"DRN-2610-8391 - Efrainme Adriane Alcober"
 "2026-10-01 16:31:30","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-01 16:29:20",Melissa,login,,,"Staff logged in"
+"2026-10-01 16:36:22",Melissa,create_driver,rider,8971,"DRN-2610-8395 - john zyrll sabaldan"
+"2026-10-01 16:41:42",Melissa,logout,,,"Staff logged out / shutdown"
