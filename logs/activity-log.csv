@@ -1450,3 +1450,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-01 16:47:42","Dannah Kryzle",create_driver,rider,8973,"DRN-2610-8397 - dave aseo"
 "2026-10-01 16:47:45","Dannah Kryzle",create_driver,rider,8974,"DRN-2610-8398 - Kevin Ganiola"
 "2026-10-01 16:55:56","Dannah Kryzle",logout,,,"Staff logged out / shutdown"
+"2026-10-01 23:38:08",Melissa,login,,,"Staff logged in"
+"2026-10-01 23:45:00",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
+"2026-10-01 23:45:36",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found | filtered: passenger only"
+"2026-10-01 23:45:48",Melissa,logout,,,"Staff logged out / shutdown"
