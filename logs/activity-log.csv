@@ -1454,3 +1454,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-01 23:45:00",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
 "2026-10-01 23:45:36",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found | filtered: passenger only"
 "2026-10-01 23:45:48",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-01 23:45:58",Melissa,logout,,,"Staff logged out / shutdown"
