@@ -1483,3 +1483,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 21:14:32",Melissa,login,,,"Staff logged in"
 "2026-10-02 21:15:40",Melissa,create_driver,rider,8988,"DRN-2610-8412 - Ryan Jilin Castillo"
 "2026-10-02 21:24:31",Melissa,bulk_search,,,"Searched 19 numbers: 0 passengers, 19 drivers, 0 both, 0 not found"
+"2026-10-02 15:08:52","Dannah Kryzle",login,,,"Staff logged in"
