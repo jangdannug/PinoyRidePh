@@ -1455,3 +1455,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-01 23:45:36",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found | filtered: passenger only"
 "2026-10-01 23:45:48",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-10-01 23:45:58",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-02 08:41:01",Melissa,login,,,"Staff logged in"
+"2026-10-02 08:41:29",Melissa,create_driver,rider,8975,"DRN-2610-8399 - Santiago II Irlandez"
+"2026-10-02 08:49:30",Melissa,logout,,,"Staff logged out / shutdown"
