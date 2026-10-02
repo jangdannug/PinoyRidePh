@@ -1462,3 +1462,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 10:33:00",Melissa,bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
 "2026-10-02 10:35:06",Melissa,create_driver,rider,8979,"DRN-2610-8403 - Prince jeremiah Lazaro"
 "2026-10-02 12:42:37",Melissa,login,,,"Staff logged in"
+"2026-10-02 12:43:04",Melissa,login,,,"Staff logged in"
+"2026-10-02 12:52:47",Melissa,create_driver,rider,8982,"DRN-2610-8406 - Arve jan Villamonte"
+"2026-10-02 12:58:45",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
+"2026-10-02 13:04:01",Melissa,logout,,,"Staff logged out / shutdown"
