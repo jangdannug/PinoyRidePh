@@ -1485,3 +1485,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 21:24:31",Melissa,bulk_search,,,"Searched 19 numbers: 0 passengers, 19 drivers, 0 both, 0 not found"
 "2026-10-02 15:08:52","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-02 21:33:33",Melissa,login,,,"Staff logged in"
+"2026-10-02 23:14:15",Melissa,login,,,"Staff logged in"
+"2026-10-02 23:22:53",Melissa,create_driver,rider,8990,"DRN-2610-8414 - Neil Cogal"
+"2026-10-02 23:29:12",Melissa,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
+"2026-10-02 23:29:57",Melissa,logout,,,"Staff logged out / shutdown"
