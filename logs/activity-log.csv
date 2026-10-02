@@ -1475,3 +1475,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 11:04:46","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-02 14:43:53","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-02 14:44:23","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-02 14:45:26","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-02 14:45:41","Dannah Kryzle",create_driver,rider,8987,"DRN-2610-8411 - Joseph Magat"
