@@ -1477,3 +1477,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 14:44:23","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-02 14:45:26","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-02 14:45:41","Dannah Kryzle",create_driver,rider,8987,"DRN-2610-8411 - Joseph Magat"
+"2026-10-02 10:36:00",Normelyn,login,,,"Staff logged in"
