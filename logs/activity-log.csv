@@ -1458,3 +1458,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 08:41:01",Melissa,login,,,"Staff logged in"
 "2026-10-02 08:41:29",Melissa,create_driver,rider,8975,"DRN-2610-8399 - Santiago II Irlandez"
 "2026-10-02 08:49:30",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-02 10:21:51",Melissa,login,,,"Staff logged in"
+"2026-10-02 10:33:00",Melissa,bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
+"2026-10-02 10:35:06",Melissa,create_driver,rider,8979,"DRN-2610-8403 - Prince jeremiah Lazaro"
