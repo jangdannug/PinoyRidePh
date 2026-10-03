@@ -1491,3 +1491,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-02 23:29:57",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-10-02 21:54:59","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-02 21:56:28","Dannah Kryzle",create_driver,rider,8989,"DRN-2610-8413 - Ricky Nicdao"
+"2026-10-02 15:06:25",Normelyn,login,,,"Staff logged in"
