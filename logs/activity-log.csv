@@ -1531,3 +1531,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-03 14:34:33","Mary Grace",create_driver,rider,9002,"DRN-2610-8426 - Silwyn Esplana"
 "2026-10-03 14:40:58","Mary Grace",bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found"
 "2026-10-03 14:41:23","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-03 14:42:40","Mary Grace",login,,,"Staff logged in"
+"2026-10-03 14:44:20","Mary Grace",bulk_search,,,"Searched 11 numbers: 1 passengers, 10 drivers, 0 both, 0 not found"
+"2026-10-03 14:45:11","Mary Grace",bulk_search,,,"Searched 11 numbers: 1 passengers, 10 drivers, 0 both, 0 not found"
+"2026-10-03 14:45:14","Mary Grace",bulk_search,,,"Searched 11 numbers: 1 passengers, 10 drivers, 0 both, 0 not found | filtered: invalid only"
+"2026-10-03 14:45:47","Mary Grace",logout,,,"Staff logged out / shutdown"
