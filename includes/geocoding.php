@@ -150,3 +150,110 @@ function haversine_km(float $lat1, float $lng1, float $lat2, float $lng2): float
     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
     return $earthRadiusKm * $c;
 }
+
+// ---- Reverse geocoding: coordinates -> short readable label ---------------
+//
+// Used by bulk_search.php's Location column. Prefers Google (the stack this
+// app is already on) and falls back to OpenStreetMap Nominatim when no Google
+// key is configured or Google fails, so the feature degrades instead of
+// breaking.
+//
+// Returns a compact label like "Makati City, Metro Manila", or null when
+// neither provider could resolve the point. Never throws.
+
+// Nominatim's usage policy requires an identifying User-Agent and at most
+// ~1 request/second. Callers are responsible for pacing (bulk_search.php
+// spaces its AJAX calls out); this header is the hard requirement.
+const NOMINATIM_USER_AGENT = 'PinoyRideAdmin/1.0 (internal staff tool)';
+
+// Cap the stored label so it fits the varchar(255) cache column.
+const REVERSE_ADDRESS_MAX_LEN = 200;
+
+function reverse_geocode_google(float $lat, float $lng): ?string
+{
+    if (!google_maps_configured()) return null;
+
+    $url = 'https://maps.googleapis.com/maps/api/geocode/json?' . http_build_query([
+        'latlng' => "{$lat},{$lng}",
+        'key'    => google_maps_api_key(),
+    ]);
+
+    $json = google_maps_http_get($url);
+    if (!$json || ($json['status'] ?? '') !== 'OK' || empty($json['results'][0])) {
+        return null;
+    }
+
+    // Prefer a coarse locality label over the long formatted_address, which is
+    // far too verbose for a table cell.
+    $components = $json['results'][0]['address_components'] ?? [];
+    $pick = function (array $types) use ($components): ?string {
+        foreach ($components as $c) {
+            foreach ((array)($c['types'] ?? []) as $t) {
+                if (in_array($t, $types, true)) return (string)($c['long_name'] ?? '');
+            }
+        }
+        return null;
+    };
+
+    $parts = array_filter([
+        $pick(['locality', 'postal_town', 'administrative_area_level_3', 'sublocality']),
+        $pick(['administrative_area_level_1']),
+    ]);
+
+    $label = trim(implode(', ', array_unique(array_filter($parts))));
+    return $label !== '' ? $label : null;
+}
+
+function reverse_geocode_nominatim(float $lat, float $lng): ?string
+{
+    $ch = curl_init('https://nominatim.openstreetmap.org/reverse');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_SSL_VERIFYPEER => true,
+        // Required by the Nominatim usage policy.
+        CURLOPT_USERAGENT      => NOMINATIM_USER_AGENT,
+    ]);
+    curl_setopt($ch, CURLOPT_URL, 'https://nominatim.openstreetmap.org/reverse?' . http_build_query([
+        'lat'    => $lat,
+        'lon'    => $lng,
+        'format' => 'jsonv2',
+        'zoom'   => 12,
+    ]));
+
+    $response = curl_exec($ch);
+    $errno = curl_errno($ch);
+    curl_close($ch);
+    if ($response === false || $errno !== 0) return null;
+
+    $decoded = json_decode($response, true);
+    $addr = is_array($decoded) ? ($decoded['address'] ?? null) : null;
+    if (!is_array($addr)) return null;
+
+    $part = function (array $keys) use ($addr): ?string {
+        foreach ($keys as $k) {
+            if (!empty($addr[$k])) return (string)$addr[$k];
+        }
+        return null;
+    };
+
+    $label = trim(implode(', ', array_unique(array_filter([
+        $part(['city', 'town', 'village', 'municipality', 'suburb']),
+        $part(['state', 'region', 'county']),
+    ]))));
+
+    return $label !== '' ? $label : null;
+}
+
+function reverse_geocode(float $lat, float $lng): ?string
+{
+    $label = reverse_geocode_google($lat, $lng) ?? reverse_geocode_nominatim($lat, $lng);
+    if ($label === null) return null;
+    // Collapse whitespace and keep it inside the cache column.
+    $label = trim(preg_replace('/\s+/', ' ', $label) ?? '');
+    if ($label === '') return null;
+    if (mb_strlen($label) > REVERSE_ADDRESS_MAX_LEN) {
+        $label = mb_substr($label, 0, REVERSE_ADDRESS_MAX_LEN - 1) . "\u{2026}";
+    }
+    return $label;
+}

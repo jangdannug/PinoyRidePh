@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/customer_ingest.php';
+require_once __DIR__ . '/includes/schema.php';
 
 $tabTitle  = 'Bulk Search';
 $activeNav = 'bulk_search';
@@ -86,8 +87,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             // Customers (passengers). public.customer has current_lat but no
             // last_online_datetime / last_offline_datetime — those two columns
             // only exist on public.riders, so passenger rows show "—" for them.
+            // current_address is a cached, reverse-geocoded label added by
+            // sql/add_current_address.sql. If a database hasn't run that
+            // migration yet, current_address_column_available() adds it in
+            // place; when it still isn't available (e.g. the connection role
+            // can't ALTER), we select a NULL placeholder so the search renders
+            // instead of fataling on "column ... does not exist".
+            $custAddrCol  = current_address_column_available($pdo, 'public.customer')
+                ? ', current_address' : ', NULL AS current_address';
+            $riderAddrCol = current_address_column_available($pdo, 'public.riders')
+                ? ', current_address' : ', NULL AS current_address';
+
             $custStmt = $pdo->prepare(
-                "SELECT id, code, fname, mname, lname, mobile, email, status, is_verified, is_login, created_at, current_lat
+                "SELECT id, code, fname, mname, lname, mobile, email, status, is_verified, is_login, created_at, current_lat, current_long{$custAddrCol}
                  FROM public.customer WHERE mobile IN ($in)"
             );
             $custStmt->execute($uniqueNorms);
@@ -98,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['numbers'])) {
             // Riders (drivers)
             $riderStmt = $pdo->prepare(
                 "SELECT id, code, first_name, middle_name, last_name, mobile_no, email_address, status, is_verified, is_login, created_at,
-                        last_online_datetime, last_offline_datetime, current_lat
+                        last_online_datetime, last_offline_datetime, current_lat, current_long{$riderAddrCol}
                  FROM public.riders WHERE mobile_no IN ($in)"
             );
             $riderStmt->execute($uniqueNorms);
@@ -275,6 +287,69 @@ function bs_valid_date(string $d): bool
 function bs_lat($v): string
 {
     return ($v === null || $v === '') ? '—' : htmlspecialchars((string)$v);
+}
+
+// "Location" column. Renders, in priority order:
+//   1. a map pin linking to Google Maps at the recorded point (always primary),
+//   2. a short readable label ("Makati City, Metro Manila") from the cached
+//      current_address column, or a "Resolving…" placeholder that the inline
+//      script at the foot of the page fills in via bulk_search_location.php,
+//   3. the raw coordinates as small grey text, for admins who want the exact value.
+//
+// current_lat/current_long are varchar(255) and NULL/'' for records that never
+// reported a location, so anything incomplete falls back to an em dash rather than
+// a link or a lookup that would open an empty map. No geocoding call happens
+// during page render — addresses resolve lazily, after the table is on screen.
+function bs_location_cell($lat, $lng, $address, string $type, $id): string
+{
+    $lat  = trim((string)($lat ?? ''));
+    $lng  = trim((string)($lng ?? ''));
+    $addr = trim((string)($address ?? ''));
+    $hasCoords = $lat !== '' && $lng !== '' && is_numeric($lat) && is_numeric($lng);
+
+    if (!$hasCoords && $addr === '') {
+        return '—';
+    }
+
+    // Pin: the primary, always-clickable affordance.
+    $pin = '—';
+    if ($hasCoords) {
+        $coords  = $lat . ', ' . $lng;
+        $url     = 'https://www.google.com/maps?q=' . rawurlencode($lat . ',' . $lng);
+        $pin = '<a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"'
+             . ' target="_blank" rel="noopener noreferrer" class="bs-loc-pin"'
+             . ' title="' . htmlspecialchars('Open in Google Maps: ' . $coords, ENT_QUOTES, 'UTF-8') . '">'
+             . '<i class="bi bi-geo-alt-fill" aria-hidden="true"></i>'
+             . '<span class="visually-hidden">Open location in Google Maps</span>'
+             . '</a>';
+    }
+
+    // Address: cached value, or a placeholder the inline script resolves.
+    if ($addr !== '') {
+        $addrHtml = '<span class="bs-loc-addr" title="'
+                  . htmlspecialchars($addr, ENT_QUOTES, 'UTF-8') . '">'
+                  . htmlspecialchars($addr, ENT_QUOTES, 'UTF-8') . '</span>';
+    } elseif ($hasCoords && (int)$id > 0) {
+        $addrHtml = '<span class="bs-loc-addr bs-loc-pending text-muted"'
+                  . ' data-bs-loc-type="' . htmlspecialchars($type, ENT_QUOTES, 'UTF-8') . '"'
+                  . ' data-bs-loc-id="' . (int)$id . '">'
+                  . '<span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>Resolving…'
+                  . '</span>';
+    } else {
+        $addrHtml = '<span class="bs-loc-addr text-muted">Location unavailable</span>';
+    }
+
+    $coordsHtml = '';
+    if ($hasCoords) {
+        $coords = $lat . ', ' . $lng;
+        $coordsHtml = '<span class="bs-loc-coords" title="'
+                    . htmlspecialchars($coords, ENT_QUOTES, 'UTF-8') . '">'
+                    . htmlspecialchars($coords, ENT_QUOTES, 'UTF-8') . '</span>';
+    }
+
+    return '<div class="bs-loc">' . $pin
+         . '<span class="bs-loc-text">' . $addrHtml . $coordsHtml . '</span>'
+         . '</div>';
 }
 
 // "Checker" column. Shared verdict, also used for the summary totals and the
@@ -526,6 +601,7 @@ require __DIR__ . '/includes/header.php';
             <th>Last Online</th>
             <th>Last Offline</th>
             <th>Current Lat</th>
+            <th title="Opens Google Maps at the last reported position">Location</th>
             <th>Is Login</th>
             <th title="<?= htmlspecialchars($checkerTitle) ?>">Checker</th>
             <th>Action</th>
@@ -553,6 +629,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_location_cell($r['customer']['current_lat'] ?? null, $r['customer']['current_long'] ?? null, $r['customer']['current_address'] ?? null, 'customer', $r['customer']['id'] ?? 0) ?></td>
                 <td><?= bs_login_badge($r['customer']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
@@ -566,6 +643,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_location_cell($r['rider']['current_lat'] ?? null, $r['rider']['current_long'] ?? null, $r['rider']['current_address'] ?? null, 'rider', $r['rider']['id'] ?? 0) ?></td>
                 <td><?= bs_login_badge($r['rider']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
@@ -582,6 +660,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['customer']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['customer']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['customer']['current_lat'] ?? null) ?></td>
+                <td><?= bs_location_cell($r['customer']['current_lat'] ?? null, $r['customer']['current_long'] ?? null, $r['customer']['current_address'] ?? null, 'customer', $r['customer']['id'] ?? 0) ?></td>
                 <td><?= bs_login_badge($r['customer']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['customer'], $fromTs, $toTs) ?></td>
                 <td><a href="customer_show.php?id=<?= (int)$r['customer']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
@@ -598,6 +677,7 @@ require __DIR__ . '/includes/header.php';
                 <td><?= bs_dt($r['rider']['last_online_datetime'] ?? null) ?></td>
                 <td><?= bs_dt($r['rider']['last_offline_datetime'] ?? null) ?></td>
                 <td><?= bs_lat($r['rider']['current_lat'] ?? null) ?></td>
+                <td><?= bs_location_cell($r['rider']['current_lat'] ?? null, $r['rider']['current_long'] ?? null, $r['rider']['current_address'] ?? null, 'rider', $r['rider']['id'] ?? 0) ?></td>
                 <td><?= bs_login_badge($r['rider']['is_login'] ?? null) ?></td>
                 <td><?= bs_checker($r['rider'], $fromTs, $toTs) ?></td>
                 <td><a href="rider_show.php?id=<?= (int)$r['rider']['id'] ?>" class="btn btn-sm btn-outline-primary">View</a></td>
@@ -625,12 +705,13 @@ require __DIR__ . '/includes/header.php';
                 <td>--</td>
                 <td>--</td>
                 <td>--</td>
+                <td>--</td>
               </tr>
             <?php endif; ?>
           <?php endforeach; ?>
           <?php if ($results === [] && $filter !== ''): ?>
             <tr>
-              <td colspan="13" class="text-center text-muted py-4">
+              <td colspan="14" class="text-center text-muted py-4">
                 No <?= htmlspecialchars(bs_filter_label($filter)) ?> records found — click "All" above to reset the filter.
               </td>
             </tr>
@@ -644,3 +725,53 @@ require __DIR__ . '/includes/header.php';
 <?php endif; ?>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
+
+<script>
+// Lazily resolve the Location column's readable address.
+//
+// The table renders instantly with whatever is already cached in
+// current_address. Only rows still missing one are queued here, and they are
+// fetched one at a time with a delay between calls — the search itself never
+// waits on a geocoding provider, and the pacing keeps us inside the public
+// Nominatim usage policy (~1 request/second) should Google be unavailable and
+// the fallback kicks in.
+(function () {
+  var pending = Array.prototype.slice.call(document.querySelectorAll('[data-bs-loc-type]'));
+  if (!pending.length) return;
+
+  var GAP_MS = 1100;   // > 1s between calls, per the Nominatim usage policy
+  var idx = 0;
+
+  function fail(el) {
+    el.textContent = 'Location unavailable';
+    el.classList.remove('bs-loc-pending');
+    el.removeAttribute('data-bs-loc-type');
+  }
+
+  function resolveNext() {
+    if (idx >= pending.length) return;
+    var el = pending[idx++];
+    var type = el.getAttribute('data-bs-loc-type');
+    var id = el.getAttribute('data-bs-loc-id');
+    el.removeAttribute('data-bs-loc-type');
+
+    var url = 'bulk_search_location.php?type=' + encodeURIComponent(type) + '&id=' + encodeURIComponent(id);
+
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (data && data.ok && data.address) {
+          el.textContent = data.address;
+          el.title = data.address;
+          el.classList.remove('bs-loc-pending');
+        } else {
+          fail(el);
+        }
+      })
+      .catch(function () { fail(el); })
+      .then(function () { setTimeout(resolveNext, GAP_MS); });
+  }
+
+  setTimeout(resolveNext, GAP_MS);
+})();
+</script>

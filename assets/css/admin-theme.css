@@ -425,6 +425,33 @@ body {
   text-overflow: ellipsis;
 }
 
+/* ---------- Bulk search "Location" column ----------
+   Pin (primary) on the left, then a readable label with the exact coordinates
+   beneath it. Both lines truncate with an ellipsis; the full value lives in the
+   title attribute. Colours are inherited so the cell still follows the table's
+   hover / warning / danger row backgrounds. */
+.bs-loc { display: flex; align-items: flex-start; gap: 6px; min-width: 190px; }
+.bs-loc-pin {
+  flex: 0 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--bs-primary, #0d6efd);
+  text-decoration: none;
+}
+.bs-loc-pin:hover { color: var(--bs-link-hover-color, #0a58ca); }
+.bs-loc-text { display: flex; flex-direction: column; min-width: 0; }
+.bs-loc-addr, .bs-loc-coords {
+  display: block;
+  max-width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bs-loc-addr { font-weight: 500; }
+.bs-loc-coords { font-size: .75rem; color: var(--bs-secondary-color, #6c757d); }
+/* Keep the spinner tiny so the row height doesn't jump when it resolves. */
+.bs-loc-pending .spinner-border-sm { width: .7rem; height: .7rem; border-width: .12em; }
+
 /* ---------- Add Passenger / Add Driver forms (compact) ---------- */
 .pr-form-grid {
   display: grid;
