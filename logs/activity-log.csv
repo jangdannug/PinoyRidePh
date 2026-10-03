@@ -1541,3 +1541,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-03 14:48:57",Rhelyn,login,,,"Staff logged in"
 "2026-10-03 14:50:04",Rhelyn,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-03 14:50:42",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-03 16:26:46",Melissa,login,,,"Staff logged in"
+"2026-10-03 16:27:18",Melissa,create_driver,rider,9003,"DRN-2610-8427 - Vincent allan Santos"
+"2026-10-03 16:32:31",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-03 16:35:22",Melissa,logout,,,"Staff logged out / shutdown"
