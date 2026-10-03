@@ -1496,3 +1496,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-03 08:58:53",Melissa,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
 "2026-10-03 09:26:43",Melissa,create_driver,rider,8991,"DRN-2610-8415 - Kim Patrick Bitoonas"
 "2026-10-03 09:30:54",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-03 11:31:29",Melissa,login,,,"Staff logged in"
+"2026-10-03 11:32:53",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-03 11:39:53",Melissa,create_driver,rider,8995,"DRN-2610-8419 - Jaspeer Manalo"
+"2026-10-03 11:49:42",Melissa,logout,,,"Staff logged out / shutdown"
