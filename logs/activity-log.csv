@@ -1629,3 +1629,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-03 13:46:58","Dannah Kryzle",bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
 "2026-10-03 13:47:46","Dannah Kryzle",bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found | range 2026-09-28 to 2026-10-03"
 "2026-10-03 14:13:37","Dannah Kryzle",bulk_search,,,"Searched 13 numbers: 1 passengers, 12 drivers, 0 both, 0 not found"
+"2026-10-04 10:29:37","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-04 10:30:11","Dannah Kryzle",bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
+"2026-10-04 10:31:15","Dannah Kryzle",bulk_search,,,"Searched 132 numbers: 7 passengers, 120 drivers, 3 both, 2 not found"
+"2026-10-04 10:35:12","Dannah Kryzle",create_driver,rider,9005,"DRN-2610-8429 - Vic Soriano  Jr"
