@@ -1658,3 +1658,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-04 11:00:36",Rhelyn,bulk_search,,,"Searched 3 numbers: 0 passengers, 2 drivers, 0 both, 1 not found"
 "2026-10-04 11:01:52",Rhelyn,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
 "2026-10-04 11:04:21",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-04 11:36:40",Melissa,login,,,"Staff logged in"
+"2026-10-04 11:42:17",Melissa,create_driver,rider,9008,"DRN-2610-8432 - Rudito Jr cañete"
+"2026-10-04 11:55:23",Melissa,create_driver,rider,9011,"DRN-2610-8435 - Rodolfo Jr. Dulay"
+"2026-10-04 12:01:00",Melissa,create_driver,rider,9013,"DRN-2610-8437 - Jervin Arthur Cartalla Domingo"
+"2026-10-04 12:04:30",Melissa,logout,,,"Staff logged out / shutdown"
