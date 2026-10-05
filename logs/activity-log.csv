@@ -1733,3 +1733,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 02:56:00",Rhelyn,bulk_search,,,"Searched 12 numbers: 0 passengers, 12 drivers, 0 both, 0 not found"
 "2026-10-05 02:57:46",Rhelyn,bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found"
 "2026-10-05 02:58:32",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-04 19:15:52",Melissa,login,,,"Staff logged in"
+"2026-10-04 19:16:25",Melissa,create_driver,rider,9030,"DRN-2610-8454 - Emerson Marinas"
+"2026-10-04 19:19:25",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-04 19:25:03",Melissa,bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found, 1 duplicate pastes"
