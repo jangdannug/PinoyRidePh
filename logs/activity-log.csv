@@ -1809,3 +1809,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 17:31:54","Mary Grace",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-05 17:36:31","Mary Grace",create_driver,rider,9041,"DRN-2610-8465 - david esguerra"
 "2026-10-05 17:39:51","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-05 17:40:25",Rhelyn,login,,,"Staff logged in"
+"2026-10-05 17:44:16",Rhelyn,logout,,,"Staff logged out / shutdown"
