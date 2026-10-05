@@ -1799,3 +1799,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 10:59:00",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-05 11:16:10",Melissa,bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found, 1 duplicate pastes"
 "2026-10-05 11:21:29",Melissa,bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found, 1 duplicate pastes"
+"2026-10-05 16:39:55",Melissa,login,,,"Staff logged in"
+"2026-10-05 16:40:19",Melissa,create_driver,rider,9039,"DRN-2610-8463 - Elmer Toca"
+"2026-10-05 16:44:22",Melissa,bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found, 1 duplicate pastes"
+"2026-10-05 16:48:02",Melissa,logout,,,"Staff logged out / shutdown"
