@@ -1815,3 +1815,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 19:24:22","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found | range 2026-10-05 to 2026-10-11"
 "2026-10-05 19:27:13","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 4 drivers, 0 both, 1 not found"
 "2026-10-05 19:29:23","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-05 17:19:51",Melissa,login,,,"Staff logged in"
+"2026-10-05 17:20:26",Melissa,bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found, 1 duplicate pastes"
+"2026-10-05 17:24:12",Melissa,bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found, 1 duplicate pastes | filtered: duplicates only"
