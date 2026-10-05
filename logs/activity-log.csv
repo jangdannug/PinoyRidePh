@@ -1788,3 +1788,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-04 16:50:29","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 3 passengers, 17 drivers, 0 both, 0 not found"
 "2026-10-04 16:54:14","Dannah Kryzle",create_driver,rider,9029,"DRN-2610-8453 - John rey Calizar"
 "2026-10-04 17:00:27","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 1 passengers, 19 drivers, 0 both, 0 not found | range 2026-09-28 to 2026-10-04"
+"2026-10-05 08:59:01","Dannah Kryzle",login,,,"Staff logged in"
