@@ -1811,3 +1811,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 17:39:51","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-10-05 17:40:25",Rhelyn,login,,,"Staff logged in"
 "2026-10-05 17:44:16",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-05 19:22:58","Mary Grace",login,,,"Staff logged in"
+"2026-10-05 19:24:22","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found | range 2026-10-05 to 2026-10-11"
+"2026-10-05 19:27:13","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 4 drivers, 0 both, 1 not found"
+"2026-10-05 19:29:23","Mary Grace",logout,,,"Staff logged out / shutdown"
