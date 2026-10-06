@@ -2935,3 +2935,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-06 14:33:55","Charen Charise",bulk_search,,,"Searched 8 numbers: 0 passengers, 8 drivers, 0 both, 0 not found"
 "2026-10-06 14:35:05","Charen Charise",bulk_search,,,"Searched 5 numbers: 0 passengers, 4 drivers, 0 both, 1 not found"
 "2026-10-06 14:35:06","Charen Charise",bulk_search,,,"Searched 5 numbers: 0 passengers, 4 drivers, 0 both, 1 not found"
+"2026-10-06 14:43:18","Charen Charise",login,,,"Staff logged in"
+"2026-10-06 14:43:27","Charen Charise",login,,,"Staff logged in"
+"2026-10-06 14:46:44","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-06 16:24:29","Charen Charise",logout,,,"Staff logged out / shutdown"
