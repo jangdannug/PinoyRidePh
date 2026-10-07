@@ -1883,3 +1883,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-06 18:15:37",Melissa,login,,,"Staff logged in"
 "2026-10-06 20:46:16",Melissa,login,,,"Staff logged in"
 "2026-10-06 20:47:03",Melissa,create_driver,rider,9067,"DRN-2610-8491 - Marvin Tantuan"
+"2026-10-06 21:03:08",Melissa,login,,,"Staff logged in"
+"2026-10-06 21:03:20",Melissa,bulk_search,,,"Searched 15 numbers: 0 passengers, 15 drivers, 0 both, 0 not found, 1 duplicate pastes"
