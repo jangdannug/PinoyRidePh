@@ -1996,3 +1996,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-08 11:45:09",Melissa,create_driver,rider,9108,"DRN-2610-8526 - Sharwin Lisondra"
 "2026-10-08 12:25:23",Melissa,bulk_search,,,"Searched 24 numbers: 0 passengers, 24 drivers, 0 both, 0 not found"
 "2026-10-08 12:31:06",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-08 12:41:10",Melissa,login,,,"Staff logged in"
