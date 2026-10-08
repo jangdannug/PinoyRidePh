@@ -1975,3 +1975,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-08 08:55:59",Melissa,create_driver,rider,9093,"DRN-2610-8512 - Eduoardo Puno"
 "2026-10-08 08:56:19",Melissa,create_driver,rider,9094,"DRN-2610-8513 - Marlo Canon"
 "2026-10-08 08:56:22",Melissa,create_driver,rider,9095,"DRN-2610-8514 - Alexander Lawis"
+"2026-10-07 12:40:11","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-07 12:40:38","Dannah Kryzle",bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found, 1 duplicate pastes"
+"2026-10-07 13:02:21","Dannah Kryzle",bulk_search,,,"Searched 17 numbers: 0 passengers, 17 drivers, 0 both, 0 not found"
