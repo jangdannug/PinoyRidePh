@@ -1968,3 +1968,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-05 17:01:10","Mary Grace",bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found | range 2026-09-28 to 2026-10-05"
 "2026-10-05 17:01:19","Mary Grace",bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found | range 2026-09-28 to 2026-10-05 | filtered: invalid only"
 "2026-10-05 17:01:47","Mary Grace",bulk_search,,,"Searched 11 numbers: 0 passengers, 11 drivers, 0 both, 0 not found | range 2026-09-28 to 2026-10-05"
+"2026-10-07 13:54:53",Melissa,login,,,"Staff logged in"
+"2026-10-07 13:55:20",Melissa,create_driver,rider,9090,"DRN-2610-8509 - Edgardo jr pepito"
+"2026-10-07 14:17:06",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
