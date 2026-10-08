@@ -1984,3 +1984,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-08 09:05:29",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-08 09:09:00",Melissa,create_driver,rider,9096,"DRN-2610-8515 - Jeong Caylao"
 "2026-10-08 09:12:38",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-08 09:59:04",Melissa,login,,,"Staff logged in"
