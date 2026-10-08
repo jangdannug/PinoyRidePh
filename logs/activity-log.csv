@@ -1989,3 +1989,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-08 10:04:22",Melissa,login,,,"Staff logged in"
 "2026-10-08 10:08:08",Melissa,create_driver,rider,9098,"DRN-2610-8517 - Archie Bernal"
 "2026-10-08 10:12:25",Melissa,create_driver,rider,9099,"DRN-2610-8518 - Nikko Jan Villaflores"
+"2026-10-08 10:49:04",Melissa,login,,,"Staff logged in"
