@@ -2000,3 +2000,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-08 12:45:35",Melissa,login,,,"Staff logged in"
 "2026-10-08 12:48:09",Melissa,login,,,"Staff logged in"
 "2026-10-08 12:48:26",Melissa,create_passenger,customer,270,"CUST-2610-239 - Angel Daphane Resngit"
+"2026-10-08 12:59:22",Melissa,login,,,"Staff logged in"
