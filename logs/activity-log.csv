@@ -2071,3 +2071,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-09 14:00:41","Mary Grace",bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found"
 "2026-10-09 14:03:42","Mary Grace",bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found"
 "2026-10-09 16:36:33","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-09 16:36:41","Mary Grace",logout,,,"Staff logged out / shutdown"
