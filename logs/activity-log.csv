@@ -2050,3 +2050,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-09 09:02:23",Melissa,create_driver,rider,9114,"DRN-2610-8532 - Mark anthony Kurosawa"
 "2026-10-09 09:20:16",Melissa,bulk_search,,,"Searched 29 numbers: 1 passengers, 28 drivers, 0 both, 0 not found"
 "2026-10-09 09:55:08",Melissa,bulk_search,,,"Searched 27 numbers: 1 passengers, 26 drivers, 0 both, 0 not found"
+"2026-10-09 11:27:11",Melissa,login,,,"Staff logged in"
+"2026-10-09 11:28:15",Melissa,create_driver,rider,9118,"DRN-2610-8536 - Claro Agluba"
