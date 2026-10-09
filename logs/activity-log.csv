@@ -2054,3 +2054,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-09 11:28:15",Melissa,create_driver,rider,9118,"DRN-2610-8536 - Claro Agluba"
 "2026-10-09 11:51:06",Melissa,login,,,"Staff logged in"
 "2026-10-09 11:53:32",Melissa,login,,,"Staff logged in"
+"2026-10-09 12:02:43",Melissa,login,,,"Staff logged in"
+"2026-10-09 12:03:22",Melissa,bulk_search,,,"Searched 28 numbers: 1 passengers, 27 drivers, 0 both, 0 not found"
+"2026-10-09 12:07:19",Melissa,bulk_search,,,"Searched 2 numbers: 0 passengers, 2 drivers, 0 both, 0 not found"
+"2026-10-09 12:11:49",Melissa,logout,,,"Staff logged out / shutdown"
