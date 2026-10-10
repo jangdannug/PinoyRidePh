@@ -2084,3 +2084,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-09 21:39:18",Melissa,login,,,"Staff logged in"
 "2026-10-09 21:39:22",Melissa,login,,,"Staff logged in"
 "2026-10-09 21:45:54",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-09 21:59:47",Melissa,login,,,"Staff logged in"
