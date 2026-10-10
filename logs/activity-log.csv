@@ -2085,3 +2085,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-09 21:39:22",Melissa,login,,,"Staff logged in"
 "2026-10-09 21:45:54",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-10-09 21:59:47",Melissa,login,,,"Staff logged in"
+"2026-10-10 14:45:49",Melissa,login,,,"Staff logged in"
+"2026-10-10 14:58:55",Melissa,create_driver,rider,9136,"DRN-2610-8554 - Andro Jr Lualhati"
+"2026-10-10 15:04:34",Melissa,bulk_search,,,"Searched 31 numbers: 1 passengers, 30 drivers, 0 both, 0 not found"
