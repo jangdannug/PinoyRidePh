@@ -2158,3 +2158,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-10 20:17:38","Dannah Kryzle",logout,,,"Switched to Normelyn"
 "2026-10-10 20:17:38",Normelyn,login,,,"Staff logged in"
 "2026-10-10 20:17:49",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-10 20:18:17",Normelyn,logout,,,"Staff logged out / shutdown"
