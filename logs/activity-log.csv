@@ -2184,3 +2184,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-11 14:27:09","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-10-11 14:27:36","Mary Grace",login,,,"Staff logged in"
 "2026-10-11 14:41:42","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-11 14:48:25",Normelyn,login,,,"Staff logged in"
+"2026-10-11 14:49:46",Normelyn,bulk_search,,,"Searched 22 numbers: 2 passengers, 20 drivers, 0 both, 0 not found"
+"2026-10-11 14:50:13",Normelyn,logout,,,"Staff logged out / shutdown"
