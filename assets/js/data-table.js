@@ -17,6 +17,28 @@ $(function () {
     var $table = $(this);
     var paging = $table.data('paging') !== false;
 
+    // Empty-state rows ("No bookings found.", "No one is booking right now.")
+    // are a single <td colspan="N"> spanning the whole table. DataTables can't
+    // read colspan cells in tbody — it sees a 1-cell row against an N-column
+    // header and throws "Requested unknown parameter '1' for row 0, column 1"
+    // (https://datatables.net/tn/4) as an alert. A table whose rows don't all
+    // match the header width has nothing reliable to sort/search anyway, so
+    // leave it as plain markup instead of initialising.
+    var headerCount = $table.find('thead tr').first().children('th,td').length;
+    var $bodyRows = $table.find('tbody tr');
+    if (headerCount > 0 && $bodyRows.length > 0) {
+      var mismatched = $bodyRows.filter(function () {
+        return $(this).children('td,th').length !== headerCount;
+      });
+      if (mismatched.length) {
+        if (window.console && console.warn) {
+          console.warn('DataTables init skipped: ' + mismatched.length +
+            ' row(s) do not match the ' + headerCount + '-column header (colspan/empty-state rows?).', $table[0]);
+        }
+        return;
+      }
+    }
+
     var columnDefs = [];
     var $lastHeader = $table.find('thead th').last();
     if ($lastHeader.length && $lastHeader.text().trim() === '') {
