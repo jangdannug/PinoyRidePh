@@ -2196,3 +2196,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-11 20:58:12",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-11 21:25:56",Melissa,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
 "2026-10-11 21:32:23",Melissa,create_driver,rider,9150,"DRN-2610-8568 - KYLE JOSHUA PANGILINAN"
+"2026-10-11 22:10:52",Melissa,login,,,"Staff logged in"
+"2026-10-11 22:29:36",Melissa,create_driver,rider,9151,"DRN-2610-8569 - Judel gentogao"
+"2026-10-11 23:09:07",Melissa,create_driver,rider,9152,"DRN-2610-8570 - Mark anthony Barino"
+"2026-10-11 23:43:06",Melissa,logout,,,"Staff logged out / shutdown"
