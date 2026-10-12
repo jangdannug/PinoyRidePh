@@ -2233,3 +2233,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-12 15:35:28","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-10-12 16:41:46",Melissa,login,,,"Staff logged in"
 "2026-10-12 17:09:58",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-12 18:44:07",Melissa,login,,,"Staff logged in"
+"2026-10-12 18:50:04",Melissa,create_driver,rider,9165,"DRN-2610-8583 - Mahid Abdulmanan"
+"2026-10-12 19:22:25",Melissa,logout,,,"Staff logged out / shutdown"
