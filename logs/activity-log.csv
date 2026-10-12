@@ -2231,3 +2231,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-12 12:20:48","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
 "2026-10-12 14:30:21","Mary Grace",create_driver,rider,9164,"DRN-2610-8582 - Arnel Lagremas"
 "2026-10-12 15:35:28","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-12 16:41:46",Melissa,login,,,"Staff logged in"
+"2026-10-12 17:09:58",Melissa,logout,,,"Staff logged out / shutdown"
