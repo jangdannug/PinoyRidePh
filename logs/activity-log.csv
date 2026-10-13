@@ -2237,3 +2237,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-12 18:50:04",Melissa,create_driver,rider,9165,"DRN-2610-8583 - Mahid Abdulmanan"
 "2026-10-12 19:22:25",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-10-12 19:22:34",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-13 08:20:50",Melissa,login,,,"Staff logged in"
+"2026-10-13 08:21:09",Melissa,create_driver,rider,9166,"DRN-2610-8584 - Christopher De Jesus"
+"2026-10-13 08:34:11",Melissa,logout,,,"Staff logged out / shutdown"
