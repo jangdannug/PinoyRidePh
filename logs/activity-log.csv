@@ -2289,3 +2289,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-13 11:14:55",Melissa,create_driver,rider,9177,"DRN-2610-8595 - Orestes Lumbres"
 "2026-10-13 12:13:55",Melissa,create_driver,rider,9182,"DRN-2610-8600 - Ryan brandon Basarte"
 "2026-10-13 13:57:34",Rhelyn,login,,,"Staff logged in"
+"2026-10-13 11:15:43","Mary Grace",login,,,"Staff logged in"
+"2026-10-13 11:16:42","Mary Grace",bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
+"2026-10-13 12:20:40","Mary Grace",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
+"2026-10-13 12:57:56","Mary Grace",create_driver,rider,9183,"DRN-2610-8601 - Ronald Dapat"
+"2026-10-13 14:09:45","Mary Grace",logout,,,"Staff logged out / shutdown"
