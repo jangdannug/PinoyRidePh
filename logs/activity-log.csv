@@ -2288,3 +2288,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-13 11:14:30",Melissa,login,,,"Staff logged in"
 "2026-10-13 11:14:55",Melissa,create_driver,rider,9177,"DRN-2610-8595 - Orestes Lumbres"
 "2026-10-13 12:13:55",Melissa,create_driver,rider,9182,"DRN-2610-8600 - Ryan brandon Basarte"
+"2026-10-13 13:57:34",Rhelyn,login,,,"Staff logged in"
