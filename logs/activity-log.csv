@@ -2285,3 +2285,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-13 11:13:34","Charen Charise",create_driver,rider,9176,"DRN-2610-8594 - Kean Bartolome"
 "2026-10-13 11:14:46","Charen Charise",create_driver,rider,9178,"DRN-2610-8596 - Felix Jr Cailing"
 "2026-10-13 11:16:52","Charen Charise",create_driver,rider,9179,"DRN-2610-8597 - Maverick Dela Cruz"
+"2026-10-13 11:14:30",Melissa,login,,,"Staff logged in"
+"2026-10-13 11:14:55",Melissa,create_driver,rider,9177,"DRN-2610-8595 - Orestes Lumbres"
+"2026-10-13 12:13:55",Melissa,create_driver,rider,9182,"DRN-2610-8600 - Ryan brandon Basarte"
