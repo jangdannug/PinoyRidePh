@@ -2351,3 +2351,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 12:36:16",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-13 21:29:40",Abegail,login,,,"Staff logged in"
 "2026-10-13 21:30:11",Abegail,create_passenger,customer,276,"CUST-2610-245 - Lacaba Andrea"
+"2026-10-13 22:11:29",Abegail,login,,,"Staff logged in"
