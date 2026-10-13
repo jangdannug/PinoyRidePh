@@ -2294,3 +2294,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-13 12:20:40","Mary Grace",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
 "2026-10-13 12:57:56","Mary Grace",create_driver,rider,9183,"DRN-2610-8601 - Ronald Dapat"
 "2026-10-13 14:09:45","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-13 13:59:29",Rhelyn,login,,,"Staff logged in"
+"2026-10-13 17:10:21",Rhelyn,logout,,,"Staff logged out / shutdown"
