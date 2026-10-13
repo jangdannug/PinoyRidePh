@@ -2298,3 +2298,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-13 17:10:21",Rhelyn,logout,,,"Staff logged out / shutdown"
 "2026-10-13 19:09:19",Melissa,login,,,"Staff logged in"
 "2026-10-13 19:10:22",Melissa,create_driver,rider,9184,"DRN-2610-8602 - Dennis Macaraya"
+"2026-10-13 19:47:20",Melissa,login,,,"Staff logged in"
+"2026-10-13 19:47:57",Melissa,create_driver,rider,9185,"DRN-2610-8603 - Abraham Arisapa"
+"2026-10-13 20:04:35",Melissa,bulk_search,,,"Searched 11 numbers: 0 passengers, 10 drivers, 0 both, 1 not found"
+"2026-10-13 20:05:38",Melissa,bulk_search,,,"Searched 11 numbers: 0 passengers, 11 drivers, 0 both, 0 not found"
+"2026-10-13 20:10:28",Melissa,bulk_search,,,"Searched 11 numbers: 0 passengers, 11 drivers, 0 both, 0 not found"
