@@ -2324,3 +2324,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 09:15:45","Dannah Kryzle",login,,,"Staff logged in"
 "2026-10-14 09:16:06","Dannah Kryzle",bulk_search,,,"Searched 14 numbers: 0 passengers, 13 drivers, 0 both, 1 not found, 6 duplicate pastes"
 "2026-10-13 19:02:12",Abegail,login,,,"Staff logged in"
+"2026-10-13 20:28:40",Abegail,login,,,"Staff logged in"
+"2026-10-13 20:30:07",Abegail,create_driver,rider,9198,"DRN-2610-8616 - Jasper Bien Coloma"
