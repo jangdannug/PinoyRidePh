@@ -2308,3 +2308,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 08:32:52",Melissa,login,,,"Staff logged in"
 "2026-10-14 08:33:48",Melissa,create_driver,rider,9186,"DRN-2610-8604 - Boniejim Divino"
 "2026-10-14 08:33:51",Melissa,create_driver,rider,9187,"DRN-2610-8605 - Mhar Kristopher Evangelista"
+"2026-10-14 08:40:48",Melissa,login,,,"Staff logged in"
+"2026-10-14 08:41:16",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
