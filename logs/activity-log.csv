@@ -3206,3 +3206,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 14:26:17","Charen Charise",bulk_search,,,"Searched 2 numbers: 0 passengers, 2 drivers, 0 both, 0 not found"
 "2026-10-14 14:32:08","Charen Charise",create_driver,rider,9209,"DRN-2610-8627 - Jumark Bituin"
 "2026-10-14 16:30:19","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-10-14 16:30:45","Charen Charise",logout,,,"Staff logged out / shutdown"
