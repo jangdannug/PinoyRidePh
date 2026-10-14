@@ -2360,3 +2360,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 13:43:30",Melissa,bulk_search,,,"Searched 19 numbers: 0 passengers, 19 drivers, 0 both, 0 not found"
 "2026-10-14 14:33:09",Melissa,bulk_search,,,"Searched 19 numbers: 0 passengers, 19 drivers, 0 both, 0 not found"
 "2026-10-14 14:38:36",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-14 14:44:42",Melissa,login,,,"Staff logged in"
+"2026-10-14 14:44:57",Melissa,bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
+"2026-10-14 14:45:13",Melissa,logout,,,"Staff logged out / shutdown"
