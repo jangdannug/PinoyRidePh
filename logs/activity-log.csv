@@ -2363,3 +2363,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-14 14:44:42",Melissa,login,,,"Staff logged in"
 "2026-10-14 14:44:57",Melissa,bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
 "2026-10-14 14:45:13",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-13 23:09:19",Abegail,login,,,"Staff logged in"
+"2026-10-13 23:17:18",Abegail,create_passenger,customer,277,"CUST-2610-246 - Elizabeth De la Cruz"
+"2026-10-13 23:24:03",Abegail,create_passenger,customer,278,"CUST-2610-247 - Anabel Fidel"
+"2026-10-14 15:15:11",Abegail,create_driver,rider,9210,"DRN-2610-8628 - Alexis jay Berse"
+"2026-10-14 16:31:26",Abegail,logout,,,"Staff logged out / shutdown"
