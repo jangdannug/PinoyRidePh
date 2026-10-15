@@ -2596,3 +2596,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-15 09:44:17",Melissa,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
 "2026-10-15 15:12:44",Melissa,login,,,"Staff logged in"
 "2026-10-15 15:13:45",Melissa,create_driver,rider,9219,"DRN-2610-8637 - Richard II Inoy"
+"2026-10-15 15:15:58",Melissa,login,,,"Staff logged in"
+"2026-10-15 15:17:26",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
