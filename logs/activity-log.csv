@@ -2429,3 +2429,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-15 13:08:14",Abegail,create_passenger,customer,286,"CUST-2610-255 - Sanshine Valdez"
 "2026-10-15 13:28:52",Abegail,create_passenger,customer,287,"CUST-2610-256 - Neil Corsanes"
 "2026-10-15 14:00:29",Abegail,create_driver,rider,9218,"DRN-2610-8636 - Laurence Leonardo"
+"2026-10-15 16:01:05",Abegail,login,,,"Staff logged in"
+"2026-10-15 16:01:25",Abegail,login,,,"Staff logged in"
