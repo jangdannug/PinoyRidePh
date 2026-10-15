@@ -2590,3 +2590,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 11:30:50","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 29 drivers, 0 both, 1 not found"
 "2026-10-18 11:31:41","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
 "2026-10-18 11:42:36","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
+"2026-10-15 09:28:40",Melissa,login,,,"Staff logged in"
+"2026-10-15 09:29:08",Melissa,create_driver,rider,9216,"DRN-2610-8634 - Angelo Angeles"
+"2026-10-15 09:34:51",Melissa,bulk_search,,,"Searched 19 numbers: 0 passengers, 19 drivers, 0 both, 0 not found"
+"2026-10-15 09:44:17",Melissa,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
