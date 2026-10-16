@@ -2433,3 +2433,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-15 16:01:25",Abegail,login,,,"Staff logged in"
 "2026-10-15 16:04:28",Abegail,login,,,"Staff logged in"
 "2026-10-15 16:07:16",Abegail,logout,,,"Staff logged out / shutdown"
+"2026-10-16 09:13:24",Abegail,login,,,"Staff logged in"
