@@ -2459,3 +2459,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-16 09:43:55",Abegail,create_passenger,customer,289,"CUST-2610-258 - Sherlyn Corsanes"
 "2026-10-16 10:51:47",Abegail,login,,,"Staff logged in"
 "2026-10-16 11:25:09",Abegail,create_passenger,customer,290,"CUST-2610-259 - Jilian Oliver"
+"2026-10-16 11:32:35",Abegail,login,,,"Staff logged in"
+"2026-10-16 11:33:45",Abegail,login,,,"Staff logged in"
+"2026-10-16 16:58:07",Abegail,logout,,,"Staff logged out / shutdown"
