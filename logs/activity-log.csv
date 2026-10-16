@@ -2617,3 +2617,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-16 15:53:25",Melissa,create_driver,rider,9233,"DRN-2610-8651 - Christian Buiza"
 "2026-10-16 16:01:16",Melissa,bulk_search,,,"Searched 24 numbers: 0 passengers, 24 drivers, 0 both, 0 not found"
 "2026-10-16 17:04:43",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-16 22:18:02",Melissa,login,,,"Staff logged in"
+"2026-10-16 22:21:22",Melissa,create_driver,rider,9234,"DRN-2610-8652 - Francis Zabate"
+"2026-10-16 22:36:03",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
+"2026-10-16 22:37:58",Melissa,logout,,,"Staff logged out / shutdown"
