@@ -2600,3 +2600,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-15 15:17:26",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-15 15:46:44",Melissa,login,,,"Staff logged in"
 "2026-10-15 15:47:20",Melissa,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
+"2026-10-15 18:46:06",Melissa,login,,,"Staff logged in"
+"2026-10-15 18:52:32",Melissa,create_driver,rider,9220,"DRN-2610-8638 - Reymart Jaime"
+"2026-10-15 19:09:02",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
