@@ -2603,3 +2603,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-15 18:46:06",Melissa,login,,,"Staff logged in"
 "2026-10-15 18:52:32",Melissa,create_driver,rider,9220,"DRN-2610-8638 - Reymart Jaime"
 "2026-10-15 19:09:02",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-16 09:44:32",Melissa,login,,,"Staff logged in"
+"2026-10-16 09:45:20",Melissa,create_driver,rider,9221,"DRN-2610-8639 - Cezar christopher tueres Giner"
+"2026-10-16 09:49:59",Melissa,bulk_search,,,"Searched 22 numbers: 0 passengers, 22 drivers, 0 both, 0 not found"
