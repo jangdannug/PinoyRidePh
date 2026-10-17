@@ -2637,3 +2637,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-17 14:00:38",Melissa,bulk_search,,,"Searched 24 numbers: 0 passengers, 24 drivers, 0 both, 0 not found"
 "2026-10-17 14:12:18",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-17 14:13:36",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-17 16:54:44",Melissa,login,,,"Staff logged in"
+"2026-10-17 17:08:18",Melissa,create_driver,rider,9248,"DRN-2610-8666 - John Hans Solis"
+"2026-10-17 17:26:08",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
+"2026-10-17 21:52:16",Melissa,logout,,,"Staff logged out / shutdown"
