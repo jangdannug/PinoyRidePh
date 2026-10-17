@@ -2621,3 +2621,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-16 22:21:22",Melissa,create_driver,rider,9234,"DRN-2610-8652 - Francis Zabate"
 "2026-10-16 22:36:03",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
 "2026-10-16 22:37:58",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-17 07:42:11",Melissa,login,,,"Staff logged in"
+"2026-10-17 07:42:47",Melissa,create_driver,rider,9235,"DRN-2610-8653 - Ronaldo Leyson"
+"2026-10-17 08:19:01",Melissa,bulk_search,,,"Searched 17 numbers: 0 passengers, 17 drivers, 0 both, 0 not found"
+"2026-10-17 08:19:51",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
