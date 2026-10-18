@@ -2662,3 +2662,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 13:04:45",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-10-18 13:07:56",Melissa,login,,,"Staff logged in"
 "2026-10-18 13:09:07",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-18 13:42:56",Melissa,login,,,"Staff logged in"
+"2026-10-18 13:43:21",Melissa,create_driver,rider,9272,"DRN-2610-8690 - joshua hernandez"
