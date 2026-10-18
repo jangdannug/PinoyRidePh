@@ -2572,3 +2572,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 11:40:22",Normelyn,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-18 11:40:32",Normelyn,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found | filtered: invalid only"
 "2026-10-18 13:45:52",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-18 13:46:06",Normelyn,logout,,,"Staff logged out / shutdown"
