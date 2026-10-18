@@ -2557,3 +2557,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 11:33:38",Normelyn,bulk_search,,,"Searched 144 numbers: 13 passengers, 127 drivers, 0 both, 4 not found | filtered: not_found only"
 "2026-10-18 11:33:46",Normelyn,bulk_search,,,"Searched 144 numbers: 13 passengers, 127 drivers, 0 both, 4 not found | filtered: not_found only"
 "2026-10-18 11:34:05",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-11 13:12:04","John Roe",login,,,"Staff logged in"
