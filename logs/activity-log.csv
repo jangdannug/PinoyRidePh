@@ -2657,3 +2657,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 12:38:58",Melissa,create_driver,rider,9269,"DRN-2610-8687 - Joepri Del castillo"
 "2026-10-18 12:57:17",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-18 12:57:50",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-18 12:59:11",Melissa,login,,,"Staff logged in"
+"2026-10-18 12:59:34",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-18 13:04:45",Melissa,logout,,,"Staff logged out / shutdown"
