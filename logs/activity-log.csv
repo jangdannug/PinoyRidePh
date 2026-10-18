@@ -3254,3 +3254,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 13:00:11","Charen Charise",bulk_search,,,"Searched 28 numbers: 0 passengers, 28 drivers, 0 both, 0 not found"
 "2026-10-18 13:02:23","Charen Charise",create_driver,rider,9270,"DRN-2610-8688 - Jakson De Guzman"
 "2026-10-18 13:06:19","Charen Charise",create_driver,rider,9271,"DRN-2610-8689 - Mandy Flores"
+"2026-10-18 14:10:15",Melissa,login,,,"Staff logged in"
+"2026-10-18 14:10:43",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-18 14:12:05",Melissa,adjust_wallet_credit,wallet,10200,"Deducted ₱500.00 for rider #9261 — Double top up"
+"2026-10-18 14:20:36",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
+"2026-10-18 14:21:07",Melissa,logout,,,"Staff logged out / shutdown"
