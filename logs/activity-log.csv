@@ -2649,3 +2649,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 10:08:07",Melissa,create_driver,rider,9261,"DRN-2610-8679 - Regie Fider"
 "2026-10-18 10:09:36",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-18 10:23:56",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-18 10:50:09",Melissa,login,,,"Staff logged in"
+"2026-10-18 10:50:42",Melissa,bulk_search,,,"Searched 27 numbers: 0 passengers, 27 drivers, 0 both, 0 not found"
+"2026-10-18 11:03:29",Melissa,create_driver,rider,9265,"DRN-2610-8683 - Edmark Caspe"
+"2026-10-18 11:09:00",Melissa,logout,,,"Staff logged out / shutdown"
