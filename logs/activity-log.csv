@@ -2653,3 +2653,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 10:50:42",Melissa,bulk_search,,,"Searched 27 numbers: 0 passengers, 27 drivers, 0 both, 0 not found"
 "2026-10-18 11:03:29",Melissa,create_driver,rider,9265,"DRN-2610-8683 - Edmark Caspe"
 "2026-10-18 11:09:00",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-18 12:38:28",Melissa,login,,,"Staff logged in"
+"2026-10-18 12:38:58",Melissa,create_driver,rider,9269,"DRN-2610-8687 - Joepri Del castillo"
+"2026-10-18 12:57:17",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-18 12:57:50",Melissa,logout,,,"Staff logged out / shutdown"
