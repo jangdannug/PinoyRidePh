@@ -189,8 +189,16 @@ in this admin panel.
   (`credit_amount - debit_amount` accumulated); `wallet_history` is the
   source of truth ledger. When debiting/crediting, update both the
   `wallet` row's `avail_balance`/`debit_amount`/`credit_amount` *and*
-  insert a `wallet_history` row — see `wallet_credit_create.php` and the
+  insert a `wallet_history` row — see `wallet_credit_adjust.php` and the
   commission-debit block in `booking_show.php` for the pattern.
+- Corrections for bad top-ups (e.g. accidental double top-up) go through
+  `wallet_credit_adjust.php` (`tran_type='adjustment'`, linked as "Adjust
+  Credit" from `rider_show.php`). It takes a direction (credit/debit), an
+  amount and a **required reason** (stored as the `wallet_history`
+  description), and refuses any deduction that would drive the ledger
+  balance below 0. Never edit or delete `wallet_history` rows to fix a
+  mistake — the ledger is append-only so the error and its correction both
+  stay auditable.
 - `wallet_history.booking_id` is `character varying`, not `integer` like
   every other `booking_id` FK in this schema — cast/compare as text when
   joining.

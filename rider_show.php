@@ -207,8 +207,8 @@ require __DIR__ . '/includes/header.php';
   <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php else: ?>
 
-  <?php if (($_GET['credit_added'] ?? '') === '1'): ?>
-    <div class="alert alert-success">Credit added successfully.</div>
+  <?php if (($_GET['adjusted'] ?? '') === '1'): ?>
+    <div class="alert alert-success">Credit adjustment applied successfully.</div>
   <?php endif; ?>
   <?php if (($_GET['updated'] ?? '') === '1'): ?>
     <div class="alert alert-success">Rider updated successfully.</div>
@@ -379,10 +379,10 @@ require __DIR__ . '/includes/header.php';
           Wallet Information
           <div class="d-flex gap-2">
             <?php if ($wallet): ?>
-              <a href="wallet_credit_create.php?wallet_id=<?= (int)$wallet['id'] ?>" class="btn btn-sm btn-success">Add Credit</a>
+              <a href="wallet_credit_adjust.php?wallet_id=<?= (int)$wallet['id'] ?>" class="btn btn-sm btn-outline-warning">Adjust Credit</a>
               <a href="wallet_transactions.php?wallet_id=<?= (int)$wallet['id'] ?>" class="btn btn-sm btn-outline-primary">View Transactions</a>
             <?php else: ?>
-              <a href="wallet_credit_create.php?rider_id=<?= (int)$id ?>" class="btn btn-sm btn-success">Add Credit</a>
+              <a href="wallet_credit_adjust.php?rider_id=<?= (int)$id ?>" class="btn btn-sm btn-outline-warning">Adjust Credit</a>
             <?php endif; ?>
           </div>
         </div>
