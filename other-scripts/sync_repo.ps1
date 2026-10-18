@@ -17,11 +17,13 @@
 #     sides are kept. The Union-ResolveLogFile fallback below handles the
 #     rare machine that has not received .gitattributes yet.
 #   * logs/.boot-id is PER-MACHINE state (a fresh GUID written on every
-#     START-ADMIN) and must stay untracked. It was accidentally committed
-#     once upon a time, which made every machine conflict on it during
-#     rebase. It is now untracked again, and any leftover conflict on it
-#     is resolved automatically by untracking it (the local copy stays on
-#     disk, so the app's staff re-login check keeps working).
+#     START-ADMIN) but it IS tracked in the repo (early commits beat
+#     .gitignore; untracking was undone by an old engine elsewhere). It
+#     used to be the single file that deadlocked machines during rebase.
+#     .gitattributes now gives it merge=union so content conflicts merge
+#     silently - even for machines still on the old engine - and this
+#     script resolves any leftover/modify-delete conflict by untracking it
+#     again (the local copy stays on disk so staff re-login still works).
 #   * A machine that fell BADLY behind on log syncing (dozens of piled-up
 #     log commits, each one conflicting) no longer deadlocks: the rebase
 #     retry cap scales with the number of commits, and as a last resort the
@@ -193,9 +195,10 @@ if ($LASTEXITCODE -ne 0) {
 
 # ---------------- 2. commit this machine's activity log -------------------
 # The ONLY thing that is ever committed + pushed automatically. No -f, so
-# gitignored per-machine files (logs/.boot-id - untracked as of 2026-10-18,
-# it had been committed by accident and caused cross-machine rebase
-# conflicts) stay out.
+# gitignored NEW files (e.g. " (3).env") stay out. logs/.boot-id is
+# tracked despite .gitignore (see .gitattributes / CLAUDE.md), so its
+# changes do get committed here - that is exactly what its union merge
+# rule is for.
 [void](Invoke-Git add -- logs/)
 $staged = @(Invoke-Git diff --cached --name-only)
 if ($staged.Count -gt 0) {

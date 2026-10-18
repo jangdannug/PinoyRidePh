@@ -2,3 +2,17 @@
 # same CSV. The git "union" merge driver keeps BOTH machines' lines whenever
 # they sync at the same time (no conflict markers, no lost rows).
 logs/activity-log.csv merge=union
+
+# logs/.boot-id is PER-MACHINE state (fresh GUID per START-ADMIN) but it is
+# tracked in the repo - early commits beat .gitignore to it, and untracking
+# it on 2026-10-18 was immediately undone by an old sync engine on another
+# machine. It used to be the single file that deadlocked cross-machine sync
+# ("Sync stopped: Merge conflict in logs/.boot-id"): every machine rewrites
+# it, so every diverging rebase collided, and machines that piled up more
+# than 5 conflicted log commits could never get through. The union driver
+# keeps both machines' ids and needs no conflict handling at all - and
+# because a rebase checks out upstream's .gitattributes first (and log
+# commits never modify that file), even machines still running the OLD
+# sync engine get conflict-free merges. The app adopts whatever the file
+# says, so a merged file only forces a staff re-pick when it next changes.
+logs/.boot-id merge=union

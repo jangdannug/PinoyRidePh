@@ -45,13 +45,20 @@ so machines converge no matter which one staff use:
 - Only `logs/` is ever auto-committed + pushed. Any other local change is
   stashed for the sync and restored after; untracked junk (`.env`,
   ` (3).env`, `.pinoyride-session.json`, `update-log.txt`) is never touched.
-- `logs/.boot-id` is per-machine and must stay untracked (it is in
-  `.gitignore`; `git add logs/` without `-f` honors that — never add `-f`).
-  It was accidentally tracked early on, which made every machine conflict
-  on it during rebase ("Sync stopped: Merge conflict in logs/.boot-id");
-  it was untracked for good on 2026-10-18, and `sync_repo.ps1` now
-  auto-resolves leftover conflicts on it and can repair a machine that had
-  already fallen badly behind (its log rows are kept).
+- `logs/.boot-id` is per-machine state (fresh GUID per START-ADMIN) but it
+  **is tracked** in the repo — early commits beat `.gitignore` to it, and
+  untracking on 2026-10-18 was immediately undone by an old sync engine on
+  another machine. It therefore carries `merge=union` in `.gitattributes`
+  (2026-10-18): machines that rewrite it no longer deadlock each other
+  during rebase ("Sync stopped: Merge conflict in logs/.boot-id"), and even
+  machines still on the old sync engine get conflict-free merges, because a
+  rebase checks out upstream's `.gitattributes` first and log commits never
+  modify that file. The app adopts whatever the file says, so a merged file
+  only forces a staff re-pick when it next changes. Untracking it again is
+  only safe once every machine runs the updated `sync_repo.ps1` (which
+  auto-untracks leftover conflicts); until then an old engine resurrects
+  it. The updated engine also repairs a machine that already fell badly
+  behind (its own log rows are kept).
 - `.gitattributes` sets `merge=union` for `logs/activity-log.csv` — two
   machines appending rows simultaneously merge cleanly (both kept).
   `sync_repo.ps1` has a `git merge-file --union` fallback for machines that
