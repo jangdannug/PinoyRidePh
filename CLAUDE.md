@@ -47,6 +47,11 @@ so machines converge no matter which one staff use:
   ` (3).env`, `.pinoyride-session.json`, `update-log.txt`) is never touched.
 - `logs/.boot-id` is per-machine and must stay untracked (it is in
   `.gitignore`; `git add logs/` without `-f` honors that — never add `-f`).
+  It was accidentally tracked early on, which made every machine conflict
+  on it during rebase ("Sync stopped: Merge conflict in logs/.boot-id");
+  it was untracked for good on 2026-10-18, and `sync_repo.ps1` now
+  auto-resolves leftover conflicts on it and can repair a machine that had
+  already fallen badly behind (its log rows are kept).
 - `.gitattributes` sets `merge=union` for `logs/activity-log.csv` — two
   machines appending rows simultaneously merge cleanly (both kept).
   `sync_repo.ps1` has a `git merge-file --union` fallback for machines that

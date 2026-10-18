@@ -16,6 +16,17 @@
 #     two machines appending rows at the same time merge cleanly - BOTH
 #     sides are kept. The Union-ResolveLogFile fallback below handles the
 #     rare machine that has not received .gitattributes yet.
+#   * logs/.boot-id is PER-MACHINE state (a fresh GUID written on every
+#     START-ADMIN) and must stay untracked. It was accidentally committed
+#     once upon a time, which made every machine conflict on it during
+#     rebase. It is now untracked again, and any leftover conflict on it
+#     is resolved automatically by untracking it (the local copy stays on
+#     disk, so the app's staff re-login check keeps working).
+#   * A machine that fell BADLY behind on log syncing (dozens of piled-up
+#     log commits, each one conflicting) no longer deadlocks: the rebase
+#     retry cap scales with the number of commits, and as a last resort the
+#     machine rebuilds its log commits on top of GitHub's version, keeping
+#     every one of its own log rows.
 #   * A conflict in a NON-log file (two machines edited the same file) never
 #     breaks the repo: rebase is aborted, everything restored, clear message.
 #   * If another machine uploads between our fetch and our push: fetch +
@@ -61,9 +72,27 @@ function Restore-Stash {
     }
 }
 
-# Merges one conflicted log file by UNION (both machines' lines survive).
-# Fallback for machines that have not received .gitattributes yet.
-function Union-ResolveLogFile([string]$path) {
+# Resolves ONE conflicted file under logs/. Returns $true if it was resolved.
+#  - logs/.boot-id is per-machine state that must never be shared. If the
+#    conflict is "one side deleted it" (we untracked it repo-wide), accept
+#    the deletion but KEEP this machine's local copy on disk - it is
+#    gitignored, so it can never conflict again. This used to be the single
+#    file that deadlocked machines during rebase.
+#  - any other logs file is merged by UNION (both machines' lines survive).
+#    Fallback for machines that have not received .gitattributes yet.
+function Resolve-LogsConflict([string]$path) {
+    $stage2 = "$(& git -C $Root rev-parse --verify --quiet ":2:$path" 2>&1)"
+    $stage3 = "$(& git -C $Root rev-parse --verify --quiet ":3:$path" 2>&1)"
+    if (($stage2 -eq '') -or ($stage3 -eq '')) {
+        # modify/delete conflict: stop tracking the file, keep the local copy
+        [void](& git -C $Root rm -f --cached --ignore-unmatch -- $path 2>&1)
+        if ($LASTEXITCODE -eq 0) {
+            Info "Stopped sharing per-machine file: $path (local copy kept)"
+            return $true
+        }
+        return $false
+    }
+
     $tmp = Join-Path $env:TEMP ("pr_sync_" + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $tmp -Force | Out-Null
     $base   = Join-Path $tmp 'base.txt'
@@ -78,6 +107,7 @@ function Union-ResolveLogFile([string]$path) {
     if (Test-Path $ours) { Copy-Item $ours (Join-Path $Root $path) -Force }
     Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
     Info "Merged shared log file: $path (kept both machines' rows)"
+    return $true
 }
 
 # Returns ONLY real conflicted paths. Invoke-Git merges stderr into stdout
@@ -163,7 +193,9 @@ if ($LASTEXITCODE -ne 0) {
 
 # ---------------- 2. commit this machine's activity log -------------------
 # The ONLY thing that is ever committed + pushed automatically. No -f, so
-# gitignored per-machine files (logs/.boot-id) stay out.
+# gitignored per-machine files (logs/.boot-id - untracked as of 2026-10-18,
+# it had been committed by accident and caused cross-machine rebase
+# conflicts) stay out.
 [void](Invoke-Git add -- logs/)
 $staged = @(Invoke-Git diff --cached --name-only)
 if ($staged.Count -gt 0) {
@@ -200,22 +232,36 @@ $behindRaw = @(Invoke-Git rev-list --count HEAD..origin/main)
 # --------- 5+6. rebase, then push ONLY if this machine is ahead ------------
 $script:PushRetries = 0
 $script:Pushed      = 0
+
+# The conflict loop below may need one pass per replayed commit, so size the
+# cap from the actual number of commits instead of a fixed number (a fixed
+# 5-try cap is what deadlocked machines that had piled up many log commits).
+$toReplay = 0
+$replayRaw = @(Invoke-Git rev-list --count origin/main..HEAD)
+[void][int]::TryParse("$($replayRaw | Select-Object -First 1)", [ref]$toReplay)
+$maxRbTries = [Math]::Max(50, ($toReplay + 25))
+
 while ($true) {
     $rbOut = @(Invoke-Git rebase origin/main)
 
     # Auto-resolve conflicts that are ONLY inside logs/ (belt-and-suspenders:
     # normally the .gitattributes union rule means there is no conflict at all).
     $rbTries = 0
-    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt 5)) {
+    while (($LASTEXITCODE -ne 0) -and ($rbTries -lt $maxRbTries)) {
         $conflicted = Get-ConflictedFiles
         if ($conflicted.Count -eq 0) { break }                # failed, no conflict
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
         if ($nonLog.Count -gt 0) { break }                    # real conflict
-        foreach ($f in $conflicted) { Union-ResolveLogFile $f }
+
+        $resolvedAny = $false
+        foreach ($f in $conflicted) {
+            if (Resolve-LogsConflict $f) { $resolvedAny = $true }
+        }
+        if (-not $resolvedAny) { break }                      # cannot resolve - stop looping
         [void](Invoke-Git add -- logs/)
         $null = Invoke-Git rebase --continue
         if ($LASTEXITCODE -ne 0) {
-            # a replayed commit can become EMPTY after the union merge - drop it
+            # a replayed commit can become EMPTY after the merge - drop it
             if ((Get-ConflictedFiles).Count -eq 0) {
                 $null = Invoke-Git rebase --continue
             }
@@ -224,21 +270,69 @@ while ($true) {
     }
 
     # Classify the rebase outcome; never leave the repo half-rebased.
-    $conflicted = Get-ConflictedFiles
+    $conflicted = @(Get-ConflictedFiles)
     $inRebase = (Test-Path (Join-Path $Root '.git\rebase-merge')) -or
                 (Test-Path (Join-Path $Root '.git\rebase-apply'))
     if ($inRebase -or $conflicted.Count -gt 0) {
-        if ($inRebase) { [void](Invoke-Git rebase --abort) }
         $nonLog = @($conflicted | Where-Object { $_ -notlike 'logs/*' })
-        if ($nonLog.Count -gt 0) {
-            Fail "Two machines changed the same file: $($nonLog -join ', ')"
-            Info 'Nothing was lost - the sync stopped safely. Ask your admin.'
-        } else {
-            Fail ('Sync stopped: ' + (($rbOut -join ' ') + ' ').Trim())
+        $logsOnly = ($nonLog.Count -eq 0)
+
+        # Last resort - ONLY when every conflict is inside logs/ AND every
+        # local commit being replayed touches nothing but logs/ (i.e. this
+        # machine's own automatic activity-log sync commits). Then it is
+        # safe to take GitHub's version and put this machine's own log rows
+        # back on top: no log row is lost and no other file is touched.
+        $canRescue = $false
+        if ($logsOnly) {
+            if ($inRebase) { [void](Invoke-Git rebase --abort) }
+            $badPaths = @(& git -C $Root diff --name-only origin/main...HEAD 2>&1 |
+                ForEach-Object { [string]$_ } |
+                Where-Object { $_ -and ($_ -notlike 'logs/*') -and ($_ -notmatch '^(warning|error|fatal)\b') -and ($_ -notmatch 'will be replaced by') })
+            if ($badPaths.Count -eq 0) { $canRescue = $true }
         }
-        Restore-Stash
-        LogEntry 'FAILED: rebase could not finish'
-        exit 1
+
+        if ($canRescue) {
+            Warn 'This machine fell badly behind on log syncing - repairing it now...'
+            $bak = ''
+            $csv = Join-Path $Root 'logs\activity-log.csv'
+            if (Test-Path $csv) {
+                $bak = Join-Path $env:TEMP ("pr_rows_" + [guid]::NewGuid().ToString('N') + '.csv')
+                Copy-Item $csv $bak -Force
+            }
+
+            $null = Invoke-Git reset --hard origin/main
+            if ($LASTEXITCODE -ne 0) {
+                Fail 'Automatic repair did not finish - ask your admin (nothing was lost).'
+                Restore-Stash
+                LogEntry 'FAILED: log repair reset'
+                exit 1
+            }
+
+            if ($bak -and (Test-Path $bak) -and (Test-Path $csv)) {
+                $curRows  = @(Get-Content $csv -ErrorAction SilentlyContinue)
+                $mineRows = @(Get-Content $bak -ErrorAction SilentlyContinue)
+                $missing  = @($mineRows | Where-Object { $curRows -notcontains $_ })
+                if ($missing.Count -gt 0) {
+                    Add-Content -Path $csv -Value $missing -Encoding UTF8
+                    [void](Invoke-Git add -- logs/activity-log.csv)
+                    $null = Invoke-Git commit -m "Recover own log rows after conflict - $timestamp"
+                }
+                Ok "Repaired - kept $($missing.Count) of this machine's own log row(s)."
+            } else {
+                Ok 'Repaired - this machine is now on the latest version.'
+            }
+        } else {
+            if ($inRebase) { [void](Invoke-Git rebase --abort) }
+            if ($nonLog.Count -gt 0) {
+                Fail "Two machines changed the same file: $($nonLog -join ', ')"
+                Info 'Nothing was lost - the sync stopped safely. Ask your admin.'
+            } else {
+                Fail ('Sync stopped: ' + (($rbOut -join ' ') + ' ').Trim())
+            }
+            Restore-Stash
+            LogEntry 'FAILED: rebase could not finish'
+            exit 1
+        }
     }
 
     $ahead = 0
