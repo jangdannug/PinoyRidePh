@@ -3328,3 +3328,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 20:01:10",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
 "2026-10-19 09:06:06",Abegail,login,,,"Staff logged in"
 "2026-10-19 09:07:07",Abegail,create_passenger,customer,297,"CUST-2610-266 - Chuchie Gonzales"
+"2026-10-18 14:13:51","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-18 17:00:00","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
+"2026-10-18 17:03:21","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
