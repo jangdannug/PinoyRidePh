@@ -3366,3 +3366,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-19 16:28:49",Normelyn,bulk_search,,,"Searched 13 numbers: 13 passengers, 0 drivers, 0 both, 0 not found | filtered: passenger only"
 "2026-10-19 16:28:53",Normelyn,bulk_search,,,"Searched 13 numbers: 13 passengers, 0 drivers, 0 both, 0 not found | filtered: invalid only"
 "2026-10-19 16:30:42",Normelyn,logout,,,"Staff logged out / shutdown"
+"2026-10-19 16:30:58",Normelyn,logout,,,"Staff logged out / shutdown"
