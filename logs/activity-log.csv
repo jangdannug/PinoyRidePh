@@ -3338,3 +3338,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-19 12:00:13",Melissa,bulk_search,,,"Searched 7 numbers: 0 passengers, 7 drivers, 0 both, 0 not found"
 "2026-10-19 12:09:27",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-19 12:24:19",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-19 13:51:33",Melissa,login,,,"Staff logged in"
