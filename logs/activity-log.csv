@@ -3415,3 +3415,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-19 13:53:08",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 0 drivers, 0 both, 25 not found"
 "2026-10-19 13:54:17",Melissa,create_driver,rider,9289,"DRN-2610-8707 - Carlos Canoy"
 "2026-10-19 13:55:19",Melissa,adjust_wallet_credit,wallet,10260,"Added ₱500.00 for rider #9289 — FREE TOP UP"
+"2026-10-19 19:58:11",Melissa,login,,,"Staff logged in"
+"2026-10-19 19:59:15",Melissa,create_driver,rider,9292,"DRN-2610-8710 - JANLEY BAROY"
+"2026-10-19 19:59:50",Melissa,adjust_wallet_credit,wallet,10266,"Added ₱500.00 for rider #9292 — FREE TOP UP"
+"2026-10-19 20:04:51",Melissa,bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found"
+"2026-10-19 20:05:31",Melissa,logout,,,"Staff logged out / shutdown"
