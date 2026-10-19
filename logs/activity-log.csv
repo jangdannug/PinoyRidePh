@@ -3326,3 +3326,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-18 17:47:37",Melissa,adjust_wallet_credit,wallet,10240,"Added ₱500.00 for rider #9280 — FREE TOP UP"
 "2026-10-18 19:58:35",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
 "2026-10-18 20:01:10",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
+"2026-10-19 09:06:06",Abegail,login,,,"Staff logged in"
+"2026-10-19 09:07:07",Abegail,create_passenger,customer,297,"CUST-2610-266 - Chuchie Gonzales"
