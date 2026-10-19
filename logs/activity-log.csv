@@ -3352,3 +3352,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-19 12:12:11",Normelyn,create_driver,rider,9287,"DRN-2610-8705 - John Renzo Cabrera"
 "2026-10-19 12:14:07",Normelyn,create_driver,rider,9288,"DRN-2610-8706 - Harold Valdez"
 "2026-10-19 14:37:28",Normelyn,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-19 10:09:25",Abegail,login,,,"Staff logged in"
+"2026-10-19 10:27:06",Abegail,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
+"2026-10-19 12:28:43",Abegail,create_passenger,customer,298,"CUST-2610-267 - Rey Vincent Pia"
+"2026-10-19 12:43:06",Abegail,create_passenger,customer,299,"CUST-2610-268 - Mhiles Dotado"
