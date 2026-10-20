@@ -3585,3 +3585,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 12:29:41","Charen Charise",bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found"
 "2026-10-20 12:30:28","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-20 13:38:48","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-20 13:27:55",Normelyn,login,,,"Staff logged in"
+"2026-10-20 14:27:42",Normelyn,logout,,,"Switched to Abegail"
+"2026-10-20 14:27:42",Abegail,login,,,"Staff logged in"
