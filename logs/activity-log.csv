@@ -3449,3 +3449,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-19 14:11:30","Mary Grace",create_driver,rider,9290,"DRN-2610-8708 - Herminio Cacapit"
 "2026-10-19 14:11:44","Mary Grace",adjust_wallet_credit,wallet,10262,"Added ₱500.00 for rider #9290 — free top up"
 "2026-10-19 15:25:03","Mary Grace",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-20 00:10:01",Melissa,login,,,"Staff logged in"
