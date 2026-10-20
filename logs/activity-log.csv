@@ -3588,3 +3588,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 13:27:55",Normelyn,login,,,"Staff logged in"
 "2026-10-20 14:27:42",Normelyn,logout,,,"Switched to Abegail"
 "2026-10-20 14:27:42",Abegail,login,,,"Staff logged in"
+"2026-10-20 09:39:30",Melissa,login,,,"Staff logged in"
