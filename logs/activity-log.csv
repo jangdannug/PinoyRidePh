@@ -3527,3 +3527,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 12:17:23","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-20 12:20:54","Dannah Kryzle",bulk_search,,,"Searched 8 numbers: 0 passengers, 8 drivers, 0 both, 0 not found"
 "2026-10-20 12:21:14","Dannah Kryzle",bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found"
+"2026-10-20 09:00:24",Abegail,login,,,"Staff logged in"
+"2026-10-20 09:06:02",Abegail,create_passenger,customer,300,"CUST-2610-269 - John Mar Villena"
+"2026-10-20 09:25:17",Abegail,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
+"2026-10-20 10:47:35",Abegail,bulk_search,,,"Searched 5 numbers: 4 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-20 10:56:18",Abegail,bulk_search,,,"Searched 6 numbers: 4 passengers, 2 drivers, 0 both, 0 not found"
