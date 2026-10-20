@@ -3532,3 +3532,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 09:25:17",Abegail,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
 "2026-10-20 10:47:35",Abegail,bulk_search,,,"Searched 5 numbers: 4 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-20 10:56:18",Abegail,bulk_search,,,"Searched 6 numbers: 4 passengers, 2 drivers, 0 both, 0 not found"
+"2026-10-20 13:02:20",Abegail,login,,,"Staff logged in"
