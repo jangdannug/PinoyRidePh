@@ -3606,3 +3606,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 13:06:22",Abegail,login,,,"Staff logged in"
 "2026-10-20 13:06:55",Abegail,create_driver,rider,9304,"DRN-2610-8722 - Fel Dela Torre"
 "2026-10-20 13:09:08",Abegail,adjust_wallet_credit,wallet,10294,"Added ₱500.00 for rider #9304 — Free top up"
+"2026-09-12 16:15:32","John Roe",login,,,"Staff logged in"
