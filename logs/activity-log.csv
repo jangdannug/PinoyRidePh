@@ -3592,3 +3592,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 13:43:59","Charen Charise",login,,,"Staff logged in"
 "2026-10-20 13:45:28","Charen Charise",create_driver,rider,9307,"DRN-2610-8725 - efren tabudno"
 "2026-10-20 14:30:27",Normelyn,login,,,"Staff logged in"
+"2026-10-20 12:25:17","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-20 13:07:18","Dannah Kryzle",bulk_search,,,"Searched 10 numbers: 0 passengers, 10 drivers, 0 both, 0 not found"
