@@ -3618,3 +3618,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-21 11:50:46",Abegail,bulk_search,,,"Searched 8 numbers: 4 passengers, 4 drivers, 0 both, 0 not found"
 "2026-10-21 11:50:57",Abegail,bulk_search,,,"Searched 8 numbers: 4 passengers, 4 drivers, 0 both, 0 not found | filtered: invalid only"
 "2026-10-21 11:58:34",Abegail,login,,,"Staff logged in"
+"2026-10-21 12:53:49",Abegail,login,,,"Staff logged in"
