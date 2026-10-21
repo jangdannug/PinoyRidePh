@@ -3607,3 +3607,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-20 13:06:55",Abegail,create_driver,rider,9304,"DRN-2610-8722 - Fel Dela Torre"
 "2026-10-20 13:09:08",Abegail,adjust_wallet_credit,wallet,10294,"Added ₱500.00 for rider #9304 — Free top up"
 "2026-09-12 16:15:32","John Roe",login,,,"Staff logged in"
+"2026-10-21 11:51:36",Normelyn,login,,,"Staff logged in"
+"2026-10-21 11:52:38",Normelyn,create_driver,rider,9309,"DRN-2610-8727 - isidro jr madraso"
+"2026-10-21 11:52:41",Normelyn,create_driver,rider,9310,"DRN-2610-8728 - Joemar Ober"
+"2026-10-21 11:52:44",Normelyn,create_driver,rider,9311,"DRN-2610-8729 - Marc Angelo Legarda"
+"2026-10-21 11:53:13",Normelyn,adjust_wallet_credit,wallet,10304,"Added ₱500.00 for rider #9309 — FREE TOP UP"
