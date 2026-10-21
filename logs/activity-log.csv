@@ -3650,3 +3650,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-21 17:25:29",Melissa,create_driver,rider,9334,"DRN-2610-8752 - Carl Javin Mendoza"
 "2026-10-21 17:27:04",Melissa,adjust_wallet_credit,wallet,10356,"Added ₱500.00 for rider #9334 — FREE TOP UP"
 "2026-10-21 17:40:27",Melissa,bulk_search,,,"Searched 14 numbers: 0 passengers, 14 drivers, 0 both, 0 not found"
+"2026-10-21 18:06:32",Melissa,login,,,"Staff logged in"
+"2026-10-21 18:07:02",Melissa,create_driver,rider,9335,"DRN-2610-8753 - angelo lim"
+"2026-10-21 18:08:13",Melissa,adjust_wallet_credit,wallet,10358,"Added ₱500.00 for rider #9335 — FREE TOP UP"
+"2026-10-21 18:11:26",Melissa,create_driver,rider,9336,"DRN-2610-8754 - Roger San Buenaventura"
+"2026-10-21 18:13:42",Melissa,adjust_wallet_credit,wallet,10360,"Added ₱500.00 for rider #9336 — free top up"
