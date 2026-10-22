@@ -3811,3 +3811,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-22 15:13:22",Melissa,create_driver,rider,9358,"DRN-2610-8776 - Lim Nuel Tiozon"
 "2026-10-22 15:13:46",Melissa,adjust_wallet_credit,wallet,10410,"Added ₱500.00 for rider #9358 — free top up"
 "2026-10-22 15:14:24",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-22 22:15:01",Melissa,login,,,"Staff logged in"
+"2026-10-22 22:22:56",Melissa,create_driver,rider,9360,"DRN-2610-8778 - Jaypee Escalante"
