@@ -3743,3 +3743,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-22 10:47:11",Melissa,create_driver,rider,9346,"DRN-2610-8764 - Jhonrussel Laconsay"
 "2026-10-22 10:48:57",Melissa,adjust_wallet_credit,wallet,10382,"Added ₱500.00 for rider #9346 — FREE TOP UP"
 "2026-10-22 11:05:07",Melissa,create_driver,rider,9347,"DRN-2610-8765 - kenneth crisostomo"
+"2026-10-22 11:07:37",Melissa,login,,,"Staff logged in"
