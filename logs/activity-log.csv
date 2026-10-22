@@ -3813,3 +3813,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-22 15:14:24",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-22 22:15:01",Melissa,login,,,"Staff logged in"
 "2026-10-22 22:22:56",Melissa,create_driver,rider,9360,"DRN-2610-8778 - Jaypee Escalante"
+"2026-10-22 22:25:55",Melissa,login,,,"Staff logged in"
+"2026-10-22 22:26:25",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-22 22:29:16",Melissa,adjust_wallet_credit,wallet,10414,"Added ₱500.01 for rider #9360 — FREE TOP UP"
+"2026-10-22 22:30:52",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
