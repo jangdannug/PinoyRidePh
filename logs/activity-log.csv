@@ -3817,3 +3817,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-22 22:26:25",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-22 22:29:16",Melissa,adjust_wallet_credit,wallet,10414,"Added ₱500.01 for rider #9360 — FREE TOP UP"
 "2026-10-22 22:30:52",Melissa,bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-22 22:35:39",Melissa,login,,,"Staff logged in"
+"2026-10-22 22:36:47",Melissa,create_driver,rider,9361,"DRN-2610-8779 - Edwin Santos"
+"2026-10-22 22:37:39",Melissa,adjust_wallet_credit,wallet,10416,"Added ₱500.00 for rider #9361 — FREE TOP UP"
+"2026-10-22 22:42:04",Melissa,bulk_search,,,"Searched 22 numbers: 0 passengers, 22 drivers, 0 both, 0 not found"
+"2026-10-22 22:43:18",Melissa,bulk_search,,,"Searched 20 numbers: 9 passengers, 8 drivers, 0 both, 3 not found"
