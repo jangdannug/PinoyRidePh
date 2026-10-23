@@ -3979,3 +3979,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-23 19:38:03",Melissa,create_driver,rider,9388,"DRN-2610-8806 - GAMY ROSE DIAZ"
 "2026-10-23 19:38:56",Melissa,adjust_wallet_credit,wallet,10472,"Added ₱500.00 for rider #9388 — FREE TOP UP"
 "2026-10-23 20:17:49",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-23 21:07:49",Melissa,login,,,"Staff logged in"
+"2026-10-23 21:08:10",Melissa,create_driver,rider,9389,"DRN-2610-8807 - Melchor Nool"
+"2026-10-23 21:09:28",Melissa,adjust_wallet_credit,wallet,10474,"Added ₱500.00 for rider #9389 — FREE TOP UP"
