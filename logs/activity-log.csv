@@ -3862,3 +3862,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-22 12:15:23",Normelyn,bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
 "2026-10-22 12:16:11",Normelyn,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
 "2026-10-22 12:16:28",Normelyn,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found | filtered: invalid only"
+"2026-10-22 09:26:41","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-22 09:27:16","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-22 12:59:02","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
