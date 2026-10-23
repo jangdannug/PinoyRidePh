@@ -3907,3 +3907,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-23 12:48:59",Normelyn,bulk_search,,,"Searched 23 numbers: 0 passengers, 23 drivers, 0 both, 0 not found"
 "2026-10-23 12:51:45",Normelyn,create_driver,rider,9378,"DRN-2610-8796 - Ramil Bercero"
 "2026-10-23 13:03:47",Normelyn,create_driver,rider,9379,"DRN-2610-8797 - Danver Quiles"
+"2026-10-23 14:29:29",Abegail,login,,,"Staff logged in"
+"2026-10-23 14:30:09",Abegail,create_driver,rider,9381,"DRN-2610-8799 - Billy Celoso"
+"2026-10-23 14:31:09",Abegail,adjust_wallet_credit,wallet,10458,"Added ₱500.00 for rider #9381 — Free Top up"
+"2026-10-23 14:46:56",Abegail,create_driver,rider,9382,"DRN-2610-8800 - Christian Cabuhay"
