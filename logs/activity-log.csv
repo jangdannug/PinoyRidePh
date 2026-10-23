@@ -3928,3 +3928,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-23 14:58:55",Melissa,create_driver,rider,9384,"DRN-2610-8802 - Alvin Berlin"
 "2026-10-23 14:59:42",Melissa,adjust_wallet_credit,wallet,10464,"Added ₱500.00 for rider #9384 — free top up"
 "2026-10-23 15:08:58",Melissa,bulk_search,,,"Searched 29 numbers: 1 passengers, 28 drivers, 0 both, 0 not found"
+"2026-10-23 14:54:05",Abegail,login,,,"Staff logged in"
