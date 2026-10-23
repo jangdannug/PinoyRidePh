@@ -3965,3 +3965,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-23 16:02:06","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-23 16:30:43","Charen Charise",logout,,,"Staff logged out / shutdown"
 "2026-10-23 16:31:15","Charen Charise",logout,,,"Staff logged out / shutdown"
+"2026-10-23 15:51:09",Abegail,login,,,"Staff logged in"
+"2026-10-23 15:51:32",Abegail,bulk_search,,,"Searched 24 numbers: 13 passengers, 11 drivers, 0 both, 0 not found"
+"2026-10-23 15:51:51",Abegail,bulk_search,,,"Searched 24 numbers: 13 passengers, 11 drivers, 0 both, 0 not found | filtered: invalid only"
+"2026-10-23 16:34:52",Abegail,logout,,,"Staff logged out / shutdown"
