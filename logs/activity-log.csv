@@ -3989,3 +3989,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-24 00:27:50",Melissa,adjust_wallet_credit,wallet,10478,"Added ₱500.00 for rider #9391 — FREE TOP UP"
 "2026-10-24 00:35:19",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
 "2026-10-24 08:44:05",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
+"2026-10-24 09:03:08",Melissa,login,,,"Staff logged in"
+"2026-10-24 09:03:30",Melissa,bulk_search,,,"Searched 28 numbers: 0 passengers, 28 drivers, 0 both, 0 not found"
+"2026-10-24 09:08:08",Melissa,logout,,,"Staff logged out / shutdown"
