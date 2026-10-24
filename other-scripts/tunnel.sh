@@ -3,6 +3,7 @@
 HOST="markangelogonzalespinoyride@54.251.171.207"
 PORT=2222
 FORWARD="5433:postgres-riderapp:5432"
+KEY_PRIV="$HOME/.ssh/pinoyride_ed25519"
 LOG_INTERVAL=5
 RECONNECT_DELAY=5
 
@@ -36,10 +37,13 @@ while true; do
     # - ssh -f backgrounds itself AFTER authentication.
     # ---------------------------------------------------------
     ssh -M -S "$SOCKET" \
+        -i "$KEY_PRIV" \
         -L "$FORWARD" \
         "$HOST" \
         -p "$PORT" \
         -N -f \
+        -o IdentitiesOnly=yes \
+        -o BatchMode=yes \
         -o ServerAliveInterval=60 \
         -o ServerAliveCountMax=3 \
         -o ExitOnForwardFailure=yes
