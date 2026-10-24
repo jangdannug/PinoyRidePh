@@ -6,6 +6,18 @@ prod DB — no framework, no Composer needed.
 
 ## Files
 
+```text
+admin-portal/
+├── start-admin.command   # macOS double-click launcher (new)
+├── stop-admin.command    # macOS double-click launcher (new)
+├── start-admin.bat       # Windows double-click launcher
+├── stop-admin.bat        # Windows double-click launcher
+├── other-scripts/
+│   ├── tunnel.sh         # Mac/Linux SSH tunnel
+│   ├── tunnel.ps1        # Windows SSH tunnel
+│   ├── start_admin.ps1   # Windows orchestrator (PHP check, .env, SSH key, start)
+│   ├── stop-admin.ps1    # Windows orchestrator (stop everything)
+│   └── sync_repo.ps1     # Git sync engine
 ```
 customer-app/
 ├── config.php          # Loads .env and opens a PDO (pgsql) connection
@@ -16,6 +28,12 @@ customer-app/
 ├── .env.example          # Copy to .env and fill in real values
 └── .gitignore             # Keeps .env out of version control
 ```
+
+## Version History
+
+| Version | Changes |
+|---|---|
+| **2026-10-24** | **Cross-platform ready** — added macOS double-click launchers `start-admin.command` and `stop-admin.command`. All existing files unchanged. Windows users keep `start-admin.bat` (PowerShell); macOS users now get double-click buttons. |
 
 ## 1. Requirements
 
@@ -87,6 +105,18 @@ php -S localhost:8000
 
 Then open **http://localhost:8000** in your browser (make sure the SSH
 tunnel from Step 2 is still running in another terminal).
+
+### macOS double-click launcher
+
+Instead of the manual steps above, you can double-click **`start-admin.command`** in the project root. It will:
+
+- Verify PHP and `pdo_pgsql` are installed
+- Start the SSH tunnel (`other-scripts/tunnel.sh`) on port 5433
+- Start the PHP server on port 8000
+- Open your browser to http://localhost:8000
+- Save a `.pinoyride-session.json` file recording the process PIDs
+
+When you're done, double-click **`stop-admin.command`** to shut down the PHP server, close the SSH tunnel, close the browser windows it opened, and remove the session file.
 
 ## 5. Using the app
 
