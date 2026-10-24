@@ -27,7 +27,6 @@ function google_maps_http_get(string $url): ?array
         CURLOPT_SSL_VERIFYPEER => true,
     ]);
     $response = curl_exec($ch);
-    curl_close($ch);
 
     if ($response === false) return null;
 
@@ -223,7 +222,6 @@ function reverse_geocode_nominatim(float $lat, float $lng): ?string
 
     $response = curl_exec($ch);
     $errno = curl_errno($ch);
-    curl_close($ch);
     if ($response === false || $errno !== 0) return null;
 
     $decoded = json_decode($response, true);
