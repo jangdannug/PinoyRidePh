@@ -174,20 +174,19 @@ if [ -z "$SSH_PASS" ] || [ "$SSH_PASS" = "CHANGE_ME" ]; then
     echo
 fi
 
-# Install key via SSH_ASKPASS (no interactive prompt)
+# Install key via SSH_ASKPASS (no interactive prompt).
+# SSH_ASKPASS is set inline (not exported) so tunnel.sh in Step 6 does not
+# inherit a dangling reference to a deleted temp file.
 ASKPASS=$(mktemp)
 printf '#!/bin/sh\necho "%s"\n' "$SSH_PASS" > "$ASKPASS"
 chmod +x "$ASKPASS"
 
-export SSH_ASKPASS="$ASKPASS"
-export SSH_ASKPASS_REQUIRE=force
-export DISPLAY="${DISPLAY:-:0}"
-
-RESULT=$(ssh -p "$PORT" -o StrictHostKeyChecking=accept-new "$HOST" \
+RESULT=$(SSH_ASKPASS="$ASKPASS" SSH_ASKPASS_REQUIRE=force DISPLAY="${DISPLAY:-:0}" ssh -p "$PORT" -o StrictHostKeyChecking=accept-new "$HOST" \
   "mkdir -p ~/.ssh && chmod 700 ~/.ssh && touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && (grep -qxF '$PUBKEY' ~/.ssh/authorized_keys || echo '$PUBKEY' >> ~/.ssh/authorized_keys) && echo KEY_INSTALLED" \
   2>&1) || true
 
 rm -f "$ASKPASS"
+unset SSH_ASKPASS SSH_ASKPASS_REQUIRE DISPLAY 2>/dev/null || true
 
 if echo "$RESULT" | grep -q 'KEY_INSTALLED'; then
     ok "SSH key installed. Tunnels will connect automatically."
