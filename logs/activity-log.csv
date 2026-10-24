@@ -3998,3 +3998,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-23 14:50:16",Normelyn,bulk_search,,,"Searched 24 numbers: 0 passengers, 24 drivers, 0 both, 0 not found"
 "2026-10-23 14:52:56",Normelyn,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
 "2026-10-23 14:55:57",Normelyn,create_driver,rider,9383,"DRN-2610-8801 - Nestor Bayani"
+"2026-10-24 13:20:26",Abegail,login,,,"Staff logged in"
+"2026-10-24 13:24:19",Abegail,create_passenger,customer,308,"CUST-2610-277 - Valenzuela Norman"
+"2026-10-24 15:28:57",Abegail,bulk_search,,,"Searched 25 numbers: 14 passengers, 11 drivers, 0 both, 0 not found"
+"2026-10-24 15:29:35",Abegail,bulk_search,,,"Searched 25 numbers: 14 passengers, 11 drivers, 0 both, 0 not found"
