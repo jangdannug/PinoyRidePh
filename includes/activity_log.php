@@ -107,8 +107,8 @@ function read_activity_log(): array
     $fp = fopen($logFile, 'r');
     if (!$fp) return [];
 
-    $headers = fgetcsv($fp); // skip header row
-    while (($row = fgetcsv($fp)) !== false) {
+    $headers = fgetcsv($fp, 0, ',', '\\', ''); // skip header row
+    while (($row = fgetcsv($fp, 0, ',', '\\', '')) !== false) {
         if (count($row) >= 6) {
             $entries[] = [
                 'timestamp'   => $row[0],
