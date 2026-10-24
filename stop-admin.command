@@ -97,3 +97,7 @@ echo ""
 echo "  ${GREEN}Pinoy Ride Admin is now stopped.${NC}"
 echo "  ${YELLOW}You can re-open it anytime by double-clicking start-admin.command${NC}"
 echo ""
+
+# Pause like .bat's `pause` — wait for keypress before closing window
+read -rp "  Press any key to continue..." -n 1 -r
+echo

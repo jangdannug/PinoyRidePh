@@ -138,15 +138,10 @@ echo "  ${YELLOW}Keep this window open (minimize is fine).${NC}"
 echo "  ${NC}To stop everything later, double-click: stop-admin.command${NC}"
 echo ""
 
-# Trap Ctrl+C to clean up
-cleanup() {
-    echo ""
-    echo "  Stopping everything..."
-    [ -n "${TUNNEL_PID:-}" ] && kill "$TUNNEL_PID" 2>/dev/null || true
-    [ -n "${PHP_PID:-}" ] && kill "$PHP_PID" 2>/dev/null || true
-    echo "  Done."
-    exit 0
-}
-trap cleanup INT TERM
+# Detach background processes so they keep running after this window closes
+# (same as .bat: minimized tunnel/PHP windows keep running independently)
+disown $TUNNEL_PID $PHP_PID 2>/dev/null || true
 
-while true; do sleep 1; done
+echo ""
+read -rp "  Press any key to continue..." -n 1 -r
+echo
