@@ -4039,3 +4039,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-25 08:02:31",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
 "2026-10-25 08:04:43",Melissa,bulk_search,,,"Searched 6 numbers: 1 passengers, 5 drivers, 0 both, 0 not found"
 "2026-10-25 08:07:52",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
+"2026-10-25 12:04:09",Abegail,login,,,"Staff logged in"
+"2026-10-25 12:04:38",Abegail,bulk_search,,,"Searched 26 numbers: 14 passengers, 12 drivers, 0 both, 0 not found"
+"2026-10-25 12:25:28",Abegail,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-10-25 18:11:15",Abegail,bulk_search,,,"Searched 26 numbers: 14 passengers, 12 drivers, 0 both, 0 not found"
+"2026-10-25 18:11:59",Abegail,bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
