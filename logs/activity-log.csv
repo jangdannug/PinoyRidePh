@@ -4016,3 +4016,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-24 20:19:22",Melissa,bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
 "2026-10-24 20:33:37",Melissa,bulk_search,,,"Searched 8 numbers: 0 passengers, 8 drivers, 0 both, 0 not found"
 "2026-10-24 20:34:28",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-23 09:20:27","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-23 09:21:03","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-23 09:42:11","Dannah Kryzle",bulk_search,,,"Searched 21 numbers: 0 passengers, 21 drivers, 0 both, 0 not found"
+"2026-10-23 09:46:17","Dannah Kryzle",create_driver,rider,9370,"DRN-2610-8788 - Jayson Cabacungan"
+"2026-10-23 09:49:29","Dannah Kryzle",create_driver,rider,9374,"DRN-2610-8792 - Jeorge Angelito"
