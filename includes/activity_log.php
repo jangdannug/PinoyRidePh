@@ -92,7 +92,7 @@ function log_activity(string $action, string $entityType = '', string $entityId 
 
     $fp = fopen($logFile, 'a');
     if ($fp) {
-        fputcsv($fp, $row);
+        fputcsv($fp, $row, ',', '"', '\\');
         fclose($fp);
     }
 }
