@@ -4211,3 +4211,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-26 10:36:25","Mary Grace",bulk_search,,,"Searched 168 numbers: 14 passengers, 154 drivers, 0 both, 0 not found | range 2026-10-18 to 2026-10-26"
 "2026-10-26 10:36:31","Mary Grace",bulk_search,,,"Searched 168 numbers: 14 passengers, 154 drivers, 0 both, 0 not found | range 2026-10-18 to 2026-10-26 | filtered: invalid only"
 "2026-10-26 19:22:47","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-10-26 20:07:15",Melissa,login,,,"Staff logged in"
+"2026-10-26 20:07:34",Melissa,bulk_search,,,"Searched 9 numbers: 1 passengers, 8 drivers, 0 both, 0 not found"
