@@ -4187,3 +4187,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-25 21:49:40",Abegail,bulk_search,,,"Searched 30 numbers: 14 passengers, 16 drivers, 0 both, 0 not found"
 "2026-10-25 21:50:11",Abegail,logout,,,"Switched to Charen Charise"
 "2026-10-25 21:50:11","Charen Charise",login,,,"Staff logged in"
+"2026-10-26 11:58:47",Melissa,login,,,"Staff logged in"
+"2026-10-26 11:59:14",Melissa,create_driver,rider,9421,"DRN-2610-8839 - Reno Alanan"
+"2026-10-26 11:59:50",Melissa,adjust_wallet_credit,wallet,10548,"Added ₱500.00 for rider #9421 — FREE TOP UP"
+"2026-10-26 12:02:38",Melissa,logout,,,"Staff logged out / shutdown"
