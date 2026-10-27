@@ -4213,3 +4213,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-26 19:22:47","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-10-26 20:07:15",Melissa,login,,,"Staff logged in"
 "2026-10-26 20:07:34",Melissa,bulk_search,,,"Searched 9 numbers: 1 passengers, 8 drivers, 0 both, 0 not found"
+"2026-10-26 16:38:57",Abegail,login,,,"Staff logged in"
+"2026-10-26 16:39:24",Abegail,create_driver,rider,9422,"DRN-2610-8840 - Ferdinand Mata Jr"
+"2026-10-26 16:40:03",Abegail,adjust_wallet_credit,wallet,10550,"Added ₱500.00 for rider #9422 — Free Top Up"
+"2026-10-26 16:41:37",Abegail,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
