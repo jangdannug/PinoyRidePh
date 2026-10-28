@@ -4379,3 +4379,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-28 09:30:28",Normelyn,create_driver,rider,9456,"DRN-2610-8874 - Jethro Manaloto"
 "2026-10-28 09:58:36",Normelyn,create_driver,rider,9458,"DRN-2610-8876 - Bryan Paul Salcedo"
 "2026-10-28 12:02:12",Normelyn,create_driver,rider,9461,"DRN-2610-8879 - Arvin James Panganiban"
+"2026-10-28 11:22:11",Abegail,login,,,"Staff logged in"
+"2026-10-28 11:22:33",Abegail,create_driver,rider,9460,"DRN-2610-8878 - Kenneth Evangelista"
+"2026-10-28 11:28:30",Abegail,adjust_wallet_credit,wallet,10626,"Added ₱500.00 for rider #9460 — FREE TOP UP"
