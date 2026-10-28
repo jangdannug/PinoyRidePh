@@ -4444,3 +4444,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-28 15:13:27",Abegail,bulk_search,,,"Searched 7 numbers: 0 passengers, 7 drivers, 0 both, 0 not found"
 "2026-10-28 16:52:58",Abegail,create_passenger,customer,309,"CUST-2610-278 - MARY JOY PONCE"
 "2026-10-28 17:15:41",Abegail,logout,,,"Staff logged out / shutdown"
+"2026-10-28 12:57:40",Melissa,login,,,"Staff logged in"
+"2026-10-28 12:57:52",Melissa,bulk_search,,,"Searched 18 numbers: 0 passengers, 18 drivers, 0 both, 0 not found"
