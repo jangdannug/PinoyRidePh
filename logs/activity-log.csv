@@ -4363,3 +4363,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-27 20:33:21","Dannah Kryzle",create_driver,rider,9443,"DRN-2610-8861 - Marlon Villanueva"
 "2026-10-27 20:36:50","Dannah Kryzle",create_driver,rider,9444,"DRN-2610-8862 - Christian Marquez"
 "2026-10-27 21:11:12","Dannah Kryzle",create_driver,rider,9445,"DRN-2610-8863 - Rejemor Batalla"
+"2026-10-28 08:57:27",Abegail,login,,,"Staff logged in"
