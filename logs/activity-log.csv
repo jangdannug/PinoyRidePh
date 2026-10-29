@@ -4450,3 +4450,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-28 22:45:16",Melissa,create_driver,rider,9477,"DRN-2610-8895 - Arjohn Alim"
 "2026-10-28 22:47:27",Melissa,adjust_wallet_credit,wallet,10660,"Added ₱500.00 for rider #9477 — FREE TOP UP"
 "2026-10-28 23:21:13",Melissa,logout,,,"Staff logged out / shutdown"
+"2026-10-28 09:23:36","Mary Grace",login,,,"Staff logged in"
+"2026-10-28 09:27:01","Mary Grace",bulk_search,,,"Searched 3 numbers: 0 passengers, 3 drivers, 0 both, 0 not found"
+"2026-10-28 09:33:12","Mary Grace",bulk_search,,,"Searched 17 numbers: 0 passengers, 17 drivers, 0 both, 0 not found"
