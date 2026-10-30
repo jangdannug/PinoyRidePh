@@ -4620,3 +4620,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-30 11:34:02",Abegail,bulk_search,,,"Searched 17 numbers: 2 passengers, 15 drivers, 0 both, 0 not found | filtered: invalid only"
 "2026-10-30 15:18:29",Abegail,bulk_search,,,"Searched 17 numbers: 2 passengers, 15 drivers, 0 both, 0 not found"
 "2026-10-30 15:18:40",Abegail,logout,,,"Staff logged out / shutdown"
+"2026-10-30 12:34:17","Mary Grace",login,,,"Staff logged in"
+"2026-10-30 12:35:08","Mary Grace",create_driver,rider,9505,"DRN-2610-8923 - Daniel Flores"
+"2026-10-30 12:35:38","Mary Grace",adjust_wallet_credit,wallet,10716,"Added ₱500.00 for rider #9505 — free top up"
+"2026-10-30 16:11:05","Mary Grace",logout,,,"Staff logged out / shutdown"
