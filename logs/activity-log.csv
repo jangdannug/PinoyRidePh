@@ -4609,3 +4609,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-29 09:50:37","Mary Grace",adjust_wallet_credit,wallet,10666,"Added ₱500.00 for rider #9480 — free top up"
 "2026-10-29 09:51:08","Mary Grace",create_driver,rider,9481,"DRN-2610-8899 - Noljun Dela Pena"
 "2026-10-29 09:51:24","Mary Grace",adjust_wallet_credit,wallet,10668,"Added ₱500.00 for rider #9481 — free top up"
+"2026-10-30 12:09:11",Melissa,login,,,"Staff logged in"
+"2026-10-30 12:09:31",Melissa,create_driver,rider,9504,"DRN-2610-8922 - Gilbert Javier"
+"2026-10-30 12:10:18",Melissa,adjust_wallet_credit,wallet,10714,"Added ₱500.00 for rider #9504 — FREE TOP UP"
