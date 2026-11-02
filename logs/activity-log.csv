@@ -4729,3 +4729,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-02 20:14:40",Melissa,bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
 "2026-11-02 20:39:15",Melissa,login,,,"Staff logged in"
 "2026-11-02 20:39:24",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-11-02 21:40:50",Melissa,login,,,"Staff logged in"
+"2026-11-02 21:41:04",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-11-02 21:42:19",Melissa,bulk_search,,,"Searched 5 numbers: 0 passengers, 5 drivers, 0 both, 0 not found"
