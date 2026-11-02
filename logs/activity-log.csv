@@ -4719,3 +4719,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-02 16:35:06",Abegail,bulk_search,,,"Searched 4 numbers: 1 passengers, 3 drivers, 0 both, 0 not found | filtered: passenger only"
 "2026-11-02 16:35:15",Abegail,bulk_search,,,"Searched 4 numbers: 1 passengers, 3 drivers, 0 both, 0 not found | filtered: driver only"
 "2026-11-02 19:05:24",Abegail,logout,,,"Staff logged out / shutdown"
+"2026-11-02 17:49:37",Melissa,login,,,"Staff logged in"
+"2026-11-02 17:49:52",Melissa,create_driver,rider,9536,"DRN-2611-8954 - Brainard Fritz Macachor"
+"2026-11-02 17:50:15",Melissa,adjust_wallet_credit,wallet,10782,"Added ₱500.00 for rider #9536 — FREE TOP UP"
