@@ -4747,3 +4747,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-03 09:31:45","Mary Grace",bulk_search,,,"Searched 172 numbers: 3 passengers, 169 drivers, 0 both, 0 not found, 4 duplicate pastes | range 2026-10-26 to 2026-11-03"
 "2026-11-03 09:31:54","Mary Grace",bulk_search,,,"Searched 172 numbers: 3 passengers, 169 drivers, 0 both, 0 not found, 4 duplicate pastes | range 2026-10-26 to 2026-11-03 | filtered: duplicates only"
 "2026-11-03 09:33:25","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-11-03 11:22:50",Melissa,login,,,"Staff logged in"
