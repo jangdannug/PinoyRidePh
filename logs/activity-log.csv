@@ -4748,3 +4748,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-03 09:31:54","Mary Grace",bulk_search,,,"Searched 172 numbers: 3 passengers, 169 drivers, 0 both, 0 not found, 4 duplicate pastes | range 2026-10-26 to 2026-11-03 | filtered: duplicates only"
 "2026-11-03 09:33:25","Mary Grace",logout,,,"Staff logged out / shutdown"
 "2026-11-03 11:22:50",Melissa,login,,,"Staff logged in"
+"2026-11-03 11:24:06",Melissa,login,,,"Staff logged in"
+"2026-11-03 11:25:17",Melissa,create_driver,rider,9561,"DRN-2611-8979 - Arminboy Ponesto"
+"2026-11-03 11:27:01",Melissa,adjust_wallet_credit,wallet,10832,"Added ₱500.00 for rider #9561 — free top up"
+"2026-11-03 11:30:02",Melissa,create_driver,rider,9563,"DRN-2611-8981 - Reynel Relota"
+"2026-11-03 11:30:42",Melissa,adjust_wallet_credit,wallet,10836,"Added ₱500.00 for rider #9563 — free top up"
