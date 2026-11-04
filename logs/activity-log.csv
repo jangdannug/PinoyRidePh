@@ -4879,3 +4879,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-10-30 12:46:19","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-30 12:50:53","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-10-30 12:53:28","Charen Charise",bulk_search,,,"Searched 25 numbers: 1 passengers, 24 drivers, 0 both, 0 not found"
+"2026-11-04 09:07:08",Abegail,login,,,"Staff logged in"
+"2026-11-04 09:09:57",Abegail,create_driver,rider,9596,"DRN-2611-9014 - George Jumaylab"
+"2026-11-04 09:10:51",Abegail,adjust_wallet_credit,wallet,10902,"Added ₱500.00 for rider #9596 — Free Top Up"
+"2026-11-04 09:25:34",Abegail,bulk_search,,,"Searched 9 numbers: 1 passengers, 8 drivers, 0 both, 0 not found"
+"2026-11-04 10:28:15",Abegail,bulk_search,,,"Searched 9 numbers: 1 passengers, 8 drivers, 0 both, 0 not found"
