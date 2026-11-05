@@ -5148,3 +5148,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-04 23:03:03",Melissa,create_driver,rider,9616,"DRN-2611-9034 - Daryl Keane Cusi"
 "2026-11-04 23:03:52",Melissa,adjust_wallet_credit,wallet,10942,"Added ₱500.00 for rider #9616 — free top up"
 "2026-11-04 23:09:14",Melissa,bulk_search,,,"Searched 22 numbers: 0 passengers, 22 drivers, 0 both, 0 not found"
+"2026-10-30 11:07:31","Dannah Kryzle",login,,,"Staff logged in"
+"2026-10-30 11:07:43","Dannah Kryzle",bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found"
+"2026-10-30 11:07:56","Dannah Kryzle",bulk_search,,,"Searched 9 numbers: 0 passengers, 9 drivers, 0 both, 0 not found | filtered: invalid only"
+"2026-10-30 11:10:48","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-10-30 11:12:54","Dannah Kryzle",bulk_search,,,"Searched 30 numbers: 0 passengers, 30 drivers, 0 both, 0 not found"
