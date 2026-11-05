@@ -5144,3 +5144,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-05 09:22:19",Abegail,adjust_wallet_credit,wallet,10944,"Added ₱500.00 for rider #9617 — Free Top up"
 "2026-11-05 09:24:11",Abegail,create_driver,rider,9618,"DRN-2611-9036 - Wilfredo Jr Gruta"
 "2026-11-05 09:24:37",Abegail,adjust_wallet_credit,wallet,10946,"Added ₱500.00 for rider #9618 — Free Top up"
+"2026-11-04 23:02:21",Melissa,login,,,"Staff logged in"
+"2026-11-04 23:03:03",Melissa,create_driver,rider,9616,"DRN-2611-9034 - Daryl Keane Cusi"
+"2026-11-04 23:03:52",Melissa,adjust_wallet_credit,wallet,10942,"Added ₱500.00 for rider #9616 — free top up"
+"2026-11-04 23:09:14",Melissa,bulk_search,,,"Searched 22 numbers: 0 passengers, 22 drivers, 0 both, 0 not found"
