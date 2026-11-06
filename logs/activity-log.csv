@@ -5243,3 +5243,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-05 11:08:03",Normelyn,bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
 "2026-11-06 12:12:28",Normelyn,bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
 "2026-11-06 12:14:37",Normelyn,create_driver,rider,9634,"DRN-2611-9052 - Ronald James Alonzo"
+"2026-11-06 13:32:57",Normelyn,login,,,"Staff logged in"
+"2026-11-06 13:34:23",Normelyn,logout,,,"Staff logged out / shutdown"
