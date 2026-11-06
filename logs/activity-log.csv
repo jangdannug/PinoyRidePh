@@ -5258,3 +5258,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-06 15:49:33",Abegail,adjust_wallet_credit,wallet,10982,"Added ₱500.00 for rider #9636 — Free top up"
 "2026-11-06 15:55:24",Abegail,bulk_search,,,"Searched 22 numbers: 1 passengers, 21 drivers, 0 both, 0 not found"
 "2026-11-06 16:48:36",Abegail,logout,,,"Staff logged out / shutdown"
+"2026-11-06 22:40:25",Abegail,login,,,"Staff logged in"
+"2026-11-06 22:41:21",Abegail,create_driver,rider,9648,"DRN-2611-9066 - Antonio Acibar"
+"2026-11-06 22:42:10",Abegail,adjust_wallet_credit,wallet,11006,"Added ₱500.00 for rider #9648 — FREE TOP UP"
+"2026-11-06 22:46:02",Abegail,logout,,,"Staff logged out / shutdown"
