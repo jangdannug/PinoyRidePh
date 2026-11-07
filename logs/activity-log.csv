@@ -5335,3 +5335,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-05 15:16:10","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-11-05 15:17:28","Dannah Kryzle",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-11-05 15:19:24","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 0 passengers, 19 drivers, 1 both, 0 not found"
+"2026-11-06 09:34:16","Dannah Kryzle",login,,,"Staff logged in"
+"2026-11-06 09:35:07","Dannah Kryzle",bulk_search,,,"Searched 20 numbers: 0 passengers, 20 drivers, 0 both, 0 not found"
+"2026-11-06 09:36:46","Dannah Kryzle",bulk_search,,,"Searched 6 numbers: 0 passengers, 6 drivers, 0 both, 0 not found"
+"2026-11-06 09:37:15","Dannah Kryzle",bulk_search,,,"Searched 24 numbers: 0 passengers, 24 drivers, 0 both, 0 not found"
+"2026-11-06 09:38:50","Dannah Kryzle",bulk_search,,,"Searched 16 numbers: 0 passengers, 16 drivers, 0 both, 0 not found"
