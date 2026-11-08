@@ -5407,3 +5407,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-07 14:30:33","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-11-07 14:30:53","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-11-07 14:32:20","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-11-07 23:59:35","Charen Charise",login,,,"Staff logged in"
+"2026-11-08 00:01:41","Charen Charise",create_driver,rider,9684,"DRN-2611-9102 - Jason Santos"
+"2026-11-08 00:05:07","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-11-08 00:47:56","Charen Charise",bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
