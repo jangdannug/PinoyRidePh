@@ -5560,3 +5560,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-09 07:54:19",Rhelyn,adjust_wallet_credit,wallet,11032,"Added ₱500.00 for rider #9661 — free top up"
 "2026-11-09 08:30:24",Rhelyn,create_driver,rider,9692,"DRN-2611-9110 - Rodel padilla"
 "2026-11-09 08:31:20",Rhelyn,adjust_wallet_credit,wallet,11094,"Added ₱500.00 for rider #9692 — FREE TOP UP"
+"2026-11-09 08:48:22",Melissa,login,,,"Staff logged in"
