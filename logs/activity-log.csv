@@ -5708,3 +5708,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-10 14:25:40","Dannah Kryzle",login,,,"Staff logged in"
 "2026-11-10 14:33:28","Dannah Kryzle",create_driver,rider,9722,"DRN-2611-9137 - Jhon Leinard Sabas"
 "2026-11-10 14:53:42","Dannah Kryzle",create_passenger,customer,313,"CUST-2611-282 - Rejemor Villanueva"
+"2026-11-09 10:44:18",Normelyn,login,,,"Staff logged in"
