@@ -5682,3 +5682,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-10 11:05:04","Mary Grace",create_driver,rider,9720,"DRN-2611-9135 - Edward Roque"
 "2026-11-10 11:05:22","Mary Grace",adjust_wallet_credit,wallet,11146,"Added ₱500.00 for rider #9720 — free top up"
 "2026-11-10 11:05:36","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-11-10 10:34:57",Melissa,login,,,"Staff logged in"
+"2026-11-10 10:36:56",Melissa,create_driver,rider,9717,"DRN-2611-9132 - Raymundo Lujero"
+"2026-11-10 10:38:01",Melissa,adjust_wallet_credit,wallet,11140,"Added ₱500.00 for rider #9717 — FREE TOP UP"
