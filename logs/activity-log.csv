@@ -5709,3 +5709,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-10 14:33:28","Dannah Kryzle",create_driver,rider,9722,"DRN-2611-9137 - Jhon Leinard Sabas"
 "2026-11-10 14:53:42","Dannah Kryzle",create_passenger,customer,313,"CUST-2611-282 - Rejemor Villanueva"
 "2026-11-09 10:44:18",Normelyn,login,,,"Staff logged in"
+"2026-11-10 15:19:59",Normelyn,login,,,"Staff logged in"
+"2026-11-10 15:21:16",Normelyn,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
+"2026-11-10 15:22:19",Normelyn,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
+"2026-11-10 15:24:00",Normelyn,login,,,"Staff logged in"
+"2026-11-10 15:26:15",Normelyn,create_driver,rider,9723,"DRN-2611-9138 - Elpidio Roxas"
