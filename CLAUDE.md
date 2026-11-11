@@ -215,6 +215,25 @@ in this admin panel.
   every other `booking_id` FK in this schema — cast/compare as text when
   joining.
 
+## Backend migrations can break admin INSERTs
+
+The app backend (Django, not in this repo) owns the schema and adds columns
+without telling this panel. Django `default=` values are NOT database
+defaults, so a new `NOT NULL` column makes every admin INSERT that omits it
+fail with `SQLSTATE[23502]`. On 2026-11-11 migrations 0100–0111 did exactly
+that; fixed by supplying the model default explicitly:
+
+- `rider_vehicle_details.is_current = false` — `includes/rider_ingest.php`,
+  `import_rider.php`, `rider_edit.php`. The app promotes a vehicle to current
+  itself (unique index: one non-deleted current vehicle per rider), so the
+  panel never sets `true`.
+- `booking.is_advance = false` — `booking_create.php`,
+  `post_booking_create.php` (admin bookings are immediate, not advance).
+
+When a "null value in column … violates not-null constraint" error shows up,
+check `django_migrations` (latest `applied`) and compare the table's
+`is_nullable='NO' AND column_default IS NULL` columns against the INSERT.
+
 ## Folder conventions
 
 - `sql/` — standalone one-off query/update scripts (not run by the app).

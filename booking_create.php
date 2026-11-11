@@ -146,11 +146,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['step'] ?? '') === 'confirm
                     "INSERT INTO public.booking
                         (ref_code, pickup_location, dropoff_location, pickup_lat, pickup_long, dropoff_lat, dropoff_long,
                          customer_id, rider_id, payment_type, distance_km, booking_type, note_to_rider, status,
-                         date_created, time_created, updated_by, created_at, updated_at)
+                         date_created, time_created, updated_by, created_at, updated_at, is_advance)
                      VALUES
                         ('', :pickup_location, :dropoff_location, :pickup_lat, :pickup_long, :dropoff_lat, :dropoff_long,
                          :customer_id, :rider_id, 'cash', :distance_km, :booking_type, :note_to_rider, 1,
-                         :date_created, :time_created, :updated_by, :created_at, :updated_at)
+                         :date_created, :time_created, :updated_by, :created_at, :updated_at, false)
                      RETURNING id"
                 );
                 $bookingStmt->execute([

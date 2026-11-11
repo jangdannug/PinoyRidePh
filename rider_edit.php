@@ -210,9 +210,9 @@ if ($errorMsg === '' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $vehInsStmt = $pdo->prepare(
                     "INSERT INTO public.rider_vehicle_details
-                        (rider_id, v_type, v_brand, v_model, v_color, v_plate_number, status, created_at, updated_at)
+                        (rider_id, v_type, v_brand, v_model, v_color, v_plate_number, status, is_current, created_at, updated_at)
                      VALUES
-                        (:rider_id, :v_type, :v_brand, :v_model, :v_color, :v_plate_number, 1, NOW(), NOW())"
+                        (:rider_id, :v_type, :v_brand, :v_model, :v_color, :v_plate_number, 1, false, NOW(), NOW())"
                 );
                 $vehInsStmt->execute([
                     ':rider_id'       => $id,

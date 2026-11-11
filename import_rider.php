@@ -257,9 +257,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm']) && $_POST[
 
                     $vehicleStmt = $pdo->prepare(
                         "INSERT INTO public.rider_vehicle_details
-                            (rider_id, v_type, v_brand, v_model, v_color, v_plate_number, v_or_cr_img, status, created_at, updated_at)
+                            (rider_id, v_type, v_brand, v_model, v_color, v_plate_number, v_or_cr_img, status, is_current, created_at, updated_at)
                          VALUES
-                            (:rider_id, :v_type, :v_brand, :v_model, :v_color, :v_plate_number, :v_or_cr_img, :status, :created_at, :updated_at)"
+                            (:rider_id, :v_type, :v_brand, :v_model, :v_color, :v_plate_number, :v_or_cr_img, :status, false, :created_at, :updated_at)"
                     );
                     $vehicleStmt->execute([
                         ':rider_id'       => $riderId,
