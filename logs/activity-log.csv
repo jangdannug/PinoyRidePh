@@ -5714,3 +5714,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-10 15:22:19",Normelyn,bulk_search,,,"Searched 1 numbers: 1 passengers, 0 drivers, 0 both, 0 not found"
 "2026-11-10 15:24:00",Normelyn,login,,,"Staff logged in"
 "2026-11-10 15:26:15",Normelyn,create_driver,rider,9723,"DRN-2611-9138 - Elpidio Roxas"
+"2026-11-11 12:34:44","Dannah Kryzle",login,,,"Staff logged in"
+"2026-11-11 12:35:00","Dannah Kryzle",create_driver,rider,9729,"DRN-2611-9144 - Redentor Ferol"
+"2026-11-11 12:35:03","Dannah Kryzle",create_driver,rider,9730,"DRN-2611-9145 - Arbin Susi"
+"2026-11-11 12:37:46","Dannah Kryzle",bulk_search,,,"Searched 36 numbers: 0 passengers, 35 drivers, 0 both, 1 not found"
+"2026-11-11 12:37:57","Dannah Kryzle",bulk_search,,,"Searched 36 numbers: 0 passengers, 35 drivers, 0 both, 1 not found | filtered: invalid only"
