@@ -5739,3 +5739,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-11 17:06:59",Melissa,bulk_search,,,"Searched 22 numbers: 1 passengers, 21 drivers, 0 both, 0 not found"
 "2026-11-11 20:11:10",Melissa,logout,,,"Staff logged out / shutdown"
 "2026-11-11 20:13:06",Melissa,login,,,"Staff logged in"
+"2026-11-11 20:15:22",Melissa,login,,,"Staff logged in"
