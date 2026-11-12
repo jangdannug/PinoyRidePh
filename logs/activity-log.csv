@@ -5745,3 +5745,5 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-11 20:28:16",Rhelyn,login,,,"Staff logged in"
 "2026-11-11 20:46:45",Rhelyn,logout,,,"Staff logged out / shutdown"
 "2026-11-11 16:52:12","Dannah Kryzle",login,,,"Staff logged in"
+"2026-11-12 09:28:56","Mary Grace",login,,,"Staff logged in"
+"2026-11-12 12:42:43","Mary Grace",logout,,,"Staff logged out / shutdown"
