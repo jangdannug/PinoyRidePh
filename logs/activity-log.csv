@@ -5744,3 +5744,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-11 20:28:16",Melissa,logout,,,"Switched to Rhelyn"
 "2026-11-11 20:28:16",Rhelyn,login,,,"Staff logged in"
 "2026-11-11 20:46:45",Rhelyn,logout,,,"Staff logged out / shutdown"
+"2026-11-11 16:52:12","Dannah Kryzle",login,,,"Staff logged in"
