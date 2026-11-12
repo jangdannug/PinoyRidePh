@@ -5762,3 +5762,6 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-12 10:02:15",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
 "2026-11-12 12:53:29",Melissa,create_driver,rider,9750,"DRN-2611-9153 - Brandy Decatoria"
 "2026-11-12 12:54:27",Melissa,adjust_wallet_credit,wallet,11188,"Added ₱500.00 for rider #9750 — free top up"
+"2026-11-12 14:06:21",Melissa,login,,,"Staff logged in"
+"2026-11-12 14:06:41",Melissa,bulk_search,,,"Searched 1 numbers: 0 passengers, 1 drivers, 0 both, 0 not found"
+"2026-11-12 15:07:31",Melissa,create_passenger,customer,316,"CUST-2611-285 - Melissa Elgarlino"
