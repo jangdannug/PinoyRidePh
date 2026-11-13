@@ -5806,3 +5806,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-13 14:47:36","Mary Grace",create_passenger,customer,320,"CUST-2611-289 - Marilyn Rubio"
 "2026-11-13 14:48:46","Mary Grace",create_driver,rider,9764,"DRN-2611-9166 - Marilyn Rubio"
 "2026-11-13 16:29:07","Mary Grace",logout,,,"Staff logged out / shutdown"
+"2026-11-13 14:04:07",Abegail,login,,,"Staff logged in"
+"2026-11-13 14:33:29",Abegail,create_driver,rider,9762,"DRN-2611-9164 - Abegail Lacaba"
+"2026-11-13 19:28:04",Abegail,create_driver,rider,9766,"DRN-2611-9168 - Neil Corsanes"
+"2026-11-13 19:49:23",Abegail,logout,,,"Staff logged out / shutdown"
