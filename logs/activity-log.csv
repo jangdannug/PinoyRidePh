@@ -5850,3 +5850,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-14 14:21:56",Rhelyn,adjust_wallet_credit,wallet,11248,"Added ₱500.00 for rider #9774 — free top up"
 "2026-11-14 14:22:33",Rhelyn,create_driver,rider,9775,"DRN-2611-9177 - John Carlo Plamenco"
 "2026-11-14 14:23:01",Rhelyn,adjust_wallet_credit,wallet,11250,"Added ₱500.00 for rider #9775 — free top up"
+"2026-11-14 14:24:23",Rhelyn,login,,,"Staff logged in"
