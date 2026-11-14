@@ -5845,3 +5845,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-14 12:28:23",Melissa,bulk_search,,,"Searched 26 numbers: 0 passengers, 25 drivers, 1 both, 0 not found | filtered: invalid only"
 "2026-11-14 12:28:26",Melissa,bulk_search,,,"Searched 26 numbers: 0 passengers, 25 drivers, 1 both, 0 not found"
 "2026-11-14 12:28:56",Melissa,bulk_search,,,"Searched 25 numbers: 0 passengers, 25 drivers, 0 both, 0 not found"
+"2026-11-14 14:21:16",Rhelyn,login,,,"Staff logged in"
+"2026-11-14 14:21:33",Rhelyn,create_driver,rider,9774,"DRN-2611-9176 - John Ryan perante"
+"2026-11-14 14:21:56",Rhelyn,adjust_wallet_credit,wallet,11248,"Added ₱500.00 for rider #9774 — free top up"
+"2026-11-14 14:22:33",Rhelyn,create_driver,rider,9775,"DRN-2611-9177 - John Carlo Plamenco"
+"2026-11-14 14:23:01",Rhelyn,adjust_wallet_credit,wallet,11250,"Added ₱500.00 for rider #9775 — free top up"
