@@ -5854,3 +5854,4 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-14 14:25:40",Rhelyn,login,,,"Staff logged in"
 "2026-11-14 14:26:27",Rhelyn,create_driver,rider,9776,"DRN-2611-9178 - Raymond Cabrera"
 "2026-11-14 14:27:03",Rhelyn,adjust_wallet_credit,wallet,11252,"Added ₱500.00 for rider #9776 — free top up"
+"2026-11-14 14:29:30",Rhelyn,login,,,"Staff logged in"
