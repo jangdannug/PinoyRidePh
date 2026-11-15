@@ -5856,3 +5856,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-14 14:27:03",Rhelyn,adjust_wallet_credit,wallet,11252,"Added ₱500.00 for rider #9776 — free top up"
 "2026-11-14 14:29:30",Rhelyn,login,,,"Staff logged in"
 "2026-11-14 14:59:48",Rhelyn,login,,,"Staff logged in"
+"2026-11-14 11:48:17",Abegail,login,,,"Staff logged in"
+"2026-11-14 11:49:43",Abegail,create_passenger,customer,325,"CUST-2611-294 - Rhia Gallo"
+"2026-11-14 13:12:46",Abegail,create_driver,rider,9773,"DRN-2611-9175 - Rhia Gallo"
+"2026-11-14 16:31:50",Abegail,create_driver,rider,9787,"DRN-2611-9186 - Francis Fidel"
+"2026-11-15 15:54:16",Abegail,logout,,,"Staff logged out / shutdown"
