@@ -5874,3 +5874,8 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-14 18:43:29",Melissa,create_driver,rider,9788,"DRN-2611-9187 - KESTER SERRANO"
 "2026-11-14 18:43:49",Melissa,adjust_wallet_credit,wallet,11274,"Added ₱500.00 for rider #9788 — free top up"
 "2026-11-14 18:46:31",Melissa,bulk_search,,,"Searched 27 numbers: 0 passengers, 27 drivers, 0 both, 0 not found"
+"2026-11-15 16:05:01",Melissa,login,,,"Staff logged in"
+"2026-11-15 16:06:25",Melissa,create_driver,rider,9790,"DRN-2611-9189 - Edward Templo"
+"2026-11-15 16:07:12",Melissa,adjust_wallet_credit,wallet,11280,"Added ₱500.00 for rider #9790 — FREE TOP UP"
+"2026-11-15 16:08:10",Melissa,create_driver,rider,9791,"DRN-2611-9190 - Jaypee Pacot"
+"2026-11-15 16:08:56",Melissa,adjust_wallet_credit,wallet,11282,"Added ₱500.00 for rider #9791 — FREE TOP UP"
