@@ -5893,3 +5893,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-15 19:45:32",Melissa,adjust_wallet_credit,wallet,11290,"Added ₱500.00 for rider #9795 — FREE TOP UP"
 "2026-11-15 19:46:25",Melissa,create_driver,rider,9796,"DRN-2611-9195 - Joseph Selorio"
 "2026-11-15 19:46:50",Melissa,adjust_wallet_credit,wallet,11292,"Added ₱500.00 for rider #9796 — FREE TOP UP"
+"2026-11-15 21:47:47",Rhelyn,login,,,"Staff logged in"
+"2026-11-15 21:48:25",Rhelyn,create_driver,rider,9797,"DRN-2611-9196 - Janray Ramos"
+"2026-11-15 21:48:47",Rhelyn,adjust_wallet_credit,wallet,11294,"Added ₱500.00 for rider #9797 — free top up"
+"2026-11-15 21:51:46",Rhelyn,bulk_search,,,"Searched 1 numbers: 0 passengers, 0 drivers, 0 both, 1 not found"
