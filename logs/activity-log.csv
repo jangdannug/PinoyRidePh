@@ -5924,3 +5924,7 @@ timestamp,staff_name,action,entity_type,entity_id,details
 "2026-11-18 13:37:31",Melissa,create_passenger,customer,329,"CUST-2611-298 - Angela Marie Garcia"
 "2026-11-18 13:39:07",Melissa,create_driver,rider,9807,"DRN-2611-9206 - Edmilyn Garcia"
 "2026-11-18 13:39:56",Melissa,create_passenger,customer,330,"CUST-2611-299 - Edmilyn Garcia"
+"2026-11-19 10:28:15",Melissa,login,,,"Staff logged in"
+"2026-11-19 10:30:46",Melissa,create_driver,rider,9808,"DRN-2611-9207 - Ronnie Ramirez"
+"2026-11-19 10:32:18",Melissa,adjust_wallet_credit,wallet,11318,"Added ₱500.00 for rider #9808 — FREE TOP UP"
+"2026-11-19 10:34:41",Melissa,create_driver,rider,9809,"DRN-2611-9208 - Joel jr Morabe"
